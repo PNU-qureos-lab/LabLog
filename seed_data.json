@@ -1,0 +1,311 @@
+{
+  "staffPhd": "박사급 인력 : 백승일, 고수윤, 이종혁, 곽경석, 프라자",
+  "staffMs": "석사급 인력 : 이아란, 김민수, 최수현 , 전종범",
+  "yearTitle": "2026년도",
+  "projects": [
+    {
+      "category": "농림위성\n(1.4)",
+      "name": "농림 BRDF\n(8천)",
+      "qGoal": "(1) 학술(K) - 1 - 1차년\n(2) 논문(K) - 1 -  자체\n(3) 논문(K) - 1 - 2차년\n(4) 논문(S) - 1 - 3차년",
+      "qDone": "과업 - 국내 학술발표 1회\n자체 - (습작용) 국내논문 1편 (원탐, 측량)\n과업 - 국문논문 1회\n과업 - SCIE 1개",
+      "owner": "리더 : 곽경석\n최수현, 이종혁\n전종범",
+      "sGoal1": "(1) BRDF 자료수집\n(2) BRDF 초기모델 선정\n(3) 알고리즘 검증사이트 선정",
+      "sGoal2": "- Sentienl-2 MODIS 등 피복별 데이터 수집\n- Sentinel-2에 적용가능한 NBAR산출 알고리즘 ('26), \n- 현장조사 (김제, 청주, 영덕)\n- 현장조사 (인근- 자주갈수 있는 논밭)",
+      "sDone": "-",
+      "fPeriod": "위치 선정 필요",
+      "fPeople": "곽경석\n류희경",
+      "fStatus": "미정"
+    },
+    {
+      "category": "농림위성\n(1.4)",
+      "name": "산림 지형보정\n(6천)",
+      "qGoal": "과업상 실적 X",
+      "qDone": "-",
+      "owner": "리더 : 백승일\n곽경석, 최수현",
+      "sGoal1": "(1) 현장관측 검증\n(2) 검증지표산출\n(3) 긴급처리 알고리즘",
+      "sGoal2": "1. 현장드론 운용방안 작성 (현장 실증 및 방법론)\n2. 위성지형보정 산출물 어떻게 검증 (방법론)\n3. 씬단위대기보정-지형보정 방안 - 비교 및 소스코드",
+      "sDone": "-",
+      "fPeriod": "위치 선정 필요",
+      "fPeople": "곽경석 + 백승일\n류희경",
+      "fStatus": "미정"
+    },
+    {
+      "category": "적조\n(0.5)",
+      "name": "UST21\n(3천수준)",
+      "qGoal": "미정",
+      "qDone": "-",
+      "owner": "리더(R&D) : 이종혁\n보조(행정) : 백승일",
+      "sGoal1": "미정",
+      "sGoal2": "-",
+      "sDone": "-",
+      "fPeriod": "없음",
+      "fPeople": "없음",
+      "fStatus": "없음"
+    },
+    {
+      "category": "적조\n(0.5)",
+      "name": "수과원\n(2천)",
+      "qGoal": "-",
+      "qDone": "-",
+      "owner": "백승일",
+      "sGoal1": "(1) 현장관측 자료 처리",
+      "sGoal2": "",
+      "sDone": "-",
+      "fPeriod": "미정",
+      "fPeople": "미정",
+      "fStatus": "미정"
+    },
+    {
+      "category": "저서\n(1.5)",
+      "name": "MTCRC\n(4천)",
+      "qGoal": "과업상 실적 X",
+      "qDone": "(자체) SCIE 1편 (프라자) (Tidung)",
+      "owner": "백승일\n프라자김민수",
+      "sGoal1": "(1) 현장 조사\n(2) 원격탐사 교육",
+      "sGoal2": "-",
+      "sDone": "",
+      "fPeriod": "자카르타(6.21 ~ 29)",
+      "fPeople": "총괄 - 교수님\n물 - 백승일, 김민수\n드론 - 프라자",
+      "fStatus": "출장 완료"
+    },
+    {
+      "category": "저서\n(1.5)",
+      "name": "독도\n(3천)",
+      "qGoal": "과업상 실적 X",
+      "qDone": "(자체) SCIE 1편 (?)",
+      "owner": "이아란, \n백승일",
+      "sGoal1": "(1) 현장조사\n(2) 백화 모니터링",
+      "sGoal2": "-",
+      "sDone": "",
+      "fPeriod": "독도(5.20 ~ 28)",
+      "fPeople": "총괄 - 교수님\n물 - 백승일, 김민수, 최수현 + 최종문\n드론 - 곽경석, 이아란, 류희경+ 박형구",
+      "fStatus": "출장 완료"
+    },
+    {
+      "category": "저서\n(1.5)",
+      "name": "태평양도서\n(8천)",
+      "qGoal": "과업상 실적 X",
+      "qDone": "-",
+      "owner": "프라자\n김민수",
+      "sGoal1": "(1) 서식지분류\n(2) 수심추정",
+      "sGoal2": "-",
+      "sDone": "",
+      "fPeriod": "없음",
+      "fPeople": "없음",
+      "fStatus": "없음"
+    },
+    {
+      "category": "저서\n(1.5)",
+      "name": "FIRA-남해\n(??)",
+      "qGoal": "과업상 실적 X",
+      "qDone": "-",
+      "owner": "이아란, \n리더 : 백승일",
+      "sGoal1": "남해 백화현상 연구",
+      "sGoal2": "-",
+      "sDone": "",
+      "fPeriod": "미정",
+      "fPeople": "미정",
+      "fStatus": "미정"
+    },
+    {
+      "category": "갯벌\n(1.3)",
+      "name": "대기보정\n(7천)",
+      "qGoal": "(1) 논문(S) - 1 - 2단계",
+      "qDone": "과업 : X  - 2단계 1편\n자체 : SCIE 1편 (이종혁 논문) 이거 안되면 대기보정으로 1편",
+      "owner": "리더 : 이종혁\n곽경석",
+      "sGoal1": "(1) 대기보정\n(2) BRDF",
+      "sGoal2": "(1) 정확도 ??%\n(2) BRDF 모듈?",
+      "sDone": "",
+      "fPeriod": "통합조사",
+      "fPeople": "미정",
+      "fStatus": "미정"
+    },
+    {
+      "category": "갯벌\n(1.3)",
+      "name": "MPB\n(6천)",
+      "qGoal": "(1) 논문(S) - 1 - 2단계",
+      "qDone": "과업 : X - 2단계 1편\n자체 : SCIE 1편 (새로운주제: 고수윤)('27 게재목표)('26 투고목표)",
+      "owner": "리더 : 고수윤\n백승일",
+      "sGoal1": "(1) 항공기 + 위성 알고리즘\n(2) 검증",
+      "sGoal2": "(1) 미세조류 MAPE  30% 이내\n(2) 다중 플랫폼 검증 수행",
+      "sDone": "",
+      "fPeriod": "MPB 조사",
+      "fPeople": "미정",
+      "fStatus": "미정"
+    },
+    {
+      "category": "기타\n(1.7)",
+      "name": "오픈랩\n(6천)",
+      "qGoal": "(1) 논문(K) - 1 \n(2) 특별세션 - 1",
+      "qDone": "과업 : 논문1편 (OSJ)(달성)\n과업 : 특별세션, 학회참석 1회 (특별세션 GEOAI에서)",
+      "owner": "백승일",
+      "sGoal1": "정량성과 달성 외 없음",
+      "sGoal2": "-",
+      "sDone": "",
+      "fPeriod": "없음",
+      "fPeople": "없음",
+      "fStatus": "없음"
+    },
+    {
+      "category": "기타\n(1.7)",
+      "name": "블루테크\n(3천)",
+      "qGoal": "(1) 논문(S) - 1 - 1단계",
+      "qDone": "과업 : SCIE 1개 (달성)",
+      "owner": "김민수",
+      "sGoal1": "정량성과 달성 외 없음",
+      "sGoal2": "-",
+      "sDone": "",
+      "fPeriod": "없음",
+      "fPeople": "없음",
+      "fStatus": "없음"
+    },
+    {
+      "category": "기타\n(1.7)",
+      "name": "NASA IOP\n(8천)",
+      "qGoal": "(1) 논문(S) - 1 - 1단계",
+      "qDone": "(자체) SCIE 1편 (?)",
+      "owner": "교수님",
+      "sGoal1": "-",
+      "sGoal2": "-",
+      "sDone": "",
+      "fPeriod": "없음",
+      "fPeople": "없음",
+      "fStatus": "없음"
+    }
+  ],
+  "conferences": [
+    {
+      "name": "COSPAR(8.01 ~ 09) 이탈리아",
+      "role": "교수님 / 연구재단"
+    },
+    {
+      "name": "IGARSS(8.09 ~ 14) 미국",
+      "role": "이종혁 / SNC(정규 예산)"
+    },
+    {
+      "name": "추계 원탐 \n(10.21 ~ 22) 부산",
+      "role": "대부분 참석, 발표 : 경석(BRDF), 아란, 민수"
+    },
+    {
+      "name": "토목학회\n10.21.(수)-23.(금) 강원",
+      "role": ""
+    },
+    {
+      "name": "GEOAI\n(11.04 ~ 6) 제주",
+      "role": "블루테크 (특별세션 -> 풍력)"
+    },
+    {
+      "name": "추계 해양학회, 울산 UECO\n( 11. 18(수) ~ 2026. 11. 20(금))",
+      "role": "특별세션"
+    }
+  ],
+  "papersDone": [
+    {
+      "author": "백승일",
+      "journal": "SCIE / OSJ(1.4) / Q3",
+      "topic": "드론 다분광 글린트보정",
+      "status": "억셉",
+      "note": "오픈랩 / 필요없음 / 0"
+    },
+    {
+      "author": "프라자",
+      "journal": "SCIE / RS / Q1",
+      "topic": "CRESI 개발 적용",
+      "status": "억셉",
+      "note": "블루테크 / 필요없음 / 0"
+    }
+  ],
+  "papersDoing": [
+    {
+      "author": "백승일(고수윤)",
+      "journal": "SCIE /  / Q1",
+      "topic": "초분광 콘크리트 수분추정",
+      "status": "투고",
+      "note": "블루테크 / 필요없음 / 0"
+    },
+    {
+      "author": "백승일(이종혁)",
+      "journal": "SCIE /  / Q2",
+      "topic": "초분광 재료 농도 추정",
+      "status": "투고",
+      "note": "갯벌 / ??? / ???"
+    },
+    {
+      "author": "이종혁",
+      "journal": "SCIE / RSE / Q1",
+      "topic": "- 생광학 + 복사전달 + 기계학습 적조탐지\n- 벤치마크 -> 신뢰도(점 인근)",
+      "status": "작성 중 (7월 중순)",
+      "note": "연구재단 / ??? / ???"
+    },
+    {
+      "author": "프라자",
+      "journal": "SCIE / 토목학회지(SCI)",
+      "topic": "드론 변화탐지",
+      "status": "재투고 필요",
+      "note": "연구년 논문"
+    },
+    {
+      "author": "백승일",
+      "journal": "-",
+      "topic": "GOCI - MODIS CAL",
+      "status": "자료 분석 시작",
+      "note": ""
+    },
+    {
+      "author": "우민수",
+      "journal": "SCIE / OSJ(1.4) / Q3",
+      "topic": "수중 영상 딥러닝?",
+      "status": "자료 분석 진행중",
+      "note": "??? / ??? / ???"
+    },
+    {
+      "author": "박형구",
+      "journal": "KCI / KJRS / 측량학회",
+      "topic": "다분광 수심 추정",
+      "status": "자료 분석 진행중",
+      "note": "??? / ??? / ???"
+    },
+    {
+      "author": "김성수",
+      "journal": "KCI / KJRS / 원탐학회",
+      "topic": "갯끈풀 탐지 기계학습",
+      "status": "자료 분석 진행중",
+      "note": "??? / ??? / ???"
+    },
+    {
+      "author": "백승일",
+      "journal": "-",
+      "topic": "지형보정 논문화 하면 좋음",
+      "status": "자료분석 시작해야함",
+      "note": "??? / ??? / ???"
+    }
+  ],
+  "papersPlan": [
+    {
+      "author": "최종문",
+      "journal": "KCI / KJRS / 원탐학회",
+      "topic": "수중 라이브러리 관측(Big data)",
+      "status": "관측 자료 정리",
+      "note": "??? / ??? / ???"
+    },
+    {
+      "author": "???",
+      "journal": "???",
+      "topic": "인도네시아 연안추정 / MTCRC",
+      "status": "작성 필요",
+      "note": "??? / ??? / ???"
+    }
+  ],
+  "extras": [
+    {
+      "item": "국내논문 1건",
+      "source": "연구년",
+      "person": "프라자"
+    },
+    {
+      "item": "국내논문 1건",
+      "source": "기본연구",
+      "person": "-"
+    }
+  ]
+}

@@ -1,0 +1,1029 @@
+#!/usr/bin/env python3
+"""Generate LabLog index.html from seed_data.json (UTF-8, no BOM)."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parent
+SEED_PATH = ROOT / "seed_data.json"
+OUTPUT = ROOT / "index.html"
+
+
+def load_seed() -> dict:
+    raw = SEED_PATH.read_bytes()
+    if raw.startswith(b"\xef\xbb\xbf"):
+        raw = raw[3:]
+    text = raw.decode("utf-8")
+    return json.loads(text)
+
+
+def build_html(seed: dict) -> str:
+    seed_json = json.dumps(seed, ensure_ascii=False, indent=2)
+    return HTML_TEMPLATE.replace("__SEED_JSON__", seed_json)
+
+
+HTML_TEMPLATE = r"""<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab Research Plan 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg0: #0f1c24;
+      --bg1: #162a35;
+      --bg2: #1d3644;
+      --panel: rgba(245, 248, 250, 0.96);
+      --ink: #13232c;
+      --muted: #5b6f7a;
+      --line: #d5dee4;
+      --accent: #1f7a6c;
+      --accent-soft: #d7efe9;
+      --head: #e8eef2;
+      --shadow: 0 10px 28px rgba(8, 20, 28, 0.18);
+      --radius: 12px;
+      --font-ui: "IBM Plex Sans", sans-serif;
+      --font-display: "Source Serif 4", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: var(--font-ui);
+      color: var(--ink);
+      background:
+        radial-gradient(1100px 560px at 8% -8%, #2a5d55 0%, transparent 55%),
+        radial-gradient(900px 480px at 100% 0%, #3a4f6b 0%, transparent 50%),
+        linear-gradient(160deg, var(--bg0), var(--bg1) 45%, var(--bg2));
+    }
+
+    body { padding: 18px; }
+
+    .app {
+      max-width: 1680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .banner {
+      display: none;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      box-shadow: var(--shadow);
+    }
+    .banner.show { display: block; }
+    .banner code {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.82em;
+    }
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(22, 42, 53, 0.1);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f2a30;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sync-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .sync-pill .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #94a3b8;
+    }
+    .sync-pill.live .dot { background: #16a34a; }
+    .sync-pill.saving .dot { background: #ca8a04; }
+    .sync-pill.error .dot { background: #dc2626; }
+    .sync-pill.local .dot { background: #ea580c; }
+
+    .panel {
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(22, 42, 53, 0.1);
+      padding: 16px 18px 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #123038;
+    }
+
+    .panel-head .meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+    button:hover { background: var(--accent-soft); border-color: #9bc4bb; }
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    button.primary:hover { filter: brightness(1.05); }
+    button.danger {
+      color: #b42318;
+      border-color: #f0c7c3;
+      background: #fff5f4;
+    }
+
+    .staff-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .staff-line {
+      min-height: 1.6em;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      white-space: pre-wrap;
+      line-height: 1.45;
+      font-size: 0.9rem;
+    }
+    .staff-line:focus {
+      outline: 2px solid rgba(31, 122, 108, 0.35);
+      border-color: var(--accent);
+    }
+
+    .year-title {
+      display: inline-block;
+      min-width: 6rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px dashed transparent;
+    }
+    .year-title:focus {
+      outline: 2px solid rgba(31, 122, 108, 0.35);
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    table.data {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    table.data th,
+    table.data td {
+      border: 1px solid var(--line);
+      padding: 6px 7px;
+      vertical-align: top;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    table.data thead th {
+      background: var(--head);
+      font-weight: 600;
+      text-align: center;
+      color: #1a333c;
+      white-space: nowrap;
+    }
+
+    table.data thead .sub th {
+      background: #f3f7f9;
+      font-weight: 500;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    table.data td.cat {
+      background: #f7fafb;
+      font-weight: 600;
+      text-align: center;
+      min-width: 72px;
+    }
+
+    table.data td[contenteditable="true"]:focus {
+      outline: 2px solid rgba(31, 122, 108, 0.35);
+      outline-offset: -2px;
+      background: #f4fffb;
+    }
+
+    table.data .row-ctrl {
+      width: 42px;
+      text-align: center;
+      white-space: nowrap;
+      background: #fafcfd;
+    }
+    table.data .row-ctrl button {
+      padding: 2px 6px;
+      font-size: 0.7rem;
+    }
+
+    .hint {
+      margin: 8px 0 0;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    footer.note {
+      color: rgba(230, 240, 244, 0.72);
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 4px 0 8px;
+    }
+
+    @media (max-width: 900px) {
+      body { padding: 10px; }
+      .brand h1 { font-size: 1.25rem; }
+      table.data { font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="banner" id="setup-banner"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <h1>Lab Research Plan 2026</h1>
+        <p>Editable research plan board with Firebase Realtime Database sync</p>
+      </div>
+      <div class="top-actions">
+        <span class="sync-pill local" id="sync-pill"><span class="dot"></span><span id="sync-text">Local only</span></span>
+        <button type="button" id="btn-reload-seed" title="Reset to embedded seed">Reset to seed</button>
+      </div>
+    </header>
+
+    <section class="panel" id="sec-staff">
+      <div class="panel-head">
+        <h2>Staff</h2>
+        <span class="meta">PhD / MS line</span>
+      </div>
+      <div class="staff-grid">
+        <div class="staff-line" id="staff-phd" contenteditable="true" spellcheck="false"></div>
+        <div class="staff-line" id="staff-ms" contenteditable="true" spellcheck="false"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="sec-projects">
+      <div class="panel-head">
+        <h2><span class="year-title" id="year-title" contenteditable="true" spellcheck="false"></span> Main Projects</h2>
+        <div class="row-actions">
+          <button type="button" class="primary" id="btn-add-project">Add row</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data" id="tbl-projects">
+          <thead>
+            <tr>
+              <th rowspan="2">개요</th>
+              <th rowspan="2">과제이름</th>
+              <th colspan="3">정량성과</th>
+              <th colspan="3">정성성과</th>
+              <th colspan="3">현장조사</th>
+              <th rowspan="2" class="row-ctrl"></th>
+            </tr>
+            <tr class="sub">
+              <th>목표치</th>
+              <th>달성여부</th>
+              <th>담당자</th>
+              <th>목표치</th>
+              <th>목표치</th>
+              <th>달성여부</th>
+              <th>기간</th>
+              <th>인원</th>
+              <th>상태</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="hint">Consecutive identical 개요 values are merged with rowspan when rendering.</p>
+    </section>
+
+    <section class="panel" id="sec-conferences">
+      <div class="panel-head">
+        <h2>Conferences</h2>
+        <div class="row-actions">
+          <button type="button" class="primary" id="btn-add-conf">Add row</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data" id="tbl-conferences">
+          <thead>
+            <tr>
+              <th>학회</th>
+              <th>인원 및 역할</th>
+              <th class="row-ctrl"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="sec-papers-done">
+      <div class="panel-head">
+        <h2>Papers Done</h2>
+        <div class="row-actions">
+          <button type="button" class="primary" id="btn-add-papers-done">Add row</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data" id="tbl-papers-done">
+          <thead>
+            <tr>
+              <th>Author / Title</th>
+              <th>타켓 저널</th>
+              <th>주제</th>
+              <th>진행상황</th>
+              <th>사사/예산/금액</th>
+              <th class="row-ctrl"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="sec-papers-doing">
+      <div class="panel-head">
+        <h2>Papers In Progress</h2>
+        <div class="row-actions">
+          <button type="button" class="primary" id="btn-add-papers-doing">Add row</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data" id="tbl-papers-doing">
+          <thead>
+            <tr>
+              <th>Author / Title</th>
+              <th>타켓 저널</th>
+              <th>주제</th>
+              <th>진행상황</th>
+              <th>사사/예산/금액</th>
+              <th class="row-ctrl"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="sec-papers-plan">
+      <div class="panel-head">
+        <h2>Papers Plan</h2>
+        <div class="row-actions">
+          <button type="button" class="primary" id="btn-add-papers-plan">Add row</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data" id="tbl-papers-plan">
+          <thead>
+            <tr>
+              <th>Author / Title</th>
+              <th>타켓 저널</th>
+              <th>주제</th>
+              <th>진행상황</th>
+              <th>사사/예산/금액</th>
+              <th class="row-ctrl"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="sec-extras">
+      <div class="panel-head">
+        <h2>Extras</h2>
+        <div class="row-actions">
+          <button type="button" class="primary" id="btn-add-extras">Add row</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data" id="tbl-extras">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Source</th>
+              <th>Person</th>
+              <th class="row-ctrl"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="note">LabLog research plan board - path labManagement/researchPlan2026</footer>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    (function () {
+      var LOCAL_KEY = "lab_research_plan_2026_v1";
+      var DB_PATH = "labManagement/researchPlan2026";
+      var SAVE_DEBOUNCE_MS = 400;
+
+      var SEED_DATA = __SEED_JSON__;
+
+      var state = cloneData(SEED_DATA);
+
+      var dbRef = null;
+      var cloudEnabled = false;
+      var applyingRemote = false;
+      var saveTimer = null;
+      var lastWrittenJson = "";
+      var renderScheduled = false;
+
+      function cloneData(obj) {
+        return JSON.parse(JSON.stringify(obj || {}));
+      }
+
+      function emptyProject() {
+        return {
+          category: "",
+          name: "",
+          qGoal: "",
+          qDone: "",
+          owner: "",
+          sGoal1: "",
+          sGoal2: "",
+          sDone: "",
+          fPeriod: "",
+          fPeople: "",
+          fStatus: ""
+        };
+      }
+
+      function emptyConf() {
+        return { name: "", role: "" };
+      }
+
+      function emptyPaper() {
+        return { author: "", journal: "", topic: "", status: "", note: "" };
+      }
+
+      function emptyExtra() {
+        return { item: "", source: "", person: "" };
+      }
+
+      function asArray(v) {
+        return Array.isArray(v) ? v : [];
+      }
+
+      function normalizePayload(data) {
+        data = data || {};
+        var out = {
+          staffPhd: data.staffPhd != null ? String(data.staffPhd) : "",
+          staffMs: data.staffMs != null ? String(data.staffMs) : "",
+          yearTitle: data.yearTitle != null ? String(data.yearTitle) : "2026년도",
+          projects: asArray(data.projects).map(function (r) {
+            r = r || {};
+            return {
+              category: r.category != null ? String(r.category) : "",
+              name: r.name != null ? String(r.name) : "",
+              qGoal: r.qGoal != null ? String(r.qGoal) : "",
+              qDone: r.qDone != null ? String(r.qDone) : "",
+              owner: r.owner != null ? String(r.owner) : "",
+              sGoal1: r.sGoal1 != null ? String(r.sGoal1) : "",
+              sGoal2: r.sGoal2 != null ? String(r.sGoal2) : "",
+              sDone: r.sDone != null ? String(r.sDone) : "",
+              fPeriod: r.fPeriod != null ? String(r.fPeriod) : "",
+              fPeople: r.fPeople != null ? String(r.fPeople) : "",
+              fStatus: r.fStatus != null ? String(r.fStatus) : ""
+            };
+          }),
+          conferences: asArray(data.conferences).map(function (r) {
+            r = r || {};
+            return {
+              name: r.name != null ? String(r.name) : "",
+              role: r.role != null ? String(r.role) : ""
+            };
+          }),
+          papersDone: asArray(data.papersDone).map(normPaper),
+          papersDoing: asArray(data.papersDoing).map(normPaper),
+          papersPlan: asArray(data.papersPlan).map(normPaper),
+          extras: asArray(data.extras).map(function (r) {
+            r = r || {};
+            return {
+              item: r.item != null ? String(r.item) : "",
+              source: r.source != null ? String(r.source) : "",
+              person: r.person != null ? String(r.person) : ""
+            };
+          })
+        };
+        return out;
+      }
+
+      function normPaper(r) {
+        r = r || {};
+        return {
+          author: r.author != null ? String(r.author) : "",
+          journal: r.journal != null ? String(r.journal) : "",
+          topic: r.topic != null ? String(r.topic) : "",
+          status: r.status != null ? String(r.status) : "",
+          note: r.note != null ? String(r.note) : ""
+        };
+      }
+
+      function payloadFromState() {
+        var p = normalizePayload(state);
+        p.updatedAt = Date.now();
+        return p;
+      }
+
+      function coreJson(payload) {
+        var n = normalizePayload(payload);
+        return JSON.stringify({
+          staffPhd: n.staffPhd,
+          staffMs: n.staffMs,
+          yearTitle: n.yearTitle,
+          projects: n.projects,
+          conferences: n.conferences,
+          papersDone: n.papersDone,
+          papersDoing: n.papersDoing,
+          papersPlan: n.papersPlan,
+          extras: n.extras
+        });
+      }
+
+      function setSync(mode, text) {
+        var pill = document.getElementById("sync-pill");
+        var label = document.getElementById("sync-text");
+        pill.className = "sync-pill " + mode;
+        label.textContent = text;
+      }
+
+      function showSetupBanner(msg) {
+        var el = document.getElementById("setup-banner");
+        el.innerHTML = msg;
+        el.classList.add("show");
+      }
+
+      function readLocal() {
+        try {
+          var raw = localStorage.getItem(LOCAL_KEY);
+          if (!raw) return null;
+          return normalizePayload(JSON.parse(raw));
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function writeLocal(payload) {
+        try {
+          localStorage.setItem(LOCAL_KEY, JSON.stringify(normalizePayload(payload)));
+        } catch (e) {}
+      }
+
+      function isConfigReady(cfg) {
+        if (!cfg || typeof cfg !== "object") return false;
+        return !!(cfg.apiKey && cfg.databaseURL && cfg.projectId);
+      }
+
+      function hasSeedContent(payload) {
+        var n = normalizePayload(payload);
+        if ((n.staffPhd || n.staffMs || "").trim()) return true;
+        if (n.projects.length || n.conferences.length) return true;
+        if (n.papersDone.length || n.papersDoing.length || n.papersPlan.length) return true;
+        if (n.extras.length) return true;
+        return false;
+      }
+
+      function queueSave() {
+        if (applyingRemote) return;
+        var payload = payloadFromState();
+        writeLocal(payload);
+        if (!cloudEnabled || !dbRef) {
+          setSync("local", "Local only");
+          return;
+        }
+        setSync("saving", "Saving...");
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(function () {
+          var json = JSON.stringify(payload);
+          if (json === lastWrittenJson) {
+            setSync("live", "Live sync");
+            return;
+          }
+          dbRef.set(payload)
+            .then(function () {
+              lastWrittenJson = json;
+              setSync("live", "Live sync");
+            })
+            .catch(function (err) {
+              console.error(err);
+              setSync("error", "Save failed");
+            });
+        }, SAVE_DEBOUNCE_MS);
+      }
+
+      function scheduleRender() {
+        if (renderScheduled) return;
+        renderScheduled = true;
+        requestAnimationFrame(function () {
+          renderScheduled = false;
+          renderAll();
+        });
+      }
+
+      function applyPayload(payload) {
+        state = normalizePayload(payload);
+        renderAll();
+        writeLocal(state);
+      }
+
+      function cell(text, attrs) {
+        var td = document.createElement("td");
+        if (attrs) {
+          Object.keys(attrs).forEach(function (k) {
+            if (k === "className") td.className = attrs[k];
+            else td.setAttribute(k, attrs[k]);
+          });
+        }
+        td.contentEditable = "true";
+        td.spellcheck = false;
+        td.textContent = text != null ? String(text) : "";
+        return td;
+      }
+
+      function removeBtn(onClick) {
+        var td = document.createElement("td");
+        td.className = "row-ctrl";
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "danger";
+        btn.textContent = "Del";
+        btn.addEventListener("click", onClick);
+        td.appendChild(btn);
+        return td;
+      }
+
+      function computeRowspans(projects) {
+        var spans = new Array(projects.length);
+        var i = 0;
+        while (i < projects.length) {
+          var cat = projects[i].category || "";
+          var j = i + 1;
+          while (j < projects.length && (projects[j].category || "") === cat) j++;
+          spans[i] = j - i;
+          for (var k = i + 1; k < j; k++) spans[k] = 0;
+          i = j;
+        }
+        return spans;
+      }
+
+      function renderProjects() {
+        var tbody = document.querySelector("#tbl-projects tbody");
+        tbody.innerHTML = "";
+        var rows = state.projects;
+        var spans = computeRowspans(rows);
+        rows.forEach(function (row, idx) {
+          var tr = document.createElement("tr");
+          if (spans[idx] > 0) {
+            var catTd = cell(row.category, { className: "cat" });
+            if (spans[idx] > 1) catTd.rowSpan = spans[idx];
+            catTd.dataset.field = "category";
+            catTd.dataset.index = String(idx);
+            tr.appendChild(catTd);
+          }
+          var fields = [
+            "name", "qGoal", "qDone", "owner",
+            "sGoal1", "sGoal2", "sDone",
+            "fPeriod", "fPeople", "fStatus"
+          ];
+          fields.forEach(function (f) {
+            var td = cell(row[f]);
+            td.dataset.field = f;
+            td.dataset.index = String(idx);
+            tr.appendChild(td);
+          });
+          tr.appendChild(removeBtn(function () {
+            state.projects.splice(idx, 1);
+            renderProjects();
+            queueSave();
+          }));
+          tbody.appendChild(tr);
+        });
+      }
+
+      function bindSimpleTable(tableId, listKey, fields, makeEmpty) {
+        var tbody = document.querySelector("#" + tableId + " tbody");
+        tbody.innerHTML = "";
+        var rows = state[listKey];
+        rows.forEach(function (row, idx) {
+          var tr = document.createElement("tr");
+          fields.forEach(function (f) {
+            var td = cell(row[f]);
+            td.dataset.list = listKey;
+            td.dataset.field = f;
+            td.dataset.index = String(idx);
+            tr.appendChild(td);
+          });
+          tr.appendChild(removeBtn(function () {
+            state[listKey].splice(idx, 1);
+            bindSimpleTable(tableId, listKey, fields, makeEmpty);
+            queueSave();
+          }));
+          tbody.appendChild(tr);
+        });
+      }
+
+      function renderStaff() {
+        document.getElementById("staff-phd").textContent = state.staffPhd || "";
+        document.getElementById("staff-ms").textContent = state.staffMs || "";
+        document.getElementById("year-title").textContent = state.yearTitle || "";
+      }
+
+      function renderAll() {
+        renderStaff();
+        renderProjects();
+        bindSimpleTable("tbl-conferences", "conferences", ["name", "role"], emptyConf);
+        bindSimpleTable("tbl-papers-done", "papersDone", ["author", "journal", "topic", "status", "note"], emptyPaper);
+        bindSimpleTable("tbl-papers-doing", "papersDoing", ["author", "journal", "topic", "status", "note"], emptyPaper);
+        bindSimpleTable("tbl-papers-plan", "papersPlan", ["author", "journal", "topic", "status", "note"], emptyPaper);
+        bindSimpleTable("tbl-extras", "extras", ["item", "source", "person"], emptyExtra);
+      }
+
+      function readDomIntoState() {
+        state.staffPhd = document.getElementById("staff-phd").innerText;
+        state.staffMs = document.getElementById("staff-ms").innerText;
+        state.yearTitle = document.getElementById("year-title").innerText.trim();
+
+        var projCells = document.querySelectorAll("#tbl-projects tbody td[data-field]");
+        projCells.forEach(function (td) {
+          var idx = Number(td.dataset.index);
+          var field = td.dataset.field;
+          if (!state.projects[idx]) return;
+          state.projects[idx][field] = td.innerText;
+        });
+
+        ["conferences", "papersDone", "papersDoing", "papersPlan", "extras"].forEach(function (listKey) {
+          var cells = document.querySelectorAll('td[data-list="' + listKey + '"]');
+          cells.forEach(function (td) {
+            var idx = Number(td.dataset.index);
+            var field = td.dataset.field;
+            if (!state[listKey][idx]) return;
+            state[listKey][idx][field] = td.innerText;
+          });
+        });
+      }
+
+      function onEditableInput(ev) {
+        var t = ev.target;
+        if (!t || t.contentEditable !== "true") return;
+        if (applyingRemote) return;
+        readDomIntoState();
+        if (t.dataset.field === "category") {
+          scheduleRender();
+        }
+        queueSave();
+      }
+
+      function initFirebase() {
+        var cfg = window.LAB_FIREBASE_CONFIG;
+        if (!isConfigReady(cfg)) {
+          setSync("local", "Local only");
+          showSetupBanner(
+            "Shared sync is not configured yet. Edit <code>firebase-config.js</code> with your Firebase Realtime Database settings, then reopen this page. Until then, data stays in this browser only."
+          );
+          return false;
+        }
+        try {
+          if (!firebase.apps.length) firebase.initializeApp(cfg);
+          dbRef = firebase.database().ref(DB_PATH);
+          cloudEnabled = true;
+          setSync("saving", "Connecting...");
+          dbRef.on("value", function (snap) {
+            var remote = snap.val();
+            if (!remote) {
+              var local = readLocal();
+              var upload = hasSeedContent(local) ? local : normalizePayload(SEED_DATA);
+              applyingRemote = true;
+              applyPayload(upload);
+              applyingRemote = false;
+              var payload = payloadFromState();
+              dbRef.set(payload).then(function () {
+                lastWrittenJson = JSON.stringify(payload);
+                setSync("live", "Live sync");
+              }).catch(function (err) {
+                console.error(err);
+                setSync("error", "Upload failed");
+              });
+              return;
+            }
+            var normalized = normalizePayload(remote);
+            var remoteJson = coreJson(normalized);
+            var localJson = coreJson(state);
+            if (remoteJson === localJson) {
+              lastWrittenJson = JSON.stringify(payloadFromState());
+              setSync("live", "Live sync");
+              return;
+            }
+            applyingRemote = true;
+            applyPayload(normalized);
+            applyingRemote = false;
+            lastWrittenJson = JSON.stringify(payloadFromState());
+            setSync("live", "Live sync");
+          }, function (err) {
+            console.error(err);
+            setSync("error", "Sync error");
+            showSetupBanner(
+              "Could not connect to Firebase. Check Realtime Database rules (read/write allowed) and <code>firebase-config.js</code>."
+            );
+          });
+          return true;
+        } catch (e) {
+          console.error(e);
+          setSync("error", "Config error");
+          showSetupBanner("Firebase init failed. Check <code>firebase-config.js</code>.");
+          return false;
+        }
+      }
+
+      function wireButtons() {
+        document.getElementById("btn-add-project").addEventListener("click", function () {
+          readDomIntoState();
+          state.projects.push(emptyProject());
+          renderProjects();
+          queueSave();
+        });
+        document.getElementById("btn-add-conf").addEventListener("click", function () {
+          readDomIntoState();
+          state.conferences.push(emptyConf());
+          bindSimpleTable("tbl-conferences", "conferences", ["name", "role"], emptyConf);
+          queueSave();
+        });
+        document.getElementById("btn-add-papers-done").addEventListener("click", function () {
+          readDomIntoState();
+          state.papersDone.push(emptyPaper());
+          bindSimpleTable("tbl-papers-done", "papersDone", ["author", "journal", "topic", "status", "note"], emptyPaper);
+          queueSave();
+        });
+        document.getElementById("btn-add-papers-doing").addEventListener("click", function () {
+          readDomIntoState();
+          state.papersDoing.push(emptyPaper());
+          bindSimpleTable("tbl-papers-doing", "papersDoing", ["author", "journal", "topic", "status", "note"], emptyPaper);
+          queueSave();
+        });
+        document.getElementById("btn-add-papers-plan").addEventListener("click", function () {
+          readDomIntoState();
+          state.papersPlan.push(emptyPaper());
+          bindSimpleTable("tbl-papers-plan", "papersPlan", ["author", "journal", "topic", "status", "note"], emptyPaper);
+          queueSave();
+        });
+        document.getElementById("btn-add-extras").addEventListener("click", function () {
+          readDomIntoState();
+          state.extras.push(emptyExtra());
+          bindSimpleTable("tbl-extras", "extras", ["item", "source", "person"], emptyExtra);
+          queueSave();
+        });
+        document.getElementById("btn-reload-seed").addEventListener("click", function () {
+          if (!window.confirm("Reset all fields to embedded seed data?")) return;
+          applyingRemote = true;
+          applyPayload(SEED_DATA);
+          applyingRemote = false;
+          queueSave();
+        });
+      }
+
+      function boot() {
+        var local = readLocal();
+        if (local && hasSeedContent(local)) {
+          state = normalizePayload(local);
+        } else {
+          state = normalizePayload(SEED_DATA);
+          writeLocal(state);
+        }
+        renderAll();
+        wireButtons();
+        document.addEventListener("input", onEditableInput);
+        document.addEventListener("blur", function (ev) {
+          var t = ev.target;
+          if (!t || t.contentEditable !== "true") return;
+          if (applyingRemote) return;
+          readDomIntoState();
+          if (t.dataset.field === "category") renderProjects();
+        }, true);
+        if (!initFirebase()) {
+          setSync("local", "Local only");
+        }
+      }
+
+      boot();
+    })();
+  </script>
+</body>
+</html>
+"""
+
+
+def write_utf8_no_bom(path: Path, text: str) -> None:
+    data = text.encode("utf-8")
+    if data.startswith(b"\xef\xbb\xbf"):
+        data = data[3:]
+    if b"\x00" in data:
+        raise RuntimeError("Refusing to write file containing null bytes: " + str(path))
+    path.write_bytes(data)
+
+
+def main() -> None:
+    seed = load_seed()
+    html = build_html(seed)
+    write_utf8_no_bom(OUTPUT, html)
+    print("Wrote", OUTPUT)
+    print("Bytes", OUTPUT.stat().st_size)
+
+
+if __name__ == "__main__":
+    main()
