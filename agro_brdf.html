@@ -527,7 +527,6 @@
       pointer-events: none;
     }
     .gnode:hover .port,
-    .gnode:focus-within .port,
     .graph-stage.is-linking .port {
       opacity: 1;
       pointer-events: auto;
@@ -538,9 +537,9 @@
       width: 18px;
       height: 18px;
       margin-top: -9px;
-      opacity: 1;
-      pointer-events: auto;
       z-index: 7;
+      opacity: 0;
+      pointer-events: none;
       box-shadow: 0 0 0 2px rgba(31, 122, 108, 0.4), 0 0 0 1px #7aa89f;
     }
     .gnode.compact-ports .port.in {
@@ -556,6 +555,11 @@
       right: -10px;
       bottom: -10px;
       border-radius: 50%;
+    }
+    .gnode.compact-ports:hover .port,
+    .graph-stage.is-linking .gnode.compact-ports .port {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .title-ctx-menu {
@@ -1642,7 +1646,7 @@
           var el = document.createElement("div");
           var w = typeof node.w === "number" && node.w > 0 ? node.w : NODE_W;
           var hFixed = typeof node.h === "number" && node.h >= NODE_H_MIN ? node.h : null;
-          el.className = "gnode " + (node.type === "goal" ? "goal" : "task") + (isNodeSelected(node.id) ? " selected" : "") + (isCompactNodeSize(w, hFixed == null ? NODE_H_MIN : hFixed) ? " compact-ports" : "");
+          el.className = "gnode " + (node.type === "goal" ? "goal" : "task") + (isNodeSelected(node.id) ? " selected" : "");
           el.dataset.id = node.id;
           el.dataset.type = node.type;
           el.style.left = (Number(node.x) || 0) + "px";
