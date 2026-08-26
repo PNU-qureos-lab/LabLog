@@ -434,6 +434,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       z-index: 3;
       pointer-events: auto;
       box-sizing: border-box;
+      overflow: hidden;
     }
     .gnode.dragging { cursor: grabbing; z-index: 5; opacity: 0.95; }
     .gnode.resizing { z-index: 5; }
@@ -459,11 +460,13 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
     .gnode .node-title {
       min-height: 0;
+      max-height: 100%;
       padding-right: 2px;
       font-size: 0.92rem;
       line-height: 1.25;
       outline: none;
       word-break: break-word;
+      overflow: hidden;
       cursor: text;
     }
     .gnode.goal .node-title {
@@ -692,6 +695,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       var DB_PATH = "labManagement/projectPages/agro_brdf";
       var SAVE_DEBOUNCE_MS = 400;
       var NODE_W = 190;
+      var NODE_W_MIN = 48;
       var NODE_H_MIN = 28;
       var GOAL_LEFT = 24;
       var GOAL_TOP0 = 28;
@@ -1618,9 +1622,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           el.style.width = w + "px";
           if (typeof node.h === "number" && node.h >= NODE_H_MIN) {
             el.style.height = node.h + "px";
+            el.style.minHeight = "0";
+            el.style.overflow = "hidden";
           } else {
             el.style.height = "auto";
             el.style.minHeight = NODE_H_MIN + "px";
+            el.style.overflow = "hidden";
           }
 
           if (node.type === "goal") {
@@ -1865,6 +1872,13 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         return v;
       }
 
+      function snapSize(v, minV) {
+        var nearest = Math.round(v / GRID) * GRID;
+        if (nearest < minV) nearest = minV;
+        if (Math.abs(v - nearest) <= 4) return nearest;
+        return Math.max(minV, v);
+      }
+
       function onMouseMove(ev) {
         if (marquee) {
           var mpt = stagePoint(ev);
@@ -1877,22 +1891,17 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           var dw = ev.clientX - resizeDrag.startX;
           var dh = ev.clientY - resizeDrag.startY;
           var rnode = findNode(resizeDrag.id);
-          var ox = rnode ? (Number(rnode.x) || 0) : 0;
-          var oy = rnode ? (Number(rnode.y) || 0) : 0;
-          var nw = Math.max(120, resizeDrag.origW + dw);
+          // Live resize without aggressive snap so height can shrink to one line.
+          var nw = Math.max(NODE_W_MIN, resizeDrag.origW + dw);
           var nh = Math.max(NODE_H_MIN, resizeDrag.origH + dh);
-          var right = snapToGrid(ox + nw);
-          var bottom = snapToGrid(oy + nh);
-          nw = Math.max(120, right - ox);
-          nh = Math.max(NODE_H_MIN, bottom - oy);
-          nw = Math.max(120, snapToGrid(nw));
-          nh = Math.max(NODE_H_MIN, snapToGrid(nh));
           if (rnode) {
             rnode.w = nw;
             rnode.h = nh;
           }
           resizeDrag.el.style.width = nw + "px";
           resizeDrag.el.style.height = nh + "px";
+          resizeDrag.el.style.minHeight = "0";
+          resizeDrag.el.style.overflow = "hidden";
           renderEdges();
           return;
         }
@@ -1997,8 +2006,18 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           return;
         }
         if (resizeDrag) {
+          var rnode = findNode(resizeDrag.id);
+          if (rnode) {
+            rnode.w = snapSize(Number(rnode.w) || resizeDrag.origW, NODE_W_MIN);
+            rnode.h = snapSize(Number(rnode.h) || resizeDrag.origH, NODE_H_MIN);
+            resizeDrag.el.style.width = rnode.w + "px";
+            resizeDrag.el.style.height = rnode.h + "px";
+            resizeDrag.el.style.minHeight = "0";
+            resizeDrag.el.style.overflow = "hidden";
+          }
           resizeDrag.el.classList.remove("resizing");
           resizeDrag = null;
+          renderEdges();
           if (!applyingRemote) queueSave();
           return;
         }
