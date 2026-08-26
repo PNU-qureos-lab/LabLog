@@ -346,6 +346,89 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       color: var(--muted);
     }
 
+    td.project-name {
+      cursor: pointer;
+      color: #0f4a42;
+    }
+
+    td.project-name.has-link {
+      color: #145c52;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    td.project-name[contenteditable="true"]:focus {
+      cursor: text;
+      text-decoration: none;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 18, 24, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 80;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      width: min(420px, 100%);
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .modal h3 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+    }
+
+    .modal p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .modal .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .modal label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .modal input {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font: 500 0.9rem var(--font-ui);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .modal .msg {
+      min-height: 1.2em;
+      font-size: 0.78rem;
+      color: #b42318;
+    }
+
     footer.note {
       color: rgba(230, 240, 244, 0.72);
       font-size: 0.75rem;
@@ -419,7 +502,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <tbody></tbody>
         </table>
       </div>
-      <p class="hint">Add category: new 개요 block. Each row + : add a project row inside that 개요. Drag header edges to resize columns.</p>
+      <p class="hint">Add category: new 개요 block. Row +: add inside that 개요. Click project name to open/link page (double-click to edit). Bold and column widths are saved.</p>
     </section>
 
     <section class="panel" id="sec-conferences">
@@ -542,6 +625,22 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     <footer class="note">LabLog research plan board - path labManagement/researchPlan2026</footer>
   </div>
 
+  <div class="modal-backdrop" id="link-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="link-modal-title">
+      <h3 id="link-modal-title">Project page link</h3>
+      <p id="link-modal-desc">Enter the HTML file name for this project (example: agro_brdf).</p>
+      <div class="field">
+        <label for="link-input">HTML file name</label>
+        <input id="link-input" type="text" placeholder="agro_brdf or agro_brdf.html" />
+      </div>
+      <div class="msg" id="link-modal-msg"></div>
+      <div class="modal-actions">
+        <button type="button" id="link-cancel">Cancel</button>
+        <button type="button" class="primary" id="link-save">Check and open</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
   <script src="firebase-config.js"></script>
@@ -578,8 +677,118 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           sDone: "",
           fPeriod: "",
           fPeople: "",
-          fStatus: ""
+          fStatus: "",
+          pageLink: ""
         };
+      }
+
+      var TABLE_IDS = [
+        "tbl-projects",
+        "tbl-conferences",
+        "tbl-papers-done",
+        "tbl-papers-doing",
+        "tbl-papers-plan",
+        "tbl-extras"
+      ];
+
+      var linkModalIndex = -1;
+
+      function sanitizeHtml(html) {
+        var s = html != null ? String(html) : "";
+        var box = document.createElement("div");
+        box.innerHTML = s;
+        box.querySelectorAll("script,iframe,object,embed,link,meta,style").forEach(function (n) {
+          n.remove();
+        });
+        box.querySelectorAll("*").forEach(function (el) {
+          var attrs = Array.prototype.slice.call(el.attributes || []);
+          attrs.forEach(function (attr) {
+            var name = attr.name.toLowerCase();
+            if (name.indexOf("on") === 0 || name === "srcdoc") {
+              el.removeAttribute(attr.name);
+            }
+          });
+        });
+        return box.innerHTML;
+      }
+
+      function setRichHtml(el, value) {
+        var s = value != null ? String(value) : "";
+        if (/<[a-z][\s\S]*>/i.test(s)) {
+          el.innerHTML = sanitizeHtml(s);
+        } else {
+          el.textContent = s;
+        }
+      }
+
+      function getRichHtml(el) {
+        return sanitizeHtml(el.innerHTML);
+      }
+
+      function normalizePageName(input) {
+        var name = String(input || "").trim().replace(/^\.\//, "").replace(/^\/+/, "");
+        if (!name) return "";
+        if (name.indexOf("..") >= 0 || name.indexOf("\\") >= 0) return "";
+        if (!/\.html?$/i.test(name)) name += ".html";
+        return name;
+      }
+
+      function pageExists(fileName) {
+        return fetch(fileName, { method: "GET", cache: "no-store" })
+          .then(function (res) {
+            if (res.ok) return true;
+            return fetch(
+              "https://api.github.com/repos/PNU-qureos-lab/LabLog/contents/" + encodeURIComponent(fileName)
+            ).then(function (r) { return r.ok; }).catch(function () { return false; });
+          })
+          .catch(function () {
+            return fetch(
+              "https://api.github.com/repos/PNU-qureos-lab/LabLog/contents/" + encodeURIComponent(fileName)
+            ).then(function (r) { return r.ok; }).catch(function () { return false; });
+          });
+      }
+
+      function openLinkModal(idx, preset) {
+        linkModalIndex = idx;
+        var modal = document.getElementById("link-modal");
+        var input = document.getElementById("link-input");
+        var msg = document.getElementById("link-modal-msg");
+        var row = state.projects[idx] || {};
+        var label = (row.name || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+        document.getElementById("link-modal-desc").textContent =
+          "No page link for \"" + (label || "this project") + "\". Enter an HTML file name in this repo.";
+        input.value = preset || row.pageLink || "";
+        msg.textContent = "";
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        input.focus();
+        input.select();
+      }
+
+      function closeLinkModal() {
+        var modal = document.getElementById("link-modal");
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        linkModalIndex = -1;
+      }
+
+      function navigateOrBindProject(idx) {
+        var row = state.projects[idx];
+        if (!row) return;
+        var link = normalizePageName(row.pageLink || "");
+        if (link) {
+          pageExists(link).then(function (ok) {
+            if (ok) {
+              window.location.href = link;
+            } else {
+              openLinkModal(idx, link);
+              document.getElementById("link-modal-msg").textContent =
+                "Linked file was not found: " + link;
+            }
+          });
+          return;
+        }
+        openLinkModal(idx, "");
       }
 
       function emptyConf() {
@@ -617,7 +826,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               sDone: r.sDone != null ? String(r.sDone) : "",
               fPeriod: r.fPeriod != null ? String(r.fPeriod) : "",
               fPeople: r.fPeople != null ? String(r.fPeople) : "",
-              fStatus: r.fStatus != null ? String(r.fStatus) : ""
+              fStatus: r.fStatus != null ? String(r.fStatus) : "",
+              pageLink: r.pageLink != null ? String(r.pageLink) : ""
             };
           }),
           conferences: asArray(data.conferences).map(function (r) {
@@ -639,7 +849,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               source: r.source != null ? String(r.source) : "",
               person: r.person != null ? String(r.person) : ""
             };
-          })
+          }),
+          colWidths: (function () {
+            var src = data.colWidths && typeof data.colWidths === "object" ? data.colWidths : {};
+            var outW = {};
+            TABLE_IDS.forEach(function (id) {
+              outW[id] = Array.isArray(src[id]) ? src[id].map(function (x) { return String(x || ""); }) : [];
+            });
+            return outW;
+          })()
         };
         return out;
       }
@@ -672,7 +890,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           papersDone: n.papersDone,
           papersDoing: n.papersDoing,
           papersPlan: n.papersPlan,
-          extras: n.extras
+          extras: n.extras,
+          colWidths: n.colWidths
         });
       }
 
@@ -772,8 +991,40 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         }
         td.contentEditable = "true";
         td.spellcheck = false;
-        td.textContent = text != null ? String(text) : "";
+        setRichHtml(td, text);
         return td;
+      }
+
+      function captureColWidths() {
+        if (!state.colWidths) state.colWidths = {};
+        TABLE_IDS.forEach(function (id) {
+          var table = document.getElementById(id);
+          if (!table) return;
+          var cg = table.querySelector("colgroup");
+          if (!cg) return;
+          var widths = [];
+          for (var i = 0; i < cg.children.length; i++) {
+            var col = cg.children[i];
+            var w = col.style.width || "";
+            if (!w) {
+              var rect = col.getBoundingClientRect();
+              w = rect.width ? Math.round(rect.width) + "px" : "";
+            }
+            widths.push(w);
+          }
+          state.colWidths[id] = widths;
+        });
+      }
+
+      function applyColWidths(table) {
+        if (!table || !state.colWidths) return;
+        var saved = state.colWidths[table.id];
+        if (!Array.isArray(saved) || !saved.length) return;
+        var n = countTableColumns(table);
+        var cg = ensureColgroup(table, n);
+        for (var i = 0; i < Math.min(saved.length, cg.children.length); i++) {
+          if (saved[i]) cg.children[i].style.width = saved[i];
+        }
       }
 
       function removeBtn(onClick) {
@@ -901,6 +1152,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         var n = countTableColumns(table);
         if (!n) return;
         var cg = ensureColgroup(table, n);
+        applyColWidths(table);
         var headers = leafHeaderCells(table, n);
         for (var i = 0; i < n - 1; i++) {
           var th = headers[i];
@@ -926,6 +1178,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
                 handleEl.classList.remove("active");
                 document.removeEventListener("mousemove", onMove);
                 document.removeEventListener("mouseup", onUp);
+                captureColWidths();
+                queueSave();
               }
               document.addEventListener("mousemove", onMove);
               document.addEventListener("mouseup", onUp);
@@ -935,14 +1189,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
 
       function enableAllColumnResize() {
-        [
-          "tbl-projects",
-          "tbl-conferences",
-          "tbl-papers-done",
-          "tbl-papers-doing",
-          "tbl-papers-plan",
-          "tbl-extras"
-        ].forEach(function (id) {
+        TABLE_IDS.forEach(function (id) {
           enableColumnResize(document.getElementById(id));
         });
       }
@@ -984,6 +1231,36 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             var td = cell(row[f]);
             td.dataset.field = f;
             td.dataset.index = String(idx);
+            if (f === "name") {
+              td.classList.add("project-name");
+              if (row.pageLink) td.classList.add("has-link");
+              td.contentEditable = "false";
+              td.title = "Click to open page. Double-click to edit text.";
+              td.addEventListener("click", function (e) {
+                if (td.isContentEditable && td.getAttribute("contenteditable") === "true") return;
+                e.preventDefault();
+                e.stopPropagation();
+                navigateOrBindProject(idx);
+              });
+              td.addEventListener("dblclick", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                td.contentEditable = "true";
+                td.focus();
+                try {
+                  var range = document.createRange();
+                  range.selectNodeContents(td);
+                  var sel = window.getSelection();
+                  sel.removeAllRanges();
+                  sel.addRange(range);
+                } catch (err) {}
+              });
+              td.addEventListener("blur", function () {
+                td.contentEditable = "false";
+                readDomIntoState();
+                queueSave();
+              });
+            }
             tr.appendChild(td);
           });
           tr.appendChild(projectRowCtrl(idx));
@@ -1015,9 +1292,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
 
       function renderStaff() {
-        document.getElementById("staff-phd").textContent = state.staffPhd || "";
-        document.getElementById("staff-ms").textContent = state.staffMs || "";
-        document.getElementById("year-title").textContent = state.yearTitle || "";
+        setRichHtml(document.getElementById("staff-phd"), state.staffPhd || "");
+        setRichHtml(document.getElementById("staff-ms"), state.staffMs || "");
+        setRichHtml(document.getElementById("year-title"), state.yearTitle || "");
       }
 
       function renderAll() {
@@ -1032,16 +1309,16 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
 
       function readDomIntoState() {
-        state.staffPhd = document.getElementById("staff-phd").innerText;
-        state.staffMs = document.getElementById("staff-ms").innerText;
-        state.yearTitle = document.getElementById("year-title").innerText.trim();
+        state.staffPhd = getRichHtml(document.getElementById("staff-phd"));
+        state.staffMs = getRichHtml(document.getElementById("staff-ms"));
+        state.yearTitle = getRichHtml(document.getElementById("year-title"));
 
         var projCells = document.querySelectorAll("#tbl-projects tbody td[data-field]");
         projCells.forEach(function (td) {
           var idx = Number(td.dataset.index);
           var field = td.dataset.field;
           if (!state.projects[idx]) return;
-          state.projects[idx][field] = td.innerText;
+          state.projects[idx][field] = getRichHtml(td);
         });
 
         ["conferences", "papersDone", "papersDoing", "papersPlan", "extras"].forEach(function (listKey) {
@@ -1050,9 +1327,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             var idx = Number(td.dataset.index);
             var field = td.dataset.field;
             if (!state[listKey][idx]) return;
-            state[listKey][idx][field] = td.innerText;
+            state[listKey][idx][field] = getRichHtml(td);
           });
         });
+        captureColWidths();
       }
 
       function onEditableInput(ev) {
@@ -1186,6 +1464,40 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           applyPayload(SEED_DATA);
           applyingRemote = false;
           queueSave();
+        });
+
+        document.getElementById("link-cancel").addEventListener("click", closeLinkModal);
+        document.getElementById("link-modal").addEventListener("click", function (e) {
+          if (e.target === e.currentTarget) closeLinkModal();
+        });
+        document.getElementById("link-save").addEventListener("click", function () {
+          if (linkModalIndex < 0 || !state.projects[linkModalIndex]) return;
+          var msg = document.getElementById("link-modal-msg");
+          var fileName = normalizePageName(document.getElementById("link-input").value);
+          if (!fileName) {
+            msg.textContent = "Enter a valid file name.";
+            return;
+          }
+          msg.textContent = "Checking...";
+          pageExists(fileName).then(function (ok) {
+            if (!ok) {
+              msg.textContent = "File not found in this repo: " + fileName;
+              return;
+            }
+            state.projects[linkModalIndex].pageLink = fileName;
+            closeLinkModal();
+            renderProjects();
+            enableAllColumnResize();
+            queueSave();
+            window.location.href = fileName;
+          });
+        });
+        document.getElementById("link-input").addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            document.getElementById("link-save").click();
+          }
+          if (e.key === "Escape") closeLinkModal();
         });
       }
 
