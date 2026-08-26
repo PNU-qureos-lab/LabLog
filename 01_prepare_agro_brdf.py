@@ -326,7 +326,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(213, 222, 228, 0.55) 24px),
         repeating-linear-gradient(90deg, transparent, transparent 23px, rgba(213, 222, 228, 0.55) 24px),
         #f7fafb;
-      overflow: hidden;
+      overflow: auto;
       user-select: none;
     }
 
@@ -1077,6 +1077,77 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         return null;
       }
 
+      function nodeExtent(n) {
+        var size = nodeSize(n);
+        var el = document.querySelector('.gnode[data-id="' + n.id + '"]');
+        var h = size.h;
+        if (el && !(typeof n.h === "number" && n.h >= NODE_H_MIN)) {
+          h = Math.max(NODE_H_MIN, el.offsetHeight || size.h);
+        }
+        return {
+          x: Number(n.x) || 0,
+          y: Number(n.y) || 0,
+          w: size.w,
+          h: h
+        };
+      }
+
+      function overlapsExisting(x, y, w, h, ignoreId) {
+        var i;
+        for (i = 0; i < state.graphNodes.length; i++) {
+          var n = state.graphNodes[i];
+          if (ignoreId && n.id === ignoreId) continue;
+          var e = nodeExtent(n);
+          if (x < e.x + e.w - 8 && x + w > e.x + 8 && y < e.y + e.h - 8 && y + h > e.y + 8) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function findNewTaskPosition(stage) {
+        var sw = stage.clientWidth || 700;
+        var sh = stage.clientHeight || 420;
+        var w = NODE_W;
+        var h = NODE_H_MIN + 8;
+        var baseX = Math.max(260, Math.min(sw - w - 24, Math.floor(sw * 0.45)));
+        var baseY = Math.max(24, Math.min(sh - h - 24, 40));
+        var step = GRID * 2;
+        var i;
+        for (i = 0; i < 64; i++) {
+          var col = i % 5;
+          var row = Math.floor(i / 5);
+          var x = Math.max(240, baseX + col * step);
+          var y = Math.max(16, baseY + row * step);
+          if (x + w > sw - 8) continue;
+          if (y + h > sh - 8) continue;
+          if (!overlapsExisting(x, y, w, h, null)) return { x: x, y: y };
+        }
+        // fall back: place just below current content so stage can grow
+        var maxY = 24;
+        state.graphNodes.forEach(function (n) {
+          var e = nodeExtent(n);
+          maxY = Math.max(maxY, e.y + e.h);
+        });
+        return { x: baseX, y: maxY + GRID };
+      }
+
+      function ensureStageFitsNodes() {
+        var stage = document.getElementById("graph-stage");
+        if (!stage || !state) return;
+        var maxBottom = 420;
+        var maxRight = stage.clientWidth || 700;
+        state.graphNodes.forEach(function (n) {
+          var e = nodeExtent(n);
+          maxBottom = Math.max(maxBottom, e.y + e.h + 48);
+          maxRight = Math.max(maxRight, e.x + e.w + 48);
+        });
+        stage.style.minHeight = maxBottom + "px";
+        if (maxRight > (stage.clientWidth || 0)) {
+          stage.style.minWidth = maxRight + "px";
+        }
+      }
+
       function renderMeta() {
         setRichHtml(document.getElementById("meta-title"), state.meta.title || "");
         setRichHtml(document.getElementById("meta-period"), state.meta.period || "");
@@ -1643,6 +1714,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           host.appendChild(el);
         });
         renderEdges();
+        ensureStageFitsNodes();
       }
 
       function renderAll() {
@@ -2073,19 +2145,23 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         document.getElementById("btn-add-item").addEventListener("click", function () {
           readDomIntoState();
           var stage = document.getElementById("graph-stage");
-          var x = Math.max(260, Math.floor((stage.clientWidth || 700) * 0.45));
-          var y = 40 + state.graphNodes.filter(function (n) { return n.type === "task"; }).length * 70;
+          var pos = findNewTaskPosition(stage);
+          var nid = uid("task");
           state.graphNodes.push({
-            id: uid("task"),
+            id: nid,
             type: "task",
             goalIndex: null,
             title: "New item",
-            x: x,
-            y: y,
+            x: pos.x,
+            y: pos.y,
             w: NODE_W,
             h: null
           });
           renderGraph();
+          var nel = document.querySelector('.gnode[data-id="' + nid + '"]');
+          if (nel && nel.scrollIntoView) {
+            nel.scrollIntoView({ block: "nearest", inline: "nearest" });
+          }
           queueSave();
         });
 
