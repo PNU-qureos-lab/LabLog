@@ -502,7 +502,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <tbody></tbody>
         </table>
       </div>
-      <p class="hint">Add category: new 개요 block. Row +: add inside that 개요. Click project name to open/link page (double-click to edit). Bold and column widths are saved.</p>
+      <p class="hint">Add category / row +. Click project name to open linked page (first time: set HTML name). Shift+click to change link. Double-click to edit text.</p>
     </section>
 
     <section class="panel" id="sec-conferences">
@@ -772,23 +772,40 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         linkModalIndex = -1;
       }
 
-      function navigateOrBindProject(idx) {
+      function navigateOrBindProject(idx, forceSetup) {
         var row = state.projects[idx];
         if (!row) return;
         var link = normalizePageName(row.pageLink || "");
-        if (link) {
-          pageExists(link).then(function (ok) {
-            if (ok) {
-              window.location.href = link;
-            } else {
-              openLinkModal(idx, link);
-              document.getElementById("link-modal-msg").textContent =
-                "Linked file was not found: " + link;
-            }
-          });
+        if (link && !forceSetup) {
+          window.location.href = link;
           return;
         }
-        openLinkModal(idx, "");
+        openLinkModal(idx, link || "");
+      }
+
+      function flushSave() {
+        if (applyingRemote) return Promise.resolve(false);
+        var payload = payloadFromState();
+        writeLocal(payload);
+        if (!cloudEnabled || !dbRef) {
+          setSync("local", "Local only");
+          return Promise.resolve(true);
+        }
+        clearTimeout(saveTimer);
+        saveTimer = null;
+        setSync("saving", "Saving...");
+        var json = JSON.stringify(payload);
+        return dbRef.set(payload)
+          .then(function () {
+            lastWrittenJson = json;
+            setSync("live", "Live sync");
+            return true;
+          })
+          .catch(function (err) {
+            console.error(err);
+            setSync("error", "Save failed");
+            return false;
+          });
       }
 
       function emptyConf() {
@@ -1235,12 +1252,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               td.classList.add("project-name");
               if (row.pageLink) td.classList.add("has-link");
               td.contentEditable = "false";
-              td.title = "Click to open page. Double-click to edit text.";
+              td.title = "Click to open page. Shift+click to change link. Double-click to edit text.";
               td.addEventListener("click", function (e) {
                 if (td.isContentEditable && td.getAttribute("contenteditable") === "true") return;
                 e.preventDefault();
                 e.stopPropagation();
-                navigateOrBindProject(idx);
+                navigateOrBindProject(idx, e.shiftKey);
               });
               td.addEventListener("dblclick", function (e) {
                 e.preventDefault();
@@ -1484,12 +1501,18 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               msg.textContent = "File not found in this repo: " + fileName;
               return;
             }
-            state.projects[linkModalIndex].pageLink = fileName;
-            closeLinkModal();
-            renderProjects();
-            enableAllColumnResize();
-            queueSave();
-            window.location.href = fileName;
+            var idx = linkModalIndex;
+            state.projects[idx].pageLink = fileName;
+            msg.textContent = "Saving link...";
+            flushSave().then(function (saved) {
+              if (!saved) {
+                msg.textContent = "Save failed. Link kept locally; try again.";
+              }
+              closeLinkModal();
+              renderProjects();
+              enableAllColumnResize();
+              window.location.href = fileName;
+            });
           });
         });
         document.getElementById("link-input").addEventListener("keydown", function (e) {
