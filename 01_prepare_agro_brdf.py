@@ -546,6 +546,29 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
     .port.out { right: -7px; }
     .port.in { left: -7px; background: #3d6573; box-shadow: 0 0 0 1px #7a93a0; }
+    .gnode.compact-ports .port {
+      width: 18px;
+      height: 18px;
+      margin-top: -9px;
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 7;
+      box-shadow: 0 0 0 2px rgba(31, 122, 108, 0.4), 0 0 0 1px #7aa89f;
+    }
+    .gnode.compact-ports .port.in {
+      box-shadow: 0 0 0 2px rgba(61, 101, 115, 0.45), 0 0 0 1px #7a93a0;
+    }
+    .gnode.compact-ports .port.out { right: -11px; }
+    .gnode.compact-ports .port.in { left: -11px; }
+    .gnode.compact-ports .port::after {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: -10px;
+      right: -10px;
+      bottom: -10px;
+      border-radius: 50%;
+    }
 
     .title-ctx-menu {
       position: fixed;
@@ -1226,6 +1249,22 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         return { w: w, h: h };
       }
 
+      function isCompactNodeSize(w, h) {
+        return (Number(w) || 0) < 110 || (Number(h) || 0) < 44;
+      }
+
+      function applyCompactPortsClass(el, node) {
+        if (!el || !node) return;
+        var size = nodeSize(node);
+        var w = size.w;
+        var h = size.h;
+        if (!(typeof node.h === "number" && node.h >= NODE_H_MIN) && el.offsetHeight) {
+          h = Math.max(NODE_H_MIN, el.offsetHeight);
+        }
+        if (isCompactNodeSize(w, h)) el.classList.add("compact-ports");
+        else el.classList.remove("compact-ports");
+      }
+
       function portPoint(nodeId, side) {
         var stage = document.getElementById("graph-stage");
         var stageRect = stage.getBoundingClientRect();
@@ -1613,15 +1652,16 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         host.innerHTML = "";
         state.graphNodes.forEach(function (node) {
           var el = document.createElement("div");
-          el.className = "gnode " + (node.type === "goal" ? "goal" : "task") + (isNodeSelected(node.id) ? " selected" : "");
+          var w = typeof node.w === "number" && node.w > 0 ? node.w : NODE_W;
+          var hFixed = typeof node.h === "number" && node.h >= NODE_H_MIN ? node.h : null;
+          el.className = "gnode " + (node.type === "goal" ? "goal" : "task") + (isNodeSelected(node.id) ? " selected" : "") + (isCompactNodeSize(w, hFixed == null ? NODE_H_MIN : hFixed) ? " compact-ports" : "");
           el.dataset.id = node.id;
           el.dataset.type = node.type;
           el.style.left = (Number(node.x) || 0) + "px";
           el.style.top = (Number(node.y) || 0) + "px";
-          var w = typeof node.w === "number" && node.w > 0 ? node.w : NODE_W;
           el.style.width = w + "px";
-          if (typeof node.h === "number" && node.h >= NODE_H_MIN) {
-            el.style.height = node.h + "px";
+          if (hFixed != null) {
+            el.style.height = hFixed + "px";
             el.style.minHeight = "0";
             el.style.overflow = "hidden";
           } else {
@@ -1719,6 +1759,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           portIn.addEventListener("mousedown", function (ev) { ev.stopPropagation(); });
 
           host.appendChild(el);
+          applyCompactPortsClass(el, node);
         });
         renderEdges();
         ensureStageFitsNodes();
@@ -1902,6 +1943,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           resizeDrag.el.style.height = nh + "px";
           resizeDrag.el.style.minHeight = "0";
           resizeDrag.el.style.overflow = "hidden";
+          if (isCompactNodeSize(nw, nh)) resizeDrag.el.classList.add("compact-ports");
+          else resizeDrag.el.classList.remove("compact-ports");
           renderEdges();
           return;
         }
@@ -1962,13 +2005,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         var i;
         for (i = 0; i < ports.length; i++) {
           var port = ports[i];
+          var parent = port.parentElement;
+          var hitR = parent && parent.classList.contains("compact-ports") ? PORT_HIT_PX + 14 : PORT_HIT_PX;
           var r = port.getBoundingClientRect();
           var cx = r.left + r.width / 2;
           var cy = r.top + r.height / 2;
           var dist = Math.sqrt(Math.pow(ev.clientX - cx, 2) + Math.pow(ev.clientY - cy, 2));
-          if (dist <= bestDist) {
+          if (dist <= hitR && dist <= bestDist) {
             bestDist = dist;
-            bestId = port.parentElement ? port.parentElement.dataset.id : null;
+            bestId = parent ? parent.dataset.id : null;
           }
         }
         if (bestId) return bestId;
@@ -1999,7 +2044,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
       function onMouseUp(ev) {
         if (marquee) {
-          selectByMarquee();
+          var dragged = Math.abs(marquee.x1 - marquee.x0) > 3 || Math.abs(marquee.y1 - marquee.y0) > 3;
+          if (dragged) {
+            selectByMarquee();
+          } else if (!marquee.additive) {
+            clearNodeSelection();
+            applySelectionClasses();
+            selectedEdgeId = null;
+            renderEdges();
+          }
           marquee = null;
           updateMarqueeEl();
           suppressClick = true;
@@ -2188,16 +2241,20 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         var bgEl = document.getElementById("graph-bg");
         if (bgEl) bgEl.addEventListener("mousedown", onStageMouseDown);
         stageEl.addEventListener("mousedown", onStageMouseDown);
-        stageEl.addEventListener("click", function () {
+        stageEl.addEventListener("click", function (ev) {
           hideTitleCtxMenu();
           if (suppressClick) {
             suppressClick = false;
             return;
           }
+          if (ev.target.closest && ev.target.closest(".gnode")) return;
+          if (ev.target.closest && ev.target.closest(".edge-hit")) return;
+          clearNodeSelection();
+          applySelectionClasses();
           if (selectedEdgeId) {
             selectedEdgeId = null;
-            renderEdges();
           }
+          renderEdges();
         });
 
         document.addEventListener("mousedown", function (ev) {
