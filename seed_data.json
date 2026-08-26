@@ -176,26 +176,38 @@
   "conferences": [
     {
       "name": "COSPAR(8.01 ~ 09) 이탈리아",
+      "period": "",
+      "place": "",
       "role": "교수님 / 연구재단"
     },
     {
       "name": "IGARSS(8.09 ~ 14) 미국",
+      "period": "",
+      "place": "",
       "role": "이종혁 / SNC(정규 예산)"
     },
     {
       "name": "추계 원탐 \n(10.21 ~ 22) 부산",
+      "period": "",
+      "place": "",
       "role": "대부분 참석, 발표 : 경석(BRDF), 아란, 민수"
     },
     {
       "name": "토목학회\n10.21.(수)-23.(금) 강원",
+      "period": "",
+      "place": "",
       "role": ""
     },
     {
       "name": "GEOAI\n(11.04 ~ 6) 제주",
+      "period": "",
+      "place": "",
       "role": "블루테크 (특별세션 -> 풍력)"
     },
     {
       "name": "추계 해양학회, 울산 UECO\n( 11. 18(수) ~ 2026. 11. 20(금))",
+      "period": "",
+      "place": "",
       "role": "특별세션"
     }
   ],

@@ -253,6 +253,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     table.data {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
       font-size: 0.78rem;
       line-height: 1.4;
     }
@@ -267,11 +268,45 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
 
     table.data thead th {
+      position: relative;
       background: var(--head);
       font-weight: 600;
       text-align: center;
       color: #1a333c;
       white-space: nowrap;
+    }
+
+    .col-resizer {
+      position: absolute;
+      top: 0;
+      right: -3px;
+      width: 7px;
+      height: 100%;
+      cursor: col-resize;
+      user-select: none;
+      z-index: 5;
+    }
+
+    .col-resizer:hover,
+    .col-resizer.active {
+      background: rgba(31, 122, 108, 0.35);
+    }
+
+    table.data .row-ctrl {
+      overflow: hidden;
+    }
+
+    table.data .row-ctrl .btn-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+    }
+
+    table.data .row-ctrl .btn-stack button {
+      padding: 2px 6px;
+      font-size: 0.68rem;
+      min-width: 28px;
     }
 
     table.data thead .sub th {
@@ -355,7 +390,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       <div class="panel-head">
         <h2><span class="year-title" id="year-title" contenteditable="true" spellcheck="false"></span> Main Projects</h2>
         <div class="row-actions">
-          <button type="button" class="primary" id="btn-add-project">Add row</button>
+          <button type="button" class="primary" id="btn-add-category">Add category</button>
         </div>
       </div>
       <div class="table-wrap">
@@ -384,7 +419,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <tbody></tbody>
         </table>
       </div>
-      <p class="hint">Consecutive identical 개요 values are merged with rowspan when rendering.</p>
+      <p class="hint">Add category: new 개요 block. Each row + : add a project row inside that 개요. Drag header edges to resize columns.</p>
     </section>
 
     <section class="panel" id="sec-conferences">
@@ -399,6 +434,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <thead>
             <tr>
               <th>학회</th>
+              <th>기간</th>
+              <th>장소</th>
               <th>인원 및 역할</th>
               <th class="row-ctrl"></th>
             </tr>
@@ -546,7 +583,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
 
       function emptyConf() {
-        return { name: "", role: "" };
+        return { name: "", period: "", place: "", role: "" };
       }
 
       function emptyPaper() {
@@ -587,6 +624,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             r = r || {};
             return {
               name: r.name != null ? String(r.name) : "",
+              period: r.period != null ? String(r.period) : "",
+              place: r.place != null ? String(r.place) : "",
               role: r.role != null ? String(r.role) : ""
             };
           }),
@@ -749,6 +788,165 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         return td;
       }
 
+      function projectRowCtrl(idx) {
+        var td = document.createElement("td");
+        td.className = "row-ctrl";
+        var stack = document.createElement("div");
+        stack.className = "btn-stack";
+        var add = document.createElement("button");
+        add.type = "button";
+        add.className = "primary";
+        add.textContent = "+";
+        add.title = "Add row in this category";
+        add.addEventListener("click", function () {
+          readDomIntoState();
+          propagateOpenCategoryEdits();
+          var cat = state.projects[idx] ? state.projects[idx].category : "";
+          var row = emptyProject();
+          row.category = cat;
+          state.projects.splice(idx + 1, 0, row);
+          renderProjects();
+          enableAllColumnResize();
+          queueSave();
+        });
+        var del = document.createElement("button");
+        del.type = "button";
+        del.className = "danger";
+        del.textContent = "Del";
+        del.title = "Delete this row";
+        del.addEventListener("click", function () {
+          readDomIntoState();
+          propagateOpenCategoryEdits();
+          state.projects.splice(idx, 1);
+          renderProjects();
+          enableAllColumnResize();
+          queueSave();
+        });
+        stack.appendChild(add);
+        stack.appendChild(del);
+        td.appendChild(stack);
+        return td;
+      }
+
+      function propagateOpenCategoryEdits() {
+        var spans = computeRowspans(state.projects);
+        for (var i = 0; i < state.projects.length; i++) {
+          if (!(spans[i] > 0)) continue;
+          var cat = state.projects[i].category || "";
+          for (var k = i; k < i + spans[i]; k++) {
+            state.projects[k].category = cat;
+          }
+        }
+      }
+
+      function countTableColumns(table) {
+        var first = table.tBodies[0] && table.tBodies[0].rows[0];
+        if (first) return first.cells.length;
+        var max = 0;
+        var rows = table.tHead ? table.tHead.rows : [];
+        for (var r = 0; r < rows.length; r++) {
+          var count = 0;
+          for (var c = 0; c < rows[r].cells.length; c++) {
+            count += rows[r].cells[c].colSpan || 1;
+          }
+          if (count > max) max = count;
+        }
+        return max;
+      }
+
+      function ensureColgroup(table, n) {
+        var cg = table.querySelector("colgroup");
+        if (!cg) {
+          cg = document.createElement("colgroup");
+          table.insertBefore(cg, table.firstChild);
+        }
+        while (cg.children.length < n) {
+          cg.appendChild(document.createElement("col"));
+        }
+        while (cg.children.length > n) {
+          cg.removeChild(cg.lastChild);
+        }
+        return cg;
+      }
+
+      function leafHeaderCells(table, colCount) {
+        var map = new Array(colCount);
+        if (!table.tHead) return map;
+        var occupied = [];
+        for (var r = 0; r < table.tHead.rows.length; r++) occupied[r] = new Array(colCount);
+        for (var ri = 0; ri < table.tHead.rows.length; ri++) {
+          var row = table.tHead.rows[ri];
+          var col = 0;
+          for (var ci = 0; ci < row.cells.length; ci++) {
+            var th = row.cells[ci];
+            while (col < colCount && occupied[ri][col]) col++;
+            var cs = th.colSpan || 1;
+            var rs = th.rowSpan || 1;
+            for (var rr = 0; rr < rs; rr++) {
+              for (var cc = 0; cc < cs; cc++) {
+                if (ri + rr < occupied.length && col + cc < colCount) {
+                  occupied[ri + rr][col + cc] = true;
+                }
+              }
+            }
+            if (cs === 1) map[col] = th;
+            col += cs;
+          }
+        }
+        return map;
+      }
+
+      function enableColumnResize(table) {
+        if (!table) return;
+        var n = countTableColumns(table);
+        if (!n) return;
+        var cg = ensureColgroup(table, n);
+        var headers = leafHeaderCells(table, n);
+        for (var i = 0; i < n - 1; i++) {
+          var th = headers[i];
+          if (!th) continue;
+          if (th.querySelector(".col-resizer")) continue;
+          var handle = document.createElement("div");
+          handle.className = "col-resizer";
+          handle.dataset.colIndex = String(i);
+          th.appendChild(handle);
+          (function (colIndex, handleEl) {
+            handleEl.addEventListener("mousedown", function (ev) {
+              ev.preventDefault();
+              ev.stopPropagation();
+              handleEl.classList.add("active");
+              var startX = ev.clientX;
+              var colEl = cg.children[colIndex];
+              var startW = colEl.getBoundingClientRect().width;
+              function onMove(e) {
+                var w = Math.max(36, startW + (e.clientX - startX));
+                colEl.style.width = w + "px";
+              }
+              function onUp() {
+                handleEl.classList.remove("active");
+                document.removeEventListener("mousemove", onMove);
+                document.removeEventListener("mouseup", onUp);
+              }
+              document.addEventListener("mousemove", onMove);
+              document.addEventListener("mouseup", onUp);
+            });
+          })(i, handle);
+        }
+      }
+
+      function enableAllColumnResize() {
+        [
+          "tbl-projects",
+          "tbl-conferences",
+          "tbl-papers-done",
+          "tbl-papers-doing",
+          "tbl-papers-plan",
+          "tbl-extras"
+        ].forEach(function (id) {
+          enableColumnResize(document.getElementById(id));
+        });
+      }
+
       function computeRowspans(projects) {
         var spans = new Array(projects.length);
         var i = 0;
@@ -788,11 +986,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             td.dataset.index = String(idx);
             tr.appendChild(td);
           });
-          tr.appendChild(removeBtn(function () {
-            state.projects.splice(idx, 1);
-            renderProjects();
-            queueSave();
-          }));
+          tr.appendChild(projectRowCtrl(idx));
           tbody.appendChild(tr);
         });
       }
@@ -813,6 +1007,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           tr.appendChild(removeBtn(function () {
             state[listKey].splice(idx, 1);
             bindSimpleTable(tableId, listKey, fields, makeEmpty);
+            enableAllColumnResize();
             queueSave();
           }));
           tbody.appendChild(tr);
@@ -828,11 +1023,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       function renderAll() {
         renderStaff();
         renderProjects();
-        bindSimpleTable("tbl-conferences", "conferences", ["name", "role"], emptyConf);
+        bindSimpleTable("tbl-conferences", "conferences", ["name", "period", "place", "role"], emptyConf);
         bindSimpleTable("tbl-papers-done", "papersDone", ["author", "journal", "topic", "status", "note"], emptyPaper);
         bindSimpleTable("tbl-papers-doing", "papersDoing", ["author", "journal", "topic", "status", "note"], emptyPaper);
         bindSimpleTable("tbl-papers-plan", "papersPlan", ["author", "journal", "topic", "status", "note"], emptyPaper);
         bindSimpleTable("tbl-extras", "extras", ["item", "source", "person"], emptyExtra);
+        enableAllColumnResize();
       }
 
       function readDomIntoState() {
@@ -863,8 +1059,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         var t = ev.target;
         if (!t || t.contentEditable !== "true") return;
         if (applyingRemote) return;
+        var catIdx = t.dataset.field === "category" ? Number(t.dataset.index) : -1;
+        var spansBefore = catIdx >= 0 ? computeRowspans(state.projects) : null;
+        var groupLen = catIdx >= 0 ? spansBefore[catIdx] : 0;
         readDomIntoState();
-        if (t.dataset.field === "category") {
+        if (catIdx >= 0 && groupLen > 0 && state.projects[catIdx]) {
+          var newCat = state.projects[catIdx].category;
+          for (var i = catIdx; i < catIdx + groupLen; i++) {
+            if (state.projects[i]) state.projects[i].category = newCat;
+          }
           scheduleRender();
         }
         queueSave();
@@ -932,40 +1135,49 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
 
       function wireButtons() {
-        document.getElementById("btn-add-project").addEventListener("click", function () {
+        document.getElementById("btn-add-category").addEventListener("click", function () {
           readDomIntoState();
-          state.projects.push(emptyProject());
+          propagateOpenCategoryEdits();
+          var row = emptyProject();
+          row.category = "New category";
+          state.projects.push(row);
           renderProjects();
+          enableAllColumnResize();
           queueSave();
         });
         document.getElementById("btn-add-conf").addEventListener("click", function () {
           readDomIntoState();
           state.conferences.push(emptyConf());
-          bindSimpleTable("tbl-conferences", "conferences", ["name", "role"], emptyConf);
+          bindSimpleTable("tbl-conferences", "conferences", ["name", "period", "place", "role"], emptyConf);
+          enableAllColumnResize();
           queueSave();
         });
         document.getElementById("btn-add-papers-done").addEventListener("click", function () {
           readDomIntoState();
           state.papersDone.push(emptyPaper());
           bindSimpleTable("tbl-papers-done", "papersDone", ["author", "journal", "topic", "status", "note"], emptyPaper);
+          enableAllColumnResize();
           queueSave();
         });
         document.getElementById("btn-add-papers-doing").addEventListener("click", function () {
           readDomIntoState();
           state.papersDoing.push(emptyPaper());
           bindSimpleTable("tbl-papers-doing", "papersDoing", ["author", "journal", "topic", "status", "note"], emptyPaper);
+          enableAllColumnResize();
           queueSave();
         });
         document.getElementById("btn-add-papers-plan").addEventListener("click", function () {
           readDomIntoState();
           state.papersPlan.push(emptyPaper());
           bindSimpleTable("tbl-papers-plan", "papersPlan", ["author", "journal", "topic", "status", "note"], emptyPaper);
+          enableAllColumnResize();
           queueSave();
         });
         document.getElementById("btn-add-extras").addEventListener("click", function () {
           readDomIntoState();
           state.extras.push(emptyExtra());
           bindSimpleTable("tbl-extras", "extras", ["item", "source", "person"], emptyExtra);
+          enableAllColumnResize();
           queueSave();
         });
         document.getElementById("btn-reload-seed").addEventListener("click", function () {
@@ -993,7 +1205,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           if (!t || t.contentEditable !== "true") return;
           if (applyingRemote) return;
           readDomIntoState();
-          if (t.dataset.field === "category") renderProjects();
+          if (t.dataset.field === "category") {
+            propagateOpenCategoryEdits();
+            renderProjects();
+            enableAllColumnResize();
+          }
         }, true);
         if (!initFirebase()) {
           setSync("local", "Local only");
