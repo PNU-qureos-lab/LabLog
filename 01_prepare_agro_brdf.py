@@ -657,7 +657,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         </div>
         <aside class="graph-toolbar">
           <button type="button" id="btn-add-item" class="primary">Add item</button>
-          <div class="hint">Drag ports to link (arrows at input). Resize via SE corner. Hover edge for X to delete (or Del). Task title: select text, right-click Add link.</div>
+          <div class="hint">Drag/resize snaps to background grid. Drag ports to link. Hover edge for X to delete. Task title: select text, right-click Add link.</div>
         </aside>
       </div>
     </section>
@@ -679,6 +679,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       var PORT_HIT_PX = 18;
       var ARROW_LEN = 15;
       var ARROW_WING_DEG = 25;
+      var GRID = 24;
+      var SNAP_THRESH = 8;
 
       var state = null;
       var dbRef = null;
@@ -1554,13 +1556,27 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         renderEdges();
       }
 
+      function snapToGrid(v) {
+        var nearest = Math.round(v / GRID) * GRID;
+        if (Math.abs(v - nearest) <= SNAP_THRESH) return nearest;
+        return v;
+      }
+
       function onMouseMove(ev) {
         if (resizeDrag) {
           var dw = ev.clientX - resizeDrag.startX;
           var dh = ev.clientY - resizeDrag.startY;
+          var rnode = findNode(resizeDrag.id);
+          var ox = rnode ? (Number(rnode.x) || 0) : 0;
+          var oy = rnode ? (Number(rnode.y) || 0) : 0;
           var nw = Math.max(120, resizeDrag.origW + dw);
           var nh = Math.max(NODE_H_MIN, resizeDrag.origH + dh);
-          var rnode = findNode(resizeDrag.id);
+          var right = snapToGrid(ox + nw);
+          var bottom = snapToGrid(oy + nh);
+          nw = Math.max(120, right - ox);
+          nh = Math.max(NODE_H_MIN, bottom - oy);
+          nw = Math.max(120, snapToGrid(nw));
+          nh = Math.max(NODE_H_MIN, snapToGrid(nh));
           if (rnode) {
             rnode.w = nw;
             rnode.h = nh;
@@ -1575,8 +1591,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           var dx = pt.x - dragNode.startX;
           var dy = pt.y - dragNode.startY;
           if (Math.abs(dx) + Math.abs(dy) > 3) suppressClick = true;
-          var nx = Math.max(0, dragNode.origX + dx);
-          var ny = Math.max(0, dragNode.origY + dy);
+          var nx = Math.max(0, snapToGrid(dragNode.origX + dx));
+          var ny = Math.max(0, snapToGrid(dragNode.origY + dy));
           var node = findNode(dragNode.id);
           if (node) {
             node.x = nx;
