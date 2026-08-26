@@ -248,8 +248,8 @@
     .goals-table th,
     .goals-table td {
       border: 1px solid var(--line);
-      padding: 8px;
-      vertical-align: top;
+      padding: 4px 8px;
+      vertical-align: middle;
       background: #fff;
     }
     .goals-table th {
@@ -267,8 +267,13 @@
       background: #f4faf8 !important;
     }
     .goal-text {
-      min-height: 42px;
+      min-height: 0;
+      padding: 2px 0;
       outline: none;
+      font-family: var(--font-ui);
+      font-size: 0.92rem;
+      line-height: 1.35;
+      color: var(--ink);
     }
     .goal-progress {
       width: 110px;
@@ -278,8 +283,8 @@
       border: 1px solid transparent;
       background: transparent;
       font-family: var(--font-ui);
-      font-size: 0.88rem;
-      padding: 4px 6px;
+      font-size: 0.92rem;
+      padding: 2px 6px;
       outline: none;
     }
     .goal-progress input:focus {
@@ -369,9 +374,13 @@
       opacity: 0;
       pointer-events: none;
     }
-    .graph-svg .edge-group:hover .edge-x-g {
+    .graph-svg .edge-group:hover .edge-x-g,
+    .graph-svg .edge-group.is-hot .edge-x-g {
       opacity: 1;
       pointer-events: all;
+    }
+    .graph-svg .edge-hit {
+      stroke-width: 18;
     }
     .edge-x {
       pointer-events: all;
@@ -390,19 +399,22 @@
       position: absolute;
       inset: 0;
       z-index: 2;
+      pointer-events: none;
     }
 
     .gnode {
       position: absolute;
       width: 190px;
-      min-height: 54px;
-      padding: 8px 28px 10px 12px;
-      border-radius: 10px;
+      min-height: 28px;
+      padding: 4px 22px 4px 10px;
+      border-radius: 8px;
       border: 1px solid #b9cdd4;
       background: #fff;
       box-shadow: 0 4px 12px rgba(15, 28, 36, 0.08);
       cursor: grab;
       z-index: 3;
+      pointer-events: auto;
+      box-sizing: border-box;
     }
     .gnode.dragging { cursor: grabbing; z-index: 5; opacity: 0.95; }
     .gnode.resizing { z-index: 5; }
@@ -415,13 +427,16 @@
       border-color: #c2d0d7;
     }
     .gnode .node-title {
-      min-height: 1.35em;
+      min-height: 0;
       padding-right: 2px;
-      font-size: 0.82rem;
-      line-height: 1.35;
+      font-size: 0.92rem;
+      line-height: 1.25;
       outline: none;
       word-break: break-word;
       cursor: text;
+    }
+    .gnode.goal .node-title {
+      padding-left: 22px;
     }
     .gnode .node-title a {
       color: #0b5fff;
@@ -429,22 +444,25 @@
       cursor: pointer;
     }
     .gnode .node-badge {
-      display: inline-block;
-      margin-bottom: 4px;
-      font-size: 0.68rem;
+      position: absolute;
+      top: 3px;
+      left: 6px;
+      margin: 0;
+      font-size: 0.62rem;
       font-weight: 700;
       color: var(--accent);
       letter-spacing: 0.02em;
+      line-height: 1;
     }
     .gnode .node-del {
       position: absolute;
-      top: 4px;
-      right: 4px;
-      width: 22px;
-      height: 22px;
+      top: 2px;
+      right: 2px;
+      width: 18px;
+      height: 18px;
       padding: 0;
-      border-radius: 6px;
-      font-size: 0.72rem;
+      border-radius: 5px;
+      font-size: 0.68rem;
       line-height: 1;
       opacity: 0;
       pointer-events: none;
@@ -463,8 +481,13 @@
       height: 12px;
       cursor: se-resize;
       z-index: 6;
+      opacity: 0;
       background:
         linear-gradient(135deg, transparent 0 45%, #7a93a0 45% 55%, transparent 55% 70%, #7a93a0 70% 80%, transparent 80%);
+    }
+    .gnode:hover .node-resize,
+    .gnode:focus-within .node-resize {
+      opacity: 1;
     }
     .port {
       position: absolute;
@@ -478,6 +501,14 @@
       box-shadow: 0 0 0 1px #7aa89f;
       cursor: crosshair;
       z-index: 4;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .gnode:hover .port,
+    .gnode:focus-within .port,
+    .graph-stage.is-linking .port {
+      opacity: 1;
+      pointer-events: auto;
     }
     .port.out { right: -7px; }
     .port.in { left: -7px; background: #3d6573; box-shadow: 0 0 0 1px #7a93a0; }
@@ -629,10 +660,10 @@
       var DB_PATH = "labManagement/projectPages/agro_brdf";
       var SAVE_DEBOUNCE_MS = 400;
       var NODE_W = 190;
-      var NODE_H_MIN = 54;
+      var NODE_H_MIN = 28;
       var GOAL_LEFT = 24;
       var GOAL_TOP0 = 28;
-      var GOAL_GAP = 78;
+      var GOAL_GAP = 56;
       var PORT_HIT_PX = 18;
       var ARROW_LEN = 15;
       var ARROW_WING_DEG = 25;
@@ -1173,6 +1204,12 @@
           hit.setAttribute("stroke-width", "14");
           hit.setAttribute("fill", "none");
           hit.dataset.edgeId = edge.id;
+          hit.addEventListener("mouseenter", function () {
+            g.classList.add("is-hot");
+          });
+          hit.addEventListener("mouseleave", function () {
+            g.classList.remove("is-hot");
+          });
           hit.addEventListener("click", function (ev) {
             ev.stopPropagation();
             selectedEdgeId = edge.id;
@@ -1501,6 +1538,7 @@
           y2: pt.y
         };
         selectedEdgeId = null;
+        document.getElementById("graph-stage").classList.add("is-linking");
         renderEdges();
       }
 
@@ -1604,6 +1642,7 @@
           var toId = hitInputPort(ev);
           var fromId = linkDrag.fromId;
           linkDrag = null;
+          document.getElementById("graph-stage").classList.remove("is-linking");
           renderEdges();
           if (toId && toId !== fromId) {
             var exists = state.edges.some(function (e) {
