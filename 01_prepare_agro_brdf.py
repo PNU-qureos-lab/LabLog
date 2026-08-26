@@ -434,7 +434,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       z-index: 3;
       pointer-events: auto;
       box-sizing: border-box;
-      overflow: hidden;
+      overflow: visible;
     }
     .gnode.dragging { cursor: grabbing; z-index: 5; opacity: 0.95; }
     .gnode.resizing { z-index: 5; }
@@ -525,9 +525,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       opacity: 1;
       pointer-events: auto;
     }
-    /* Out port sits where the old delete X was (top-right). */
-    .port.out { right: 2px; }
-    .port.in { left: 2px; background: #3d6573; box-shadow: 0 0 0 1px #7a93a0; }
+    /* Ports sit on the box border so arrows meet the edge, not inside. */
+    .port.out { right: -7px; }
+    .port.in { left: -7px; background: #3d6573; box-shadow: 0 0 0 1px #7a93a0; }
     .gnode.compact-ports .port {
       width: 16px;
       height: 16px;
@@ -539,14 +539,23 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .gnode.compact-ports .port.in {
       box-shadow: 0 0 0 2px rgba(61, 101, 115, 0.45), 0 0 0 1px #7a93a0;
     }
-    .gnode.compact-ports .port.out { right: 1px; top: 1px; }
-    .gnode.compact-ports .port.in { left: 1px; top: 1px; }
-    .gnode.compact-ports .port::after {
+    .gnode.compact-ports .port.out { right: -9px; top: 2px; }
+    .gnode.compact-ports .port.in { left: -9px; top: 2px; }
+    .gnode.compact-ports .port.out::after {
       content: "";
       position: absolute;
-      left: -6px;
+      left: 0;
+      right: -10px;
       top: -6px;
-      right: -6px;
+      bottom: -6px;
+      border-radius: 50%;
+    }
+    .gnode.compact-ports .port.in::after {
+      content: "";
+      position: absolute;
+      left: -10px;
+      right: 0;
+      top: -6px;
       bottom: -6px;
       border-radius: 50%;
     }
@@ -1279,8 +1288,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         var y = Number(node.y) || 0;
         var sz = nodeSize(node);
         var py = y + 9;
-        if (side === "out") return { x: x + sz.w - 8, y: py };
-        return { x: x + 8, y: py };
+        if (side === "out") return { x: x + sz.w, y: py };
+        return { x: x, y: py };
       }
 
       function edgeCurve(x1, y1, x2, y2) {
@@ -1649,11 +1658,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           if (hFixed != null) {
             el.style.height = hFixed + "px";
             el.style.minHeight = "0";
-            el.style.overflow = "hidden";
+            el.style.overflow = "visible";
           } else {
             el.style.height = "auto";
             el.style.minHeight = NODE_H_MIN + "px";
-            el.style.overflow = "hidden";
+            el.style.overflow = "visible";
           }
 
           if (node.type === "goal") {
@@ -1909,7 +1918,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           resizeDrag.el.style.width = nw + "px";
           resizeDrag.el.style.height = nh + "px";
           resizeDrag.el.style.minHeight = "0";
-          resizeDrag.el.style.overflow = "hidden";
+          resizeDrag.el.style.overflow = "visible";
           if (isCompactNodeSize(nw, nh)) resizeDrag.el.classList.add("compact-ports");
           else resizeDrag.el.classList.remove("compact-ports");
           renderEdges();
@@ -2033,7 +2042,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             resizeDrag.el.style.width = rnode.w + "px";
             resizeDrag.el.style.height = rnode.h + "px";
             resizeDrag.el.style.minHeight = "0";
-            resizeDrag.el.style.overflow = "hidden";
+            resizeDrag.el.style.overflow = "visible";
           }
           resizeDrag.el.classList.remove("resizing");
           resizeDrag = null;
