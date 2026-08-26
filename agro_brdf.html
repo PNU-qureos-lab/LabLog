@@ -321,7 +321,10 @@
       pointer-events: none;
       z-index: 1;
     }
-    .graph-svg .edge-hit {
+    .graph-svg .edge-group {
+      pointer-events: none;
+    }
+    .graph-svg .edge-group .edge-hit {
       pointer-events: stroke;
       cursor: pointer;
     }
@@ -335,12 +338,40 @@
       stroke: #b42318;
       stroke-width: 2.6;
     }
+    .graph-svg .edge-arrow {
+      fill: none;
+      stroke: #3d6573;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+    .graph-svg .edge-arrow.selected {
+      stroke: #b42318;
+      stroke-width: 2.6;
+    }
     .graph-svg .edge-temp {
       fill: none;
       stroke: #1f7a6c;
       stroke-width: 2;
       stroke-dasharray: 5 4;
       pointer-events: none;
+    }
+    .graph-svg .edge-temp-arrow {
+      fill: none;
+      stroke: #1f7a6c;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+    .graph-svg .edge-x-g {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .graph-svg .edge-group:hover .edge-x-g {
+      opacity: 1;
+      pointer-events: all;
     }
     .edge-x {
       pointer-events: all;
@@ -365,7 +396,7 @@
       position: absolute;
       width: 190px;
       min-height: 54px;
-      padding: 8px 12px;
+      padding: 8px 28px 10px 12px;
       border-radius: 10px;
       border: 1px solid #b9cdd4;
       background: #fff;
@@ -374,6 +405,7 @@
       z-index: 3;
     }
     .gnode.dragging { cursor: grabbing; z-index: 5; opacity: 0.95; }
+    .gnode.resizing { z-index: 5; }
     .gnode.goal {
       background: linear-gradient(180deg, #e8f6f2, #fff);
       border-color: #8ebfb4;
@@ -384,11 +416,17 @@
     }
     .gnode .node-title {
       min-height: 1.35em;
+      padding-right: 2px;
       font-size: 0.82rem;
       line-height: 1.35;
       outline: none;
       word-break: break-word;
       cursor: text;
+    }
+    .gnode .node-title a {
+      color: #0b5fff;
+      text-decoration: underline;
+      cursor: pointer;
     }
     .gnode .node-badge {
       display: inline-block;
@@ -408,6 +446,25 @@
       border-radius: 6px;
       font-size: 0.72rem;
       line-height: 1;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .gnode:hover .node-del,
+    .gnode:focus-within .node-del {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .node-resize {
+      position: absolute;
+      right: 1px;
+      bottom: 1px;
+      width: 12px;
+      height: 12px;
+      cursor: se-resize;
+      z-index: 6;
+      background:
+        linear-gradient(135deg, transparent 0 45%, #7a93a0 45% 55%, transparent 55% 70%, #7a93a0 70% 80%, transparent 80%);
     }
     .port {
       position: absolute;
@@ -424,6 +481,33 @@
     }
     .port.out { right: -7px; }
     .port.in { left: -7px; background: #3d6573; box-shadow: 0 0 0 1px #7a93a0; }
+
+    .title-ctx-menu {
+      position: fixed;
+      z-index: 9999;
+      min-width: 120px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .title-ctx-menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      padding: 8px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.82rem;
+      color: var(--ink);
+    }
+    .title-ctx-menu button:hover {
+      background: var(--accent-soft);
+    }
 
     .graph-toolbar {
       display: flex;
@@ -530,7 +614,7 @@
         </div>
         <aside class="graph-toolbar">
           <button type="button" id="btn-add-item" class="primary">Add item</button>
-          <div class="hint">Drag from output (right) to input (left) to link. Click an edge or its X to remove. Del deletes selected edge.</div>
+          <div class="hint">Drag ports to link (arrows at input). Resize via SE corner. Hover edge for X to delete (or Del). Task title: select text, right-click Add link.</div>
         </aside>
       </div>
     </section>
@@ -545,10 +629,13 @@
       var DB_PATH = "labManagement/projectPages/agro_brdf";
       var SAVE_DEBOUNCE_MS = 400;
       var NODE_W = 190;
-      var NODE_H = 58;
+      var NODE_H_MIN = 54;
       var GOAL_LEFT = 24;
       var GOAL_TOP0 = 28;
       var GOAL_GAP = 78;
+      var PORT_HIT_PX = 18;
+      var ARROW_LEN = 15;
+      var ARROW_WING_DEG = 25;
 
       var state = null;
       var dbRef = null;
@@ -559,8 +646,10 @@
       var selectedEdgeId = null;
       var dragNode = null;
       var dragOffset = { x: 0, y: 0 };
+      var resizeDrag = null;
       var linkDrag = null;
       var suppressClick = false;
+      var titleCtxMenu = null;
 
       function uid(prefix) {
         return (prefix || "id") + "_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
@@ -593,6 +682,19 @@
         };
       }
 
+      function isSafeHref(href) {
+        var h = (href != null ? String(href) : "").trim();
+        if (!h) return false;
+        var lower = h.toLowerCase();
+        if (lower.indexOf("javascript:") === 0) return false;
+        if (lower.indexOf("data:") === 0) return false;
+        if (lower.indexOf("vbscript:") === 0) return false;
+        if (/^https?:\/\//i.test(h) || h.charAt(0) === "/" || h.charAt(0) === "#" || h.charAt(0) === "?" || h.indexOf("://") < 0) {
+          return true;
+        }
+        return false;
+      }
+
       function sanitizeHtml(html) {
         var s = html != null ? String(html) : "";
         var box = document.createElement("div");
@@ -601,13 +703,31 @@
           n.remove();
         });
         box.querySelectorAll("*").forEach(function (el) {
+          var tag = (el.tagName || "").toLowerCase();
           var attrs = Array.prototype.slice.call(el.attributes || []);
           attrs.forEach(function (attr) {
             var name = attr.name.toLowerCase();
             if (name.indexOf("on") === 0 || name === "srcdoc") {
               el.removeAttribute(attr.name);
+              return;
+            }
+            if (tag === "a") {
+              if (name !== "href" && name !== "target" && name !== "rel") {
+                el.removeAttribute(attr.name);
+              }
+            } else if (name === "href" || name === "src") {
+              el.removeAttribute(attr.name);
             }
           });
+          if (tag === "a") {
+            var href = el.getAttribute("href");
+            if (!isSafeHref(href)) {
+              el.removeAttribute("href");
+            } else {
+              el.setAttribute("target", "_blank");
+              el.setAttribute("rel", "noopener noreferrer");
+            }
+          }
         });
         return box.innerHTML;
       }
@@ -672,7 +792,9 @@
               goalIndex: i,
               title: title,
               x: GOAL_LEFT,
-              y: GOAL_TOP0 + i * GOAL_GAP
+              y: GOAL_TOP0 + i * GOAL_GAP,
+              w: NODE_W,
+              h: null
             });
             keep[g.id] = true;
           }
@@ -713,13 +835,17 @@
           }),
           graphNodes: asArray(data.graphNodes).map(function (n) {
             n = n || {};
+            var w = typeof n.w === "number" && n.w > 0 ? n.w : NODE_W;
+            var h = typeof n.h === "number" && n.h >= NODE_H_MIN ? n.h : null;
             return {
               id: n.id != null ? String(n.id) : uid("node"),
               type: n.type === "goal" ? "goal" : "task",
               goalIndex: n.goalIndex != null ? Number(n.goalIndex) : null,
               title: n.title != null ? String(n.title) : "",
               x: typeof n.x === "number" ? n.x : 0,
-              y: typeof n.y === "number" ? n.y : 0
+              y: typeof n.y === "number" ? n.y : 0,
+              w: w,
+              h: h
             };
           }),
           edges: asArray(data.edges).map(function (e) {
@@ -861,10 +987,14 @@
           if (!node) return;
           var titleEl = el.querySelector(".node-title");
           if (titleEl && node.type === "task") {
-            node.title = plainText(getRichHtml(titleEl));
+            node.title = getRichHtml(titleEl);
           }
           node.x = parseFloat(el.style.left) || node.x || 0;
           node.y = parseFloat(el.style.top) || node.y || 0;
+          var bw = parseFloat(el.style.width);
+          if (!isNaN(bw) && bw > 0) node.w = bw;
+          var bh = parseFloat(el.style.height);
+          if (!isNaN(bh) && bh >= NODE_H_MIN) node.h = bh;
         });
 
         syncGoalNodes();
@@ -946,17 +1076,68 @@
         });
       }
 
-      function nodeCenter(node, side) {
+      function nodeSize(node) {
+        var w = node && typeof node.w === "number" && node.w > 0 ? node.w : NODE_W;
+        var h = node && typeof node.h === "number" && node.h >= NODE_H_MIN ? node.h : NODE_H_MIN;
+        return { w: w, h: h };
+      }
+
+      function portPoint(nodeId, side) {
+        var stage = document.getElementById("graph-stage");
+        var stageRect = stage.getBoundingClientRect();
+        var nodeEl = null;
+        var nodes = document.querySelectorAll(".gnode");
+        var i;
+        for (i = 0; i < nodes.length; i++) {
+          if (nodes[i].dataset.id === nodeId) {
+            nodeEl = nodes[i];
+            break;
+          }
+        }
+        if (nodeEl) {
+          var port = nodeEl.querySelector(side === "out" ? ".port.out" : ".port.in");
+          if (port) {
+            var r = port.getBoundingClientRect();
+            return {
+              x: r.left + r.width / 2 - stageRect.left,
+              y: r.top + r.height / 2 - stageRect.top
+            };
+          }
+        }
+        var node = findNode(nodeId);
+        if (!node) return { x: 0, y: 0 };
         var x = Number(node.x) || 0;
         var y = Number(node.y) || 0;
-        var cy = y + NODE_H / 2;
-        if (side === "out") return { x: x + NODE_W, y: cy };
+        var sz = nodeSize(node);
+        var cy = y + sz.h / 2;
+        if (side === "out") return { x: x + sz.w, y: cy };
         return { x: x, y: cy };
       }
 
-      function edgePath(x1, y1, x2, y2) {
+      function edgeCurve(x1, y1, x2, y2) {
         var dx = Math.max(40, Math.abs(x2 - x1) * 0.45);
-        return "M " + x1 + " " + y1 + " C " + (x1 + dx) + " " + y1 + ", " + (x2 - dx) + " " + y2 + ", " + x2 + " " + y2;
+        return {
+          d: "M " + x1 + " " + y1 + " C " + (x1 + dx) + " " + y1 + ", " + (x2 - dx) + " " + y2 + ", " + x2 + " " + y2,
+          c2x: x2 - dx,
+          c2y: y2,
+          x2: x2,
+          y2: y2
+        };
+      }
+
+      function edgePath(x1, y1, x2, y2) {
+        return edgeCurve(x1, y1, x2, y2).d;
+      }
+
+      function openArrowPath(c2x, c2y, ex, ey) {
+        var ang = Math.atan2(ey - c2y, ex - c2x);
+        var wing = (ARROW_WING_DEG * Math.PI) / 180;
+        var back = ang + Math.PI;
+        var xA = ex + ARROW_LEN * Math.cos(back + wing);
+        var yA = ey + ARROW_LEN * Math.sin(back + wing);
+        var xB = ex + ARROW_LEN * Math.cos(back - wing);
+        var yB = ey + ARROW_LEN * Math.sin(back - wing);
+        return "M " + xA + " " + yA + " L " + ex + " " + ey + " L " + xB + " " + yB;
       }
 
       function midPoint(x1, y1, x2, y2) {
@@ -974,10 +1155,16 @@
           var from = findNode(edge.from);
           var to = findNode(edge.to);
           if (!from || !to) return;
-          var a = nodeCenter(from, "out");
-          var b = nodeCenter(to, "in");
-          var d = edgePath(a.x, a.y, b.x, b.y);
+          var a = portPoint(edge.from, "out");
+          var b = portPoint(edge.to, "in");
+          var curve = edgeCurve(a.x, a.y, b.x, b.y);
+          var d = curve.d;
           var mid = midPoint(a.x, a.y, b.x, b.y);
+          var sel = selectedEdgeId === edge.id;
+
+          var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          g.setAttribute("class", "edge-group");
+          g.dataset.edgeId = edge.id;
 
           var hit = document.createElementNS("http://www.w3.org/2000/svg", "path");
           hit.setAttribute("d", d);
@@ -991,42 +1178,63 @@
             selectedEdgeId = edge.id;
             renderEdges();
           });
-          svg.appendChild(hit);
+          g.appendChild(hit);
 
           var line = document.createElementNS("http://www.w3.org/2000/svg", "path");
           line.setAttribute("d", d);
-          line.setAttribute("class", "edge-line" + (selectedEdgeId === edge.id ? " selected" : ""));
-          svg.appendChild(line);
+          line.setAttribute("class", "edge-line" + (sel ? " selected" : ""));
+          g.appendChild(line);
+
+          var arrow = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          arrow.setAttribute("d", openArrowPath(curve.c2x, curve.c2y, curve.x2, curve.y2));
+          arrow.setAttribute("class", "edge-arrow" + (sel ? " selected" : ""));
+          g.appendChild(arrow);
 
           var bx = mid.x;
           var by = mid.y;
+          var xg = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          xg.setAttribute("class", "edge-x-g");
+          xg.dataset.edgeId = edge.id;
+
           var del = document.createElementNS("http://www.w3.org/2000/svg", "circle");
           del.setAttribute("cx", String(bx));
           del.setAttribute("cy", String(by));
           del.setAttribute("r", "8");
           del.setAttribute("class", "edge-x");
           del.dataset.edgeId = edge.id;
-          del.addEventListener("click", function (ev) {
-            ev.stopPropagation();
-            removeEdge(edge.id);
-          });
-          svg.appendChild(del);
+          xg.appendChild(del);
 
           var m1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
           m1.setAttribute("d", "M " + (bx - 3.5) + " " + (by - 3.5) + " L " + (bx + 3.5) + " " + (by + 3.5));
           m1.setAttribute("class", "edge-x-mark");
-          svg.appendChild(m1);
+          xg.appendChild(m1);
           var m2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
           m2.setAttribute("d", "M " + (bx + 3.5) + " " + (by - 3.5) + " L " + (bx - 3.5) + " " + (by + 3.5));
           m2.setAttribute("class", "edge-x-mark");
-          svg.appendChild(m2);
+          xg.appendChild(m2);
+
+          xg.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            removeEdge(edge.id);
+          });
+          xg.addEventListener("mousedown", function (ev) {
+            ev.stopPropagation();
+          });
+          g.appendChild(xg);
+          svg.appendChild(g);
         });
 
         if (linkDrag) {
+          var curveT = edgeCurve(linkDrag.x1, linkDrag.y1, linkDrag.x2, linkDrag.y2);
           var temp = document.createElementNS("http://www.w3.org/2000/svg", "path");
-          temp.setAttribute("d", edgePath(linkDrag.x1, linkDrag.y1, linkDrag.x2, linkDrag.y2));
+          temp.setAttribute("d", curveT.d);
           temp.setAttribute("class", "edge-temp");
           svg.appendChild(temp);
+          var tempArrow = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          tempArrow.setAttribute("d", openArrowPath(curveT.c2x, curveT.c2y, curveT.x2, curveT.y2));
+          tempArrow.setAttribute("class", "edge-temp-arrow");
+          svg.appendChild(tempArrow);
         }
       }
 
@@ -1037,8 +1245,69 @@
         queueSave();
       }
 
+      function hideTitleCtxMenu() {
+        if (titleCtxMenu && titleCtxMenu.parentNode) {
+          titleCtxMenu.parentNode.removeChild(titleCtxMenu);
+        }
+        titleCtxMenu = null;
+      }
+
+      function wrapSelectionWithLink(titleEl, url) {
+        var sel = window.getSelection();
+        if (!sel || sel.rangeCount < 1 || sel.isCollapsed) return false;
+        var range = sel.getRangeAt(0);
+        if (!titleEl.contains(range.commonAncestorContainer)) return false;
+        var a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        try {
+          range.surroundContents(a);
+        } catch (err) {
+          var frag = range.extractContents();
+          a.appendChild(frag);
+          range.insertNode(a);
+        }
+        sel.removeAllRanges();
+        return true;
+      }
+
+      function showTitleLinkMenu(clientX, clientY, titleEl) {
+        hideTitleCtxMenu();
+        var menu = document.createElement("div");
+        menu.className = "title-ctx-menu";
+        menu.style.left = clientX + "px";
+        menu.style.top = clientY + "px";
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "Add link";
+        btn.addEventListener("click", function (ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          hideTitleCtxMenu();
+          var url = window.prompt("URL", "https://");
+          if (!url) return;
+          url = String(url).trim();
+          if (!isSafeHref(url)) {
+            window.alert("Only http(s) or relative URLs are allowed.");
+            return;
+          }
+          if (!wrapSelectionWithLink(titleEl, url)) return;
+          titleEl.innerHTML = sanitizeHtml(titleEl.innerHTML);
+          var n = findNode(titleEl.parentElement ? titleEl.parentElement.dataset.id : "");
+          if (n && n.type === "task") {
+            n.title = getRichHtml(titleEl);
+            queueSave();
+          }
+        });
+        menu.appendChild(btn);
+        document.body.appendChild(menu);
+        titleCtxMenu = menu;
+      }
+
       function renderGraph() {
         syncGoalNodes();
+        hideTitleCtxMenu();
         var host = document.getElementById("graph-nodes");
         host.innerHTML = "";
         state.graphNodes.forEach(function (node) {
@@ -1048,6 +1317,14 @@
           el.dataset.type = node.type;
           el.style.left = (Number(node.x) || 0) + "px";
           el.style.top = (Number(node.y) || 0) + "px";
+          var w = typeof node.w === "number" && node.w > 0 ? node.w : NODE_W;
+          el.style.width = w + "px";
+          if (typeof node.h === "number" && node.h >= NODE_H_MIN) {
+            el.style.height = node.h + "px";
+          } else {
+            el.style.height = "auto";
+            el.style.minHeight = NODE_H_MIN + "px";
+          }
 
           if (node.type === "goal") {
             var badge = document.createElement("div");
@@ -1078,16 +1355,39 @@
           if (node.type === "task") {
             title.contentEditable = "true";
             title.spellcheck = false;
+            setRichHtml(title, node.title || "New item");
+          } else {
+            title.textContent = node.title || "";
           }
-          title.textContent = node.title || (node.type === "goal" ? "" : "New item");
           title.addEventListener("mousedown", function (ev) {
+            if (ev.target && ev.target.closest && ev.target.closest("a")) {
+              ev.stopPropagation();
+              return;
+            }
             if (node.type === "task") ev.stopPropagation();
+          });
+          title.addEventListener("click", function (ev) {
+            var a = ev.target && ev.target.closest ? ev.target.closest("a") : null;
+            if (a && title.contains(a) && a.getAttribute("href")) {
+              ev.preventDefault();
+              ev.stopPropagation();
+              window.open(a.href, "_blank", "noopener,noreferrer");
+            }
+          });
+          title.addEventListener("contextmenu", function (ev) {
+            if (node.type !== "task") return;
+            var sel = window.getSelection();
+            if (!sel || sel.isCollapsed || sel.rangeCount < 1) return;
+            if (!title.contains(sel.anchorNode) && !title.contains(sel.focusNode)) return;
+            ev.preventDefault();
+            ev.stopPropagation();
+            showTitleLinkMenu(ev.clientX, ev.clientY, title);
           });
           title.addEventListener("input", function () {
             if (applyingRemote) return;
             var n = findNode(node.id);
             if (!n || n.type !== "task") return;
-            n.title = plainText(getRichHtml(title));
+            n.title = getRichHtml(title);
             queueSave();
           });
           el.appendChild(title);
@@ -1103,6 +1403,12 @@
           portIn.dataset.side = "in";
           portIn.title = "Input";
           el.appendChild(portIn);
+
+          var resize = document.createElement("div");
+          resize.className = "node-resize";
+          resize.title = "Resize";
+          resize.addEventListener("mousedown", onResizeMouseDown);
+          el.appendChild(resize);
 
           el.addEventListener("mousedown", onNodeMouseDown);
           portOut.addEventListener("mousedown", onPortMouseDown);
@@ -1129,8 +1435,11 @@
         if (ev.button !== 0) return;
         if (ev.target.classList.contains("port")) return;
         if (ev.target.classList.contains("node-del")) return;
+        if (ev.target.classList.contains("node-resize")) return;
         if (ev.target.classList.contains("node-title") && ev.target.isContentEditable) return;
+        if (ev.target.closest && ev.target.closest("a")) return;
         ev.preventDefault();
+        hideTitleCtxMenu();
         var el = ev.currentTarget;
         var id = el.dataset.id;
         var node = findNode(id);
@@ -1148,16 +1457,41 @@
         suppressClick = false;
       }
 
+      function onResizeMouseDown(ev) {
+        if (ev.button !== 0) return;
+        ev.preventDefault();
+        ev.stopPropagation();
+        hideTitleCtxMenu();
+        var handle = ev.currentTarget;
+        var el = handle.parentElement;
+        var id = el.dataset.id;
+        var node = findNode(id);
+        if (!node) return;
+        var curW = typeof node.w === "number" && node.w > 0 ? node.w : (el.offsetWidth || NODE_W);
+        var curH = typeof node.h === "number" && node.h >= NODE_H_MIN ? node.h : Math.max(NODE_H_MIN, el.offsetHeight || NODE_H_MIN);
+        resizeDrag = {
+          id: id,
+          el: el,
+          startX: ev.clientX,
+          startY: ev.clientY,
+          origW: curW,
+          origH: curH
+        };
+        el.classList.add("resizing");
+        suppressClick = true;
+      }
+
       function onPortMouseDown(ev) {
         if (ev.button !== 0) return;
         ev.preventDefault();
         ev.stopPropagation();
+        hideTitleCtxMenu();
         var port = ev.currentTarget;
         var el = port.parentElement;
         var id = el.dataset.id;
         var node = findNode(id);
         if (!node) return;
-        var a = nodeCenter(node, "out");
+        var a = portPoint(id, "out");
         var pt = stagePoint(ev);
         linkDrag = {
           fromId: id,
@@ -1171,6 +1505,21 @@
       }
 
       function onMouseMove(ev) {
+        if (resizeDrag) {
+          var dw = ev.clientX - resizeDrag.startX;
+          var dh = ev.clientY - resizeDrag.startY;
+          var nw = Math.max(120, resizeDrag.origW + dw);
+          var nh = Math.max(NODE_H_MIN, resizeDrag.origH + dh);
+          var rnode = findNode(resizeDrag.id);
+          if (rnode) {
+            rnode.w = nw;
+            rnode.h = nh;
+          }
+          resizeDrag.el.style.width = nw + "px";
+          resizeDrag.el.style.height = nh + "px";
+          renderEdges();
+          return;
+        }
         if (dragNode) {
           var pt = stagePoint(ev);
           var dx = pt.x - dragNode.startX;
@@ -1197,13 +1546,29 @@
       }
 
       function hitInputPort(ev) {
+        var bestId = null;
+        var bestDist = PORT_HIT_PX;
+        var ports = document.querySelectorAll(".gnode .port.in");
+        var i;
+        for (i = 0; i < ports.length; i++) {
+          var port = ports[i];
+          var r = port.getBoundingClientRect();
+          var cx = r.left + r.width / 2;
+          var cy = r.top + r.height / 2;
+          var dist = Math.sqrt(Math.pow(ev.clientX - cx, 2) + Math.pow(ev.clientY - cy, 2));
+          if (dist <= bestDist) {
+            bestDist = dist;
+            bestId = port.parentElement ? port.parentElement.dataset.id : null;
+          }
+        }
+        if (bestId) return bestId;
         var el = document.elementFromPoint(ev.clientX, ev.clientY);
         if (!el) return null;
         if (el.classList && el.classList.contains("port") && el.dataset.side === "in") {
           return el.parentElement ? el.parentElement.dataset.id : null;
         }
-        var nodeEl = el.closest ? el.closest(".gnode") : null;
-        if (nodeEl) return nodeEl.dataset.id;
+        var near = el.closest ? el.closest(".port.in") : null;
+        if (near && near.parentElement) return near.parentElement.dataset.id;
         return null;
       }
 
@@ -1223,6 +1588,12 @@
       }
 
       function onMouseUp(ev) {
+        if (resizeDrag) {
+          resizeDrag.el.classList.remove("resizing");
+          resizeDrag = null;
+          if (!applyingRemote) queueSave();
+          return;
+        }
         if (dragNode) {
           dragNode.el.classList.remove("dragging");
           dragNode = null;
@@ -1363,13 +1734,16 @@
             goalIndex: null,
             title: "New item",
             x: x,
-            y: y
+            y: y,
+            w: NODE_W,
+            h: null
           });
           renderGraph();
           queueSave();
         });
 
         document.getElementById("graph-stage").addEventListener("click", function () {
+          hideTitleCtxMenu();
           if (suppressClick) {
             suppressClick = false;
             return;
@@ -1377,6 +1751,12 @@
           if (selectedEdgeId) {
             selectedEdgeId = null;
             renderEdges();
+          }
+        });
+
+        document.addEventListener("mousedown", function (ev) {
+          if (titleCtxMenu && !titleCtxMenu.contains(ev.target)) {
+            hideTitleCtxMenu();
           }
         });
 
