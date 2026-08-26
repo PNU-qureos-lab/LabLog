@@ -425,7 +425,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       position: absolute;
       width: 190px;
       min-height: 28px;
-      padding: 4px 22px 4px 10px;
+      padding: 4px 14px 4px 14px;
       border-radius: 8px;
       border: 1px solid #b9cdd4;
       background: #fff;
@@ -488,31 +488,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       letter-spacing: 0.02em;
       line-height: 1;
     }
-    .gnode .node-del {
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      width: 18px;
-      height: 18px;
-      padding: 0;
-      border-radius: 5px;
-      font-size: 0.68rem;
-      line-height: 1;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 5;
-    }
-    .gnode:hover .node-del,
-    .gnode:focus-within .node-del {
-      opacity: 1;
-      pointer-events: auto;
-    }
     .node-resize {
       position: absolute;
       right: 0;
       bottom: 0;
-      width: 16px;
-      height: 16px;
+      width: 12px;
+      height: 12px;
       cursor: se-resize;
       z-index: 20;
       opacity: 0;
@@ -526,16 +507,16 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
     .port {
       position: absolute;
-      top: 50%;
+      top: 3px;
       width: 12px;
       height: 12px;
-      margin-top: -6px;
+      margin-top: 0;
       border-radius: 50%;
       border: 2px solid #fff;
       background: var(--accent);
       box-shadow: 0 0 0 1px #7aa89f;
       cursor: crosshair;
-      z-index: 4;
+      z-index: 8;
       opacity: 0;
       pointer-events: none;
     }
@@ -544,13 +525,13 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       opacity: 1;
       pointer-events: auto;
     }
-    .port.out { right: -7px; }
-    .port.in { left: -7px; background: #3d6573; box-shadow: 0 0 0 1px #7a93a0; }
+    /* Out port sits where the old delete X was (top-right). */
+    .port.out { right: 2px; }
+    .port.in { left: 2px; background: #3d6573; box-shadow: 0 0 0 1px #7a93a0; }
     .gnode.compact-ports .port {
       width: 16px;
       height: 16px;
-      margin-top: -8px;
-      z-index: 4;
+      z-index: 8;
       opacity: 0;
       pointer-events: none;
       box-shadow: 0 0 0 2px rgba(31, 122, 108, 0.4), 0 0 0 1px #7aa89f;
@@ -558,25 +539,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .gnode.compact-ports .port.in {
       box-shadow: 0 0 0 2px rgba(61, 101, 115, 0.45), 0 0 0 1px #7a93a0;
     }
-    .gnode.compact-ports .port.out { right: -12px; }
-    .gnode.compact-ports .port.in { left: -12px; }
-    /* Expand hit area outward only so bottom-right resize stays clickable. */
-    .gnode.compact-ports .port.out::after {
+    .gnode.compact-ports .port.out { right: 1px; top: 1px; }
+    .gnode.compact-ports .port.in { left: 1px; top: 1px; }
+    .gnode.compact-ports .port::after {
       content: "";
       position: absolute;
-      left: 0;
-      right: -12px;
-      top: -8px;
-      bottom: -8px;
-      border-radius: 50%;
-    }
-    .gnode.compact-ports .port.in::after {
-      content: "";
-      position: absolute;
-      left: -12px;
-      right: 0;
-      top: -8px;
-      bottom: -8px;
+      left: -6px;
+      top: -6px;
+      right: -6px;
+      bottom: -6px;
       border-radius: 50%;
     }
     .gnode.compact-ports:hover .port,
@@ -718,7 +689,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         </div>
         <aside class="graph-toolbar">
           <button type="button" id="btn-add-item" class="primary">Add item</button>
-          <div class="hint">Drag empty area to multi-select. Drag selected boxes together. Ctrl+C / Ctrl+V to copy (paste offsets). Drag/resize snaps to grid. Ports link. Hover edge for X. Task title: select text, right-click Add link.</div>
+          <div class="hint">Drag empty area to multi-select. Drag selected together. Ctrl+C/V copy. Delete key removes selected tasks. Top ports link. Hover edge for X. Title: select text, right-click Add link.</div>
         </aside>
       </div>
     </section>
@@ -1307,9 +1278,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         var x = Number(node.x) || 0;
         var y = Number(node.y) || 0;
         var sz = nodeSize(node);
-        var cy = y + sz.h / 2;
-        if (side === "out") return { x: x + sz.w, y: cy };
-        return { x: x, y: cy };
+        var py = y + 9;
+        if (side === "out") return { x: x + sz.w - 8, y: py };
+        return { x: x + 8, y: py };
       }
 
       function edgeCurve(x1, y1, x2, y2) {
@@ -1690,23 +1661,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             badge.className = "node-badge";
             badge.textContent = "[" + ((Number(node.goalIndex) || 0) + 1) + "]";
             el.appendChild(badge);
-          } else {
-            var delBtn = document.createElement("button");
-            delBtn.type = "button";
-            delBtn.className = "danger node-del";
-            delBtn.textContent = "x";
-            delBtn.title = "Delete task";
-            delBtn.addEventListener("click", function (ev) {
-              ev.stopPropagation();
-              readDomIntoState();
-              state.graphNodes = state.graphNodes.filter(function (n) { return n.id !== node.id; });
-              state.edges = state.edges.filter(function (e) {
-                return e.from !== node.id && e.to !== node.id;
-              });
-              renderGraph();
-              queueSave();
-            });
-            el.appendChild(delBtn);
           }
 
           var title = document.createElement("div");
@@ -1795,7 +1749,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       function onNodeMouseDown(ev) {
         if (ev.button !== 0) return;
         if (ev.target.classList.contains("port")) return;
-        if (ev.target.classList.contains("node-del")) return;
         if (ev.target.classList.contains("node-resize")) return;
         if (ev.target.classList.contains("node-title") && ev.target.isContentEditable) return;
         if (ev.target.closest && ev.target.closest("a")) return;
@@ -1851,7 +1804,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         if (ev.target.closest && ev.target.closest(".edge-hit")) return;
         if (ev.target.closest && ev.target.closest(".edge-x-g")) return;
         if (ev.target.closest && ev.target.closest(".port")) return;
-        if (ev.target.closest && ev.target.closest(".node-del")) return;
         if (ev.target.closest && ev.target.closest(".node-resize")) return;
         if (!isMarqueeStartTarget(ev.target)) return;
         if (linkDrag || resizeDrag || groupDrag || dragNode) return;
