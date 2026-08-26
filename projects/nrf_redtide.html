@@ -1,21 +1,9 @@
-#!/usr/bin/env python3
-"""Generate LabLog agro_brdf.html (UTF-8, no BOM, no null bytes)."""
-
-from __future__ import annotations
-
-from pathlib import Path
-
-
-ROOT = Path(__file__).resolve().parent
-OUTPUT = ROOT / "projects" / "agro_brdf.html"
-
-
-HTML_TEMPLATE = r"""<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agro BRDF - Project Page</title>
+  <title>NRF Redtide - Project Page</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
@@ -626,7 +614,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     <div class="topbar">
       <div class="brand">
         <a class="back-link" href="../index.html">&larr; Back to Lab Research Plan</a>
-        <h1>Agro BRDF</h1>
+        <h1>NRF Redtide</h1>
         <p>Project page with goals and hierarchy graph</p>
       </div>
       <div class="top-actions">
@@ -709,8 +697,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <script src="../firebase-config.js"></script>
   <script>
     (function () {
-      var LOCAL_KEY = "lab_project_agro_brdf_v1";
-      var DB_PATH = "labManagement/projectPages/agro_brdf";
+      var LOCAL_KEY = "lab_project_nrf_redtide_v1";
+      var DB_PATH = "labManagement/projectPages/nrf_redtide";
       var SAVE_DEBOUNCE_MS = 400;
       var NODE_W = 190;
       var NODE_W_MIN = 48;
@@ -762,7 +750,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         }
         return {
           meta: {
-            title: "농림 BRDF",
+            title: "NRF Redtide",
             period: "",
             yearPeriod: ""
           },
@@ -911,7 +899,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         var meta = data.meta && typeof data.meta === "object" ? data.meta : {};
         var out = {
           meta: {
-            title: meta.title != null ? String(meta.title) : "농림 BRDF",
+            title: meta.title != null ? String(meta.title) : "NRF Redtide",
             period: meta.period != null ? String(meta.period) : "",
             yearPeriod: meta.yearPeriod != null ? String(meta.yearPeriod) : ""
           },
@@ -1010,7 +998,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
       function hasContent(payload) {
         var n = normalizePayload(payload);
-        if ((n.meta.title || "").trim() && n.meta.title !== "농림 BRDF") return true;
+        if ((n.meta.title || "").trim() && n.meta.title !== "NRF Redtide") return true;
         if ((n.meta.period || "").trim() || (n.meta.yearPeriod || "").trim()) return true;
         if ((n.finalGoal || "").trim()) return true;
         var i;
@@ -2303,24 +2291,3 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   </script>
 </body>
 </html>
-"""
-
-
-def write_utf8_no_bom(path: Path, text: str) -> None:
-    data = text.encode("utf-8")
-    if data.startswith(b"\xef\xbb\xbf"):
-        data = data[3:]
-    if b"\x00" in data:
-        raise RuntimeError("Refusing to write file containing null bytes: " + str(path))
-    path.write_bytes(data)
-
-
-def main() -> None:
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    write_utf8_no_bom(OUTPUT, HTML_TEMPLATE)
-    print("Wrote", OUTPUT)
-    print("Bytes", OUTPUT.stat().st_size)
-
-
-if __name__ == "__main__":
-    main()

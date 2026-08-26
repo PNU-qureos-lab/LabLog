@@ -1,16 +1,4 @@
-#!/usr/bin/env python3
-"""Generate LabLog agro_brdf.html (UTF-8, no BOM, no null bytes)."""
-
-from __future__ import annotations
-
-from pathlib import Path
-
-
-ROOT = Path(__file__).resolve().parent
-OUTPUT = ROOT / "projects" / "agro_brdf.html"
-
-
-HTML_TEMPLATE = r"""<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -2303,24 +2291,3 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   </script>
 </body>
 </html>
-"""
-
-
-def write_utf8_no_bom(path: Path, text: str) -> None:
-    data = text.encode("utf-8")
-    if data.startswith(b"\xef\xbb\xbf"):
-        data = data[3:]
-    if b"\x00" in data:
-        raise RuntimeError("Refusing to write file containing null bytes: " + str(path))
-    path.write_bytes(data)
-
-
-def main() -> None:
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    write_utf8_no_bom(OUTPUT, HTML_TEMPLATE)
-    print("Wrote", OUTPUT)
-    print("Bytes", OUTPUT.stat().st_size)
-
-
-if __name__ == "__main__":
-    main()

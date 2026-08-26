@@ -601,10 +601,10 @@
   <div class="modal-backdrop" id="link-modal" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="link-modal-title">
       <h3 id="link-modal-title">Project page link</h3>
-      <p id="link-modal-desc">Enter the HTML file name for this project (example: agro_brdf).</p>
+      <p id="link-modal-desc">Enter the HTML file name under projects/ (example: agro_brdf or forest_topo).</p>
       <div class="field">
         <label for="link-input">HTML file name</label>
-        <input id="link-input" type="text" placeholder="agro_brdf or agro_brdf.html" />
+        <input id="link-input" type="text" placeholder="forest_topo or agro_brdf.html" />
       </div>
       <div class="msg" id="link-modal-msg"></div>
       <div class="modal-actions">
@@ -640,7 +640,7 @@
       "fPeriod": "위치 선정 필요",
       "fPeople": "곽경석\n류희경",
       "fStatus": "미정",
-      "pageLink": ""
+      "pageLink": "projects/agro_brdf.html"
     },
     {
       "category": "농림위성\n(1.4)",
@@ -1038,22 +1038,27 @@
         var name = String(input || "").trim().replace(/^\.\//, "").replace(/^\/+/, "");
         if (!name) return "";
         if (name.indexOf("..") >= 0 || name.indexOf("\\") >= 0) return "";
+        name = name.replace(/^projects\//i, "");
         if (!/\.html?$/i.test(name)) name += ".html";
-        return name;
+        if (name.indexOf("/") >= 0) return "";
+        return "projects/" + name;
+      }
+
+      function githubContentsUrl(fileName) {
+        return "https://api.github.com/repos/PNU-qureos-lab/LabLog/contents/" +
+          String(fileName || "").split("/").map(encodeURIComponent).join("/");
       }
 
       function pageExists(fileName) {
         return fetch(fileName, { method: "GET", cache: "no-store" })
           .then(function (res) {
             if (res.ok) return true;
-            return fetch(
-              "https://api.github.com/repos/PNU-qureos-lab/LabLog/contents/" + encodeURIComponent(fileName)
-            ).then(function (r) { return r.ok; }).catch(function () { return false; });
+            return fetch(githubContentsUrl(fileName))
+              .then(function (r) { return r.ok; }).catch(function () { return false; });
           })
           .catch(function () {
-            return fetch(
-              "https://api.github.com/repos/PNU-qureos-lab/LabLog/contents/" + encodeURIComponent(fileName)
-            ).then(function (r) { return r.ok; }).catch(function () { return false; });
+            return fetch(githubContentsUrl(fileName))
+              .then(function (r) { return r.ok; }).catch(function () { return false; });
           });
       }
 
@@ -1066,7 +1071,9 @@
         var label = (row.name || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
         document.getElementById("link-modal-desc").textContent =
           "No page link for \"" + (label || "this project") + "\". Enter an HTML file name in this repo.";
-        input.value = preset || row.pageLink || "";
+        var shown = preset || row.pageLink || "";
+        shown = String(shown).replace(/^projects\//i, "");
+        input.value = shown;
         msg.textContent = "";
         modal.classList.add("open");
         modal.setAttribute("aria-hidden", "false");
@@ -1153,7 +1160,7 @@
               fPeriod: r.fPeriod != null ? String(r.fPeriod) : "",
               fPeople: r.fPeople != null ? String(r.fPeople) : "",
               fStatus: r.fStatus != null ? String(r.fStatus) : "",
-              pageLink: r.pageLink != null ? String(r.pageLink) : ""
+              pageLink: normalizePageName(r.pageLink != null ? String(r.pageLink) : "")
             };
           }),
           conferences: asArray(data.conferences).map(function (r) {
