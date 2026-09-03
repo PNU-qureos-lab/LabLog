@@ -456,6 +456,8 @@
       word-break: break-word;
       overflow: hidden;
       cursor: text;
+      user-select: text;
+      -webkit-user-select: text;
     }
     .gnode.goal .node-title {
       padding-left: 22px;
@@ -686,7 +688,7 @@
         </div>
         <aside class="graph-toolbar">
           <button type="button" id="btn-add-item" class="primary">Add item</button>
-          <div class="hint">Drag empty area to multi-select. Drag selected together. Ctrl+C/V copy. Delete key removes selected tasks. Top ports link. Hover edge for X. Title: select text, right-click Add link.</div>
+          <div class="hint">Drag empty area to multi-select. Drag selected together. Ctrl+C/V copy. Delete key removes selected tasks. Top ports link. Hover edge for X. Title: right-click Add link. Click linked text to open.</div>
         </aside>
       </div>
     </section>
@@ -791,7 +793,7 @@
               return;
             }
             if (tag === "a") {
-              if (name !== "href" && name !== "target" && name !== "rel") {
+              if (name !== "href" && name !== "target" && name !== "rel" && name !== "contenteditable") {
                 el.removeAttribute(attr.name);
               }
             } else if (name === "href" || name === "src") {
@@ -805,6 +807,7 @@
             } else {
               el.setAttribute("target", "_blank");
               el.setAttribute("rel", "noopener noreferrer");
+              el.setAttribute("contenteditable", "false");
             }
           }
         });
@@ -1575,15 +1578,105 @@
         titleCtxMenu = null;
       }
 
-      function wrapSelectionWithLink(titleEl, url) {
+      function normalizeEnteredUrl(url) {
+        var h = (url != null ? String(url) : "").trim();
+        if (!h) return "";
+        if (/^https?:\/\//i.test(h) || h.charAt(0) === "/" || h.charAt(0) === "#" || h.charAt(0) === "?") {
+          return h;
+        }
+        if (h.indexOf("://") >= 0) return h;
+        if (/^www\./i.test(h) || /^[\w.-]+\.[a-z]{2,}([/:?#]|$)/i.test(h)) {
+          return "https://" + h;
+        }
+        return h;
+      }
+
+      function closestTitleAnchor(node, root) {
+        var el = node;
+        if (!el || !root) return null;
+        if (el.nodeType === 3) el = el.parentElement;
+        while (el && el !== root) {
+          if (el.tagName && el.tagName.toLowerCase() === "a") return el;
+          el = el.parentElement;
+        }
+        return null;
+      }
+
+      function findTitleAnchorFromEvent(ev, titleEl) {
+        if (!ev || !titleEl) return null;
+        if (ev.composedPath) {
+          var path = ev.composedPath();
+          var i;
+          for (i = 0; i < path.length; i++) {
+            var n = path[i];
+            if (n && n.tagName && n.tagName.toLowerCase() === "a" && titleEl.contains(n)) return n;
+          }
+        }
+        var t = ev.target;
+        if (t && t.nodeType === 3) t = t.parentElement;
+        if (t && t.closest) {
+          var a = t.closest("a");
+          if (a && titleEl.contains(a)) return a;
+        }
+        return closestTitleAnchor(t, titleEl);
+      }
+
+      function captureTitleRange(titleEl) {
+        if (!titleEl) return null;
         var sel = window.getSelection();
-        if (!sel || sel.rangeCount < 1 || sel.isCollapsed) return false;
-        var range = sel.getRangeAt(0);
-        if (!titleEl.contains(range.commonAncestorContainer)) return false;
+        if (sel && sel.rangeCount >= 1 && !sel.isCollapsed) {
+          var selRange = sel.getRangeAt(0);
+          var anc = selRange.commonAncestorContainer;
+          if (titleEl === anc || titleEl.contains(anc)) {
+            return selRange.cloneRange();
+          }
+        }
+        var all = document.createRange();
+        all.selectNodeContents(titleEl);
+        return all;
+      }
+
+      function markTitleAnchors(titleEl) {
+        if (!titleEl) return;
+        titleEl.querySelectorAll("a").forEach(function (a) {
+          a.setAttribute("target", "_blank");
+          a.setAttribute("rel", "noopener noreferrer");
+          a.setAttribute("contenteditable", "false");
+        });
+      }
+
+      function persistTitleHtml(titleEl) {
+        titleEl.innerHTML = sanitizeHtml(titleEl.innerHTML);
+        markTitleAnchors(titleEl);
+        var n = findNode(titleEl.parentElement ? titleEl.parentElement.dataset.id : "");
+        if (n && n.type === "task") {
+          n.title = getRichHtml(titleEl);
+          queueSave();
+        }
+      }
+
+      function wrapRangeWithLink(titleEl, range, url) {
+        if (!titleEl || !range || !url) return false;
+        var anc = range.commonAncestorContainer;
+        if (titleEl !== anc && !titleEl.contains(anc)) return false;
+
+        var startA = closestTitleAnchor(range.startContainer, titleEl);
+        var endA = closestTitleAnchor(range.endContainer, titleEl);
+        if (startA && startA === endA) {
+          startA.setAttribute("href", url);
+          startA.href = url;
+          startA.setAttribute("target", "_blank");
+          startA.setAttribute("rel", "noopener noreferrer");
+          startA.setAttribute("contenteditable", "false");
+          return true;
+        }
+
         var a = document.createElement("a");
+        a.setAttribute("href", url);
         a.href = url;
         a.target = "_blank";
         a.rel = "noopener noreferrer";
+        a.setAttribute("contenteditable", "false");
         try {
           range.surroundContents(a);
         } catch (err) {
@@ -1591,37 +1684,34 @@
           a.appendChild(frag);
           range.insertNode(a);
         }
-        sel.removeAllRanges();
+        var sel = window.getSelection();
+        if (sel) sel.removeAllRanges();
         return true;
       }
 
-      function showTitleLinkMenu(clientX, clientY, titleEl) {
+      function showTitleLinkMenu(clientX, clientY, titleEl, rangeOpt, currentHref) {
         hideTitleCtxMenu();
+        var savedRange = rangeOpt ? rangeOpt.cloneRange() : captureTitleRange(titleEl);
         var menu = document.createElement("div");
         menu.className = "title-ctx-menu";
         menu.style.left = clientX + "px";
         menu.style.top = clientY + "px";
         var btn = document.createElement("button");
         btn.type = "button";
-        btn.textContent = "Add link";
+        btn.textContent = currentHref ? "Edit link" : "Add link";
         btn.addEventListener("click", function (ev) {
           ev.preventDefault();
           ev.stopPropagation();
           hideTitleCtxMenu();
-          var url = window.prompt("URL", "https://");
+          var url = window.prompt("URL", currentHref || "https://");
           if (!url) return;
-          url = String(url).trim();
+          url = normalizeEnteredUrl(url);
           if (!isSafeHref(url)) {
             window.alert("Only http(s) or relative URLs are allowed.");
             return;
           }
-          if (!wrapSelectionWithLink(titleEl, url)) return;
-          titleEl.innerHTML = sanitizeHtml(titleEl.innerHTML);
-          var n = findNode(titleEl.parentElement ? titleEl.parentElement.dataset.id : "");
-          if (n && n.type === "task") {
-            n.title = getRichHtml(titleEl);
-            queueSave();
-          }
+          if (!wrapRangeWithLink(titleEl, savedRange, url)) return;
+          persistTitleHtml(titleEl);
         });
         menu.appendChild(btn);
         document.body.appendChild(menu);
@@ -1666,19 +1756,22 @@
             title.contentEditable = "true";
             title.spellcheck = false;
             setRichHtml(title, node.title || "New item");
+            markTitleAnchors(title);
           } else {
             title.textContent = node.title || "";
           }
           title.addEventListener("mousedown", function (ev) {
-            if (ev.target && ev.target.closest && ev.target.closest("a")) {
+            var aDown = findTitleAnchorFromEvent(ev, title);
+            if (aDown && aDown.getAttribute("href")) {
               ev.stopPropagation();
+              ev.preventDefault();
               return;
             }
             if (node.type === "task") ev.stopPropagation();
           });
           title.addEventListener("click", function (ev) {
-            var a = ev.target && ev.target.closest ? ev.target.closest("a") : null;
-            if (a && title.contains(a) && a.getAttribute("href")) {
+            var a = findTitleAnchorFromEvent(ev, title);
+            if (a && a.getAttribute("href") && isSafeHref(a.getAttribute("href"))) {
               ev.preventDefault();
               ev.stopPropagation();
               window.open(a.href, "_blank", "noopener,noreferrer");
@@ -1686,12 +1779,11 @@
           });
           title.addEventListener("contextmenu", function (ev) {
             if (node.type !== "task") return;
-            var sel = window.getSelection();
-            if (!sel || sel.isCollapsed || sel.rangeCount < 1) return;
-            if (!title.contains(sel.anchorNode) && !title.contains(sel.focusNode)) return;
             ev.preventDefault();
             ev.stopPropagation();
-            showTitleLinkMenu(ev.clientX, ev.clientY, title);
+            var aCtx = findTitleAnchorFromEvent(ev, title);
+            var href = aCtx && aCtx.getAttribute("href") ? aCtx.getAttribute("href") : "";
+            showTitleLinkMenu(ev.clientX, ev.clientY, title, captureTitleRange(title), href);
           });
           title.addEventListener("input", function () {
             if (applyingRemote) return;
