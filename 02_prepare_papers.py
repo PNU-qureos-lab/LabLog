@@ -25,7 +25,7 @@ def card(r):
  badges,evidence=indexing(r)
  venue=' · '.join(filter(None,[r['venue'],('Vol. '+r['volume']) if r['volume'] else '',('No. '+r['issue']) if r['issue'] else '',r['pages']]))
  notes=''.join('<li>'+esc(n)+'</li>' for n in r['notes'])
- sources=' '.join(link(s['url'],'Scholar'+(' '+str(i+1) if len(r['sources'])>1 else '')) for i,s in enumerate(r['sources']))
+ sources=' '.join(link(s['url'],s.get('label','Scholar')+(' '+str(i+1) if len(r['sources'])>1 else '')) for i,s in enumerate(r['sources']))
  return f'''<article class="paper" data-year="{r['year'] or 'unknown'}" data-type="{r['type']}" data-review="{str(r['review']).lower()}">
  <div class="paper-top"><div class="paper-tags"><span class="type">{TYPES[r['type']]}</span>{badges}</div><span class="date">{esc(r['date'] or '연도 미상')}</span></div>
  <h3>{esc(r['title'])}</h3><p class="authors">{esc(r['authors'])}</p><p class="venue">{esc(venue or '게재처 확인 중')}</p>
@@ -45,6 +45,6 @@ def build():
  for key,value in replacements.items():template=template.replace(key,value)
  (ROOT/'papers.html').write_text('\n'.join(line.rstrip() for line in template.splitlines())+'\n',encoding='utf8')
  with (ROOT/'papers.csv').open('w',encoding='utf-8-sig',newline='') as f:
-  w=csv.writer(f);w.writerow(['Title','Authors','Year','Date','Type','Venue','Volume','Issue','Pages','DOI','URL','Review required','Scholar sources'])
+  w=csv.writer(f);w.writerow(['Title','Authors','Year','Date','Type','Venue','Volume','Issue','Pages','DOI','URL','Review required','Bibliographic sources'])
   for r in records:w.writerow([r['title'],r['authors'],r['year'],r['date'],TYPES[r['type']],r['venue'],r['volume'],r['issue'],r['pages'],r['doi'],r['url'],r['review'],' | '.join(s['url'] for s in r['sources'])])
 if __name__=='__main__':build()

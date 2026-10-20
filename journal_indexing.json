@@ -267,6 +267,16 @@
       ],
       "checked": "2026-10-20",
       "note": ""
+    },
+    "environmental science and pollution research": {
+      "scie": "unknown",
+      "scopus": "yes",
+      "wos": "",
+      "checked": "2026-10-20",
+      "sources": [
+        "https://link.springer.com/journal/11356"
+      ],
+      "note": "출판사 현재 등재 목록에서 Scopus를 확인했습니다. SCIE는 해당 목록에 표시되지 않아 미확인으로 두었습니다. 2024년 개별 논문의 수록 여부는 별도 확인이 필요합니다."
     }
   }
 }

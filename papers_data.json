@@ -443,6 +443,32 @@
       ]
     },
     {
+      "id": "paper-123",
+      "title": "Multiple remotely sensed datasets and machine learning models to predict chlorophyll-a concentration in the Nakdong River, South Korea",
+      "authors": "Byeongwon Lee, Jong Kwon Im, Ji Woo Han, Taegu Kang, Wonkook Kim, Moonil Kim, Sangchul Lee",
+      "year": 2024,
+      "date": "2024/9/24",
+      "venue": "Environmental Science and Pollution Research",
+      "volume": "31",
+      "issue": "48",
+      "pages": "58505–58526",
+      "publisher": "Springer",
+      "type": "journal",
+      "review": false,
+      "doi": "10.1007/s11356-024-35005-y",
+      "url": "https://doi.org/10.1007/s11356-024-35005-y",
+      "notes": [
+        "PubMed 서지정보로 보완한 논문입니다. 온라인 발행일은 2024-09-24이며 권호 발행은 2024년 10월입니다."
+      ],
+      "sources": [
+        {
+          "url": "https://pubmed.ncbi.nlm.nih.gov/39316212/",
+          "title": "PubMed PMID 39316212",
+          "label": "PubMed"
+        }
+      ]
+    },
+    {
       "id": "paper-19",
       "title": "Observing Surface Current Kinematics with GOCI During Chla Bloom",
       "authors": "Jun Myoung Choi, Tran Thi My Hong, Young-Gyu Park, Wonkook Kim",
@@ -2816,5 +2842,6 @@
         }
       ]
     }
-  ]
+  ],
+  "supplemental_count": 1
 }
