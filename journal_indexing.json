@@ -1,0 +1,272 @@
+{
+  "checked": "2026-10-20",
+  "basis": "조회 시 확인 가능한 저널 등재 정보. 개별 논문의 발행 당시 등재 및 실제 수록 여부와 다를 수 있음.",
+  "journals": {
+    "remote sensing": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://www.mdpi.com/journal/remotesensing/indexing"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "water": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://www.mdpi.com/journal/water?trk=public_post_main-feed-card-text"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "forests": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://www.mdpi.com/journal/forests/special_issue_flyer_pdf_v2/22K91O415I"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "ocean science journal": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://www.kordi.re.kr/eng/sub03_05_02.do",
+        "https://www.kci.go.kr/kciportal/po/search/poSereArtiList.kci?sereId=000256&volIsseId=VOL000056301"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "ieee access": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://ieeeaccess.ieee.org/about/bibliometrics/"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "korean journal of remote sensing": {
+      "scie": "no",
+      "scopus": "yes",
+      "wos": "ESCI",
+      "sources": [
+        "https://www.ksrs.or.kr/content/community/post_view.php?bt=1&page=1&post_id=562"
+      ],
+      "checked": "2026-10-20",
+      "note": "학회 공식 안내의 WoS 분류는 ESCI입니다. SCIE와 구분합니다."
+    },
+    "대한원격탐사학회지= korean journal of remote sensing": {
+      "scie": "no",
+      "scopus": "yes",
+      "wos": "ESCI",
+      "sources": [
+        "https://www.ksrs.or.kr/content/community/post_view.php?bt=1&page=1&post_id=562"
+      ],
+      "checked": "2026-10-20",
+      "note": "학회 공식 안내의 WoS 분류는 ESCI입니다. SCIE와 구분합니다."
+    },
+    "journal of the korean society of surveying, geodesy, photogrammetry and cartography": {
+      "scie": "unknown",
+      "scopus": "yes",
+      "wos": "",
+      "sources": [
+        "https://www.kci.go.kr/kciportal/po/search/poCitaView.kci?sereId=000840"
+      ],
+      "checked": "2026-10-20",
+      "note": "KCI에서 Scopus 등재를 확인했습니다. SCIE는 확인 가능한 근거가 없어 미확인으로 표시합니다."
+    },
+    "한국측량학회지": {
+      "scie": "unknown",
+      "scopus": "yes",
+      "wos": "",
+      "sources": [
+        "https://www.kci.go.kr/kciportal/po/search/poCitaView.kci?sereId=000840"
+      ],
+      "checked": "2026-10-20",
+      "note": "KCI에서 Scopus 등재를 확인했습니다. SCIE는 확인 가능한 근거가 없어 미확인으로 표시합니다."
+    },
+    "geo data": {
+      "scie": "unknown",
+      "scopus": "unknown",
+      "wos": "",
+      "sources": [
+        "https://www.kci.go.kr/kciportal/po/search/poCitaView.kci?sereId=SER000005565",
+        "https://portal.issn.org/resource/ISSN/2713-5004"
+      ],
+      "checked": "2026-10-20",
+      "note": "KCI 등재는 확인되지만 SCIE·Scopus 등재를 확인하지 못했습니다. 미등재 판정을 뜻하지 않습니다."
+    },
+    "optics express": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://bib-pubdb1.desy.de/record/9752"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "construction and building materials": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://bib-pubdb1.desy.de/record/10653"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "remote sensing of environment": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://bib-pubdb1.desy.de/record/10101"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "ieee transactions on geoscience and remote sensing": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://bib-pubdb1.desy.de/record/13859"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "ieee journal of selected topics in applied earth observations and remote sensing": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://topj.lib.whu.edu.cn/show.asp?cat=sci&id=15026",
+        "https://portal.issn.org/resource/ISSN/2151-1535"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "ieee geoscience and remote sensing letters": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://juser.fz-juelich.de/record/83153/"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "international journal of remote sensing": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://www.tandfonline.com/journals/tres20/about-this-journal"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "marine geodesy": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://www.tandfonline.com/journals/umgd20/about-this-journal"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "isprs journal of photogrammetry and remote sensing": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://juser.fz-juelich.de/record/85991?ln=en"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "geophysical research letters": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://repository.gsi.de/record/27058?ln=en"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "frontiers in marine science": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://www.frontiersin.org/journals/marine-science/about"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "ocean dynamics": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://link.springer.com/journal/10236",
+        "https://avesis.metu.edu.tr/yayin/a96a899f-fe23-4b97-9252-25bc05fb4b3f/extension-of-sea-surface-temperature-unpredictability"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "harmful algae": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://avesis.istanbul.edu.tr/yayin/0470d79a-0746-42be-b417-ffa5585837f3/phenotypic-and-toxicological-characterization-of-toxic-nodularia-spumigena-from-a-freshwater-lake-in-turkey"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "journal of coastal research": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://avesis.tedu.edu.tr/yayin/f13c60c8-e0bf-4a3c-964e-5a23f5063d1e/a-model-to-simulate-yacht-movements-in-enclosed-bays"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    },
+    "marine policy": {
+      "scie": "no",
+      "scopus": "yes",
+      "wos": "SSCI",
+      "sources": [
+        "https://library.utem.edu.my/phocadownload/Research-Resources/JCR2024%20Updated%20July2025.pdf",
+        "https://www.croris.hr/crosbi/publikacija/prilog-casopis/302042"
+      ],
+      "checked": "2026-10-20",
+      "note": "확인한 JCR 목록의 WoS 분류는 SSCI입니다. SCIE와 구분합니다."
+    },
+    "journal of marine science and technology–taiwan": {
+      "scie": "yes",
+      "scopus": "yes",
+      "wos": "SCIE",
+      "sources": [
+        "https://jmstt.ntou.edu.tw/journal/indexes.html",
+        "https://drupalwebprod-files.up.ac.za/Public/2026-03/Integrated_list_2026.pdf?VersionId=5PUTU_ig0W50CduAW1hsBKY1rx.nFdBa"
+      ],
+      "checked": "2026-10-20",
+      "note": ""
+    }
+  }
+}

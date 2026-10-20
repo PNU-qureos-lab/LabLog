@@ -6,14 +6,31 @@ def esc(x):return html.escape(str(x or ''),quote=True)
 def link(url,label,cls=''):
  if not url.startswith(('https://','http://')):return ''
  return f'<a class="{cls}" href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(label)} ↗</a>'
+INDEXING=json.loads((ROOT/'journal_indexing.json').read_text(encoding='utf8'))['journals']
+
+def indexing(r):
+ if r['type']!='journal':return '', ''
+ meta=INDEXING[r['venue'].casefold()]
+ badges=[]
+ for key,label in [('scie','SCIE'),('scopus','Scopus')]:
+  status=meta[key]
+  suffix='' if status=='yes' else (' 아님' if status=='no' else ' 미확인')
+  if key=='scie' and status=='no' and meta['wos']:suffix+=' · '+meta['wos']
+  badges.append(f'<span class="index-badge {key} {status}">{esc(label+suffix)}</span>')
+ sources=''.join(link(url,'출처 '+str(i+1)) for i,url in enumerate(meta['sources']))
+ details=f'<details class="index-evidence"><summary>저널 등재 근거</summary><p>{esc(meta["checked"])} 확인 · 저널 단위 정보이며 발행 당시 또는 개별 논문의 수록 여부는 별도 확인이 필요합니다. {esc(meta["note"])}</p><p>{sources}</p></details>'
+ return ''.join(badges),details
+
 def card(r):
+ badges,evidence=indexing(r)
  venue=' · '.join(filter(None,[r['venue'],('Vol. '+r['volume']) if r['volume'] else '',('No. '+r['issue']) if r['issue'] else '',r['pages']]))
  notes=''.join('<li>'+esc(n)+'</li>' for n in r['notes'])
  sources=' '.join(link(s['url'],'Scholar'+(' '+str(i+1) if len(r['sources'])>1 else '')) for i,s in enumerate(r['sources']))
  return f'''<article class="paper" data-year="{r['year'] or 'unknown'}" data-type="{r['type']}" data-review="{str(r['review']).lower()}">
- <div class="paper-top"><span class="type">{TYPES[r['type']]}</span><span class="date">{esc(r['date'] or '연도 미상')}</span></div>
+ <div class="paper-top"><div class="paper-tags"><span class="type">{TYPES[r['type']]}</span>{badges}</div><span class="date">{esc(r['date'] or '연도 미상')}</span></div>
  <h3>{esc(r['title'])}</h3><p class="authors">{esc(r['authors'])}</p><p class="venue">{esc(venue or '게재처 확인 중')}</p>
  <div class="links">{link(r['url'],'DOI / 원문' if r['doi'] else '논문 보기')}{sources}</div>
+ {evidence}
  {('<details class="record-notes"><summary>서지 확인 사항</summary><ul>'+notes+'</ul></details>') if notes else ''}
  </article>'''
 def build():

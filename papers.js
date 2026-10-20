@@ -2,14 +2,14 @@
 (() => {
  const search = document.getElementById('search');
  const year = document.getElementById('year');
- const tabs = [...document.querySelectorAll('[role="tab"]')];
+ const tabs = [...document.querySelectorAll('.type-tabs button')];
  const panel = document.getElementById('publication-panel');
  const cards = [...document.querySelectorAll('#groups .paper')];
  const groups = [...document.querySelectorAll('.year-group')];
- let category = 'journal';
+ let category = 'all';
  const normalize = text => text.normalize('NFKC').toLocaleLowerCase().replace(/\s+/g, ' ').trim();
  const searchable = new Map(cards.map(card => [card, normalize(card.querySelector('h3').textContent + ' ' + card.querySelector('.authors').textContent + ' ' + card.querySelector('.venue').textContent)]));
- const inCategory = card => category === 'other' ? !['journal','conference'].includes(card.dataset.type) : card.dataset.type === category;
+ const inCategory = card => category === 'all' || (category === 'other' ? !['journal','conference'].includes(card.dataset.type) : card.dataset.type === category);
  function filter() {
   const terms = normalize(search.value).split(' ').filter(Boolean);
   let count = 0;
@@ -20,16 +20,17 @@
   groups.forEach(group => { const count = [...group.querySelectorAll('.paper')].filter(card => !card.hidden).length; group.hidden = count === 0; group.querySelector('h2 span').textContent = count + '개 항목'; });
   document.getElementById('result-count').textContent = count + ' / ' + cards.filter(inCategory).length + '개 항목';
   document.getElementById('no-results').hidden = count !== 0;
-  document.querySelector('.review-section').hidden = category !== 'other';
+  document.querySelector('.review-section').hidden = !['all','other'].includes(category);
  }
- function activate(tab) {
-  category = tab.dataset.category;
-  tabs.forEach(item => { item.setAttribute('aria-selected', String(item === tab)); item.tabIndex = item === tab ? 0 : -1; });
-  panel.setAttribute('aria-labelledby', tab.id);
+ function activate(tab, toggle = false) {
+  category = toggle && category === tab.dataset.category ? 'all' : tab.dataset.category;
+  tabs.forEach(item => { item.setAttribute('aria-pressed', String(item.dataset.category === category)); });
+  panel.setAttribute('aria-label', category === 'all' ? '전체 연구실적' : tab.textContent);
+  document.getElementById('category-status').textContent = category === 'all' ? '전체 유형 · 탭을 선택하면 해당 유형만 표시합니다.' : tab.textContent + ' · 다시 누르면 전체 유형을 표시합니다.';
   filter();
  }
  tabs.forEach((tab,index) => {
-  tab.addEventListener('click', () => activate(tab));
+  tab.addEventListener('click', () => activate(tab, true));
   tab.addEventListener('keydown', event => {
    let next;
    if(event.key === 'ArrowRight') next = (index + 1) % tabs.length;
