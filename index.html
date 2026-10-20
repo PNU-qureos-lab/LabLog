@@ -399,6 +399,9 @@
       .brand h1 { font-size: 1.25rem; }
       table.data { font-size: 0.72rem; }
     }
+    .profile-links { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+    .profile-links .panel { min-width:0; }
+    @media(max-width:700px) { .profile-links { grid-template-columns:1fr;gap:0; } }
   </style>
 </head>
 <body>
@@ -416,6 +419,7 @@
       </div>
     </header>
 
+    <div class="profile-links">
     <section class="panel" id="sec-papers" aria-labelledby="papers-heading">
       <div class="panel-head">
         <h2 id="papers-heading">Papers</h2>
@@ -424,6 +428,12 @@
       <p class="papers-intro">연구실의 논문과 연구실적을 연도별로 살펴보세요.</p>
       <a class="papers-link" href="papers.html">연구실적 전체 보기 <span aria-hidden="true">→</span></a>
     </section>
+    <section class="panel" id="sec-service" aria-labelledby="service-heading">
+      <div class="panel-head"><h2 id="service-heading">Service</h2><span class="meta">Academic &amp; Professional Service</span></div>
+      <p class="papers-intro">학회 직책, 공공위원회, 국제활동과 수상 내역을 살펴보세요.</p>
+      <a class="papers-link" href="service.html">대외활동 전체 보기 <span aria-hidden="true">→</span></a>
+    </section>
+    </div>
 
     <section class="panel" id="sec-projects">
       <div class="panel-head">
