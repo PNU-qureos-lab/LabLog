@@ -1,0 +1,1544 @@
+[
+  {
+    "index": 0,
+    "fields": {
+      "Authors": "Seungil Baek, Sooyoon Koh, Phillip Kim, Jong Hyuk Lee, Moonho Son, Won-Gi Min, Min-Su Woo, Wonkook Kim",
+      "Issue": "3",
+      "Journal": "Ocean Science Journal",
+      "Pages": "44",
+      "Publication date": "2026/9",
+      "Publisher": "Korea Institute of Ocean Science & Technology and The Korean Society of Oceanography",
+      "Volume": "61"
+    },
+    "title": "Multi-view Glint Correction for UAV Multispectral Imagery in Benthic-Influenced Shallow Waters",
+    "url": "https://link.springer.com/article/10.1007/s12601-026-00287-5"
+  },
+  {
+    "index": 1,
+    "fields": {
+      "Authors": "Joongbin Lim, Jeongho Lee, Wonkook Kim, Minji Seo, Cheonggil Jin, Byung-Oh Yoo",
+      "Journal": "IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing",
+      "Publication date": "2026/8/31",
+      "Publisher": "IEEE"
+    },
+    "title": "A Physics-Based TOA Forward-Simulation Framework for Radiometric Stability Monitoring of Optical Satellites over Forest Environments",
+    "url": "https://ieeexplore.ieee.org/abstract/document/11672980/"
+  },
+  {
+    "index": 2,
+    "fields": {
+      "Authors": "Ni Putu Praja Chintya, Seungil Baek, Wonkook Kim",
+      "Issue": "12",
+      "Journal": "Remote Sensing",
+      "Pages": "2019",
+      "Publication date": "2026/6/17",
+      "Publisher": "MDPI",
+      "Volume": "18"
+    },
+    "title": "Assessing Coral Reef Stress in Indonesia by Combining SST and Ocean Color Data",
+    "url": "https://www.mdpi.com/2072-4292/18/12/2019"
+  },
+  {
+    "index": 3,
+    "fields": {
+      "Authors": "Sooyoon Koh, Seungil Baek, Jong Hyuk Lee, Jaehoon Noh, Howon Lee, Myung Jin Hyun, Wonkook Kim",
+      "Journal": "IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing",
+      "Publication date": "2026/3/9",
+      "Publisher": "IEEE"
+    },
+    "title": "Assessing Long-Term Spatiotemporal Dynamics of Microphytobenthos in a Korean Intertidal Flat Using Harmonized Landsat and Sentinel-2 (HLS) Data",
+    "url": "https://ieeexplore.ieee.org/abstract/document/11424283/"
+  },
+  {
+    "index": 4,
+    "fields": {
+      "Authors": "Austin Grubb, Wonkook Kim, Vanessa Strohm, Harrison Smith, Ethan Taylor, Antonio Mannino",
+      "Journal": "2026 Ocean Sciences Meeting",
+      "Publication date": "2026/2/25",
+      "Publisher": "AGU"
+    },
+    "title": "Spectral libraries of coccolithophore strains to improve satellite estimates of particulate inorganic carbon",
+    "url": "https://scholar.google.com/scholar?cluster=1317324821490021469&hl=en&oi=scholarr"
+  },
+  {
+    "index": 5,
+    "fields": {
+      "Authors": "Astrid Bracher, Malik Chami, Maycira Costa, Heidi Dierssen, Ana I Dogliotti, Claudia Giardino, Toru Hirawake, Chuanmin Hu, Amir Ibrahim, Wonkook Kim, Emanuele Organelli, Shaoling Shang, Fang Shen, Jeremy Werdell",
+      "Pages": "6",
+      "Publication date": "2026",
+      "Source": "IOC-UNESCO"
+    },
+    "title": "A Scientific Roadmap of Aquatic Hyperspectral Remote Sensing: Overview of Status, Challenges and Future Perspectives, Version 1.0",
+    "url": "https://ui.adsabs.harvard.edu/abs/2026ioc..data....6B/abstract"
+  },
+  {
+    "index": 6,
+    "fields": {
+      "Authors": "Kyoungseok Kwak, Seungil Baek, Jong Hyuk Lee, Phillip Kim, Hyunggu Park, Wonkook Kim",
+      "Issue": "6",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "953-973",
+      "Publication date": "2025/12/31",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "41"
+    },
+    "title": "UAV-Based Forest BRDF Correction Incorporating Forest Type and Seasonal Variation",
+    "url": "https://www.kjrs.org/journal/view.html?pn=current_issue&uid=1146&vmd=Full"
+  },
+  {
+    "index": 7,
+    "fields": {
+      "Authors": "Wonkook Kim, Seungil Baek, Sooyoon Koh, Keunyong Kim",
+      "Journal": "IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing",
+      "Pages": "3761-3774",
+      "Publication date": "2025/12/26",
+      "Publisher": "IEEE",
+      "Volume": "19"
+    },
+    "title": "A Bio-Optical Model Customized for Estimating Red Tide Intensity of Margalefidinium polykrikoides",
+    "url": "https://ieeexplore.ieee.org/abstract/document/11316407/"
+  },
+  {
+    "index": 8,
+    "fields": {
+      "Authors": "Gi-Seong Jeon, Wonkook Kim",
+      "Issue": "23",
+      "Journal": "Remote Sensing",
+      "Pages": "3815",
+      "Publication date": "2025/11/25",
+      "Publisher": "MDPI",
+      "Volume": "17"
+    },
+    "title": "Resolving Surface Heat Island Effects in Fine-Scale Spatio-Temporal Domains for the Two Warmest Metropolitan Cities of Korea",
+    "url": "https://www.mdpi.com/2072-4292/17/23/3815"
+  },
+  {
+    "index": 9,
+    "fields": {
+      "Authors": "Taeyun Noh, Haeseong Lee, Sungho Moon, Ni Putu Praja Chintya, Wonkook Kim, Myungho Lee",
+      "Journal": "IEEE Access",
+      "Publication date": "2025/10/13",
+      "Publisher": "IEEE"
+    },
+    "title": "Smartphone-Based Water-Level Estimation Method Using Visual Localization and Ray Casting",
+    "url": "https://ieeexplore.ieee.org/abstract/document/11201919/"
+  },
+  {
+    "index": 10,
+    "fields": {
+      "Authors": "Sooyoon Koh, Wonkook Kim, Seungil Baek, Taewan Kim",
+      "Journal": "Construction and Building Materials",
+      "Pages": "142073",
+      "Publication date": "2025/8/15",
+      "Publisher": "Elsevier",
+      "Volume": "487"
+    },
+    "title": "Estimation of coarse aggregate properties in concrete using hyperspectral imaging and machine learning",
+    "url": "https://www.sciencedirect.com/science/article/pii/S095006182502224X"
+  },
+  {
+    "index": 11,
+    "fields": {
+      "Authors": "Yujin Jeong, Seungil Baek, Phillip Kim, Sooyoon Koh, Gi-Seong Jeon, Joonyoung Jo, Won-Gi Min, Min-Su Woo, Wonkook Kim",
+      "Issue": "3",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "513-524",
+      "Publication date": "2025/6/30",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "41"
+    },
+    "title": "Estimation of macroalgal distribution in the coastal area of Dokdo using hyperspectral imagery from a manned aircraft",
+    "url": "https://www.kjrs.org/journal/view.html?uid=1113&vmd=Full"
+  },
+  {
+    "index": 12,
+    "fields": {
+      "Authors": "Seungil Baek, Wonkook Kim",
+      "Issue": "1",
+      "Pages": "3",
+      "Publication date": "2025/3",
+      "Publisher": "Korea Institute of Ocean Science & Technology and The Korean Society of Oceanography",
+      "Source": "Ocean Science Journal",
+      "Volume": "60"
+    },
+    "title": "Review on hyperspectral remote sensing of tidal zones",
+    "url": "https://link.springer.com/article/10.1007/s12601-024-00189-4"
+  },
+  {
+    "index": 13,
+    "fields": {
+      "Authors": "Seungil Baek, Sooyoon Koh, Moonho Son, Seunghoon Park, Wonkook Kim",
+      "Journal": "IEEE Transactions on Geoscience and Remote Sensing",
+      "Pages": "1-16",
+      "Publication date": "2025/1/28",
+      "Publisher": "IEEE",
+      "Volume": "63"
+    },
+    "title": "A Red Tide Quantification Approach for an Inexpensive Multispectral Camera Onboard an Aircraft",
+    "url": "https://ieeexplore.ieee.org/abstract/document/10856883/"
+  },
+  {
+    "index": 14,
+    "fields": {
+      "Authors": "Phillip Kim, Seungil Baek, Sooyoon Koh, Won-Gi Min, Gi-Seong Jeon, Min-Su Woo, Jong-Moon Choi, Aran Lee, Wonkook Kim",
+      "Issue": "4",
+      "Journal": "Geo Data",
+      "Pages": "849-871",
+      "Publication date": "2025",
+      "Volume": "7"
+    },
+    "title": "Development of a Spectral Reflectance Dataset for Macroalgae in the Coastal Waters of Ulleungdo and Dokdo",
+    "url": "https://scholar.google.com/scholar?cluster=15986994125231212085&hl=en&oi=scholarr"
+  },
+  {
+    "index": 15,
+    "fields": {
+      "Authors": "Gi-Seong Jeon, Wonkook Kim",
+      "Issue": "6",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "1127-1139",
+      "Publication date": "2024/12/31",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "40"
+    },
+    "title": "Sub-district-level heat vulnerability assessment using ecostress: A case study of busan and daegu metropolitan cities",
+    "url": "https://www.kjrs.org/journal/view.html?pn=related&uid=1038&vmd=Full"
+  },
+  {
+    "index": 16,
+    "fields": {
+      "Authors": "Sooyoon Koh, Wonkook Kim, Seungil Baek",
+      "Issue": "722",
+      "Journal": "AGU Fall Meeting Abstracts",
+      "Pages": "OS11F-0722",
+      "Publication date": "2024/12",
+      "Volume": "2024"
+    },
+    "title": "Monitoring Spatiotemporal Changes in Chlorophyll-a in Tidal flats Using Harmonized Landsat and Sentinel-2 data",
+    "url": "https://ui.adsabs.harvard.edu/abs/2024AGUFMOS11F0722K/abstract"
+  },
+  {
+    "index": 17,
+    "fields": {
+      "Authors": "Wonkook Kim, Seungil Baek, Jong Hyuk Lee, Sooyoon Koh",
+      "Journal": "AGU Fall Meeting Abstracts",
+      "Pages": "OS34B-04",
+      "Publication date": "2024/12",
+      "Volume": "2024"
+    },
+    "title": "Tracking Diurnal Changes in Harmful Algal Blooms Using GOCI-II",
+    "url": "https://ui.adsabs.harvard.edu/abs/2024AGUFMOS34B..04K/abstract"
+  },
+  {
+    "index": 18,
+    "fields": {
+      "Authors": "Seungil Baek, Sooyoon Koh, Wonkook Kim, Taewan Kim",
+      "Journal": "Construction and Building Materials",
+      "Pages": "139013",
+      "Publication date": "2024/11/29",
+      "Publisher": "Elsevier",
+      "Volume": "453"
+    },
+    "title": "Evaluation of coarse aggregate properties in hardened concrete based on segment anything model (SAM)",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0950061824041552"
+  },
+  {
+    "index": 19,
+    "fields": {
+      "Authors": "Jun Myoung Choi, Tran Thi My Hong, Young-Gyu Park, Wonkook Kim",
+      "Journal": "45th COSPAR Scientific Assembly. Held 13-21 July",
+      "Pages": "111",
+      "Publication date": "2024/7",
+      "Volume": "45"
+    },
+    "title": "Observing Surface Current Kinematics with GOCI During Chla Bloom",
+    "url": "https://ui.adsabs.harvard.edu/abs/2024cosp...45..111C/abstract"
+  },
+  {
+    "index": 20,
+    "fields": {
+      "Authors": "Jongkuk Choi, Hahn Chul Jung, Wonkook Kim, Jun Myoung Choi",
+      "Issue": "6",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "1523-1528",
+      "Publication date": "2023/12/31",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "39"
+    },
+    "title": "A Study on the GOCI-II Accuracy in the Early Stage of the Mission",
+    "url": "https://www.kjrs.org/journal/view.html?pn=related&uid=930&vmd=Full"
+  },
+  {
+    "index": 21,
+    "fields": {
+      "Authors": "Seungil Baek, Sooyoon Koh, Jong Hyuk Lee, Wonkook Kim",
+      "Issue": "4",
+      "Journal": "GEO DATA",
+      "Pages": "371-379",
+      "Publication date": "2023/12/28",
+      "Publisher": "GEO DATA",
+      "Volume": "5"
+    },
+    "title": "< article-title xmlns: mml=\" http://www. w3. org/1998/Math/MathML\" xmlns: xlink=\" http://www. w3. org/1999/xlink\" xmlns: xsi=\" http://www. w3. org/2001/XMLSchema-instance\" xml …",
+    "url": "https://www.gaidas-geodata.org/journal/view.php?doi=10.22761/GD.2023.0057"
+  },
+  {
+    "index": 22,
+    "fields": {
+      "Authors": "김원국， 백승일， 홍순헌",
+      "Journal": "GEO DATA",
+      "Pages": "355-363",
+      "Publication date": "2023/12"
+    },
+    "title": "물색깔 분석을 위한 항공 초분광영상의 올나감및 옆처짐 보정",
+    "url": "https://www.gaidas-geodata.org/upload/pdf/GD-2023-0035.pdf"
+  },
+  {
+    "index": 23,
+    "fields": {
+      "Authors": "Yejin Kim, Sanghoon Park, Hyo-Keun Jang, Ha-Young Choi, Jae-Hyung Lee, Seung-Won Jung, Wonkook Kim, Sooyoon Koh, Moonho Son, Seok-Nam Kwak, So-Hyun Ahn, Soonmo An, Sang-Heon Lee",
+      "Issue": "17",
+      "Journal": "Water",
+      "Pages": "3050",
+      "Publication date": "2023/8/25",
+      "Publisher": "MDPI",
+      "Volume": "15"
+    },
+    "title": "HPLC-Based Detection of Two Distinct Red Tide Causative Species (Mesodinium rubrum and Margalefidinium polykrikoides) in the South Sea of Korea",
+    "url": "https://www.mdpi.com/2073-4441/15/17/3050"
+  },
+  {
+    "index": 24,
+    "fields": {
+      "Authors": "Jong Hyuk Lee, Kyung Woong Kang, Seungil Baek, Wonkook Kim",
+      "Issue": "3",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "355-361",
+      "Publication date": "2023/6/30",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "39"
+    },
+    "title": "Uncertainty Estimation of Single-Channel Temperature Estimation Algorithm for Atmospheric Conditions in the Seas around the Korean Peninsula",
+    "url": "https://www.kjrs.org/journal/view.html?pn=related&uid=838&vmd=Full"
+  },
+  {
+    "index": 25,
+    "fields": {
+      "Authors": "Young Jun Kim, Wonkook Kim, Jungho Im, Jongkuk Choi, Sunju Lee",
+      "Journal": "ISPRS Journal of Photogrammetry and Remote Sensing",
+      "Pages": "197-213",
+      "Publication date": "2023/5/1",
+      "Publisher": "Elsevier",
+      "Volume": "199"
+    },
+    "title": "Atmospheric-correction-free red tide quantification algorithm for GOCI based on machine learning combined with a radiative transfer simulation",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0924271623000965"
+  },
+  {
+    "index": 26,
+    "fields": {
+      "Authors": "Jae Hyun Ahn, Kyeong-Sang Lee, Sun Ju Lee, Jong Kuk Choi, Eunna Jang, Myung Sook Park, Jeong Eon Moon, Tai Hyun Han, Hee Jeong Han, Joo Hyung Ryu, Geumsil Kang, Ki-Beom Ahn, Wonkook Kim",
+      "Conference": "한국우주과학회 봄 학술대회",
+      "Pages": "55-55",
+      "Publication date": "2023/4/28",
+      "Publisher": "한국우주과학회"
+    },
+    "title": "Toward GOCI-III Improvement from the Experiences of GOCI-II",
+    "url": "https://sciwatch.kiost.ac.kr/handle/2020.kiost/44265"
+  },
+  {
+    "index": 27,
+    "fields": {
+      "Authors": "Seungil Baek, Sooyoon Koh, Jong Hyuk Lee, Wonkook Kim",
+      "Issue": "4",
+      "Journal": "Geo Data",
+      "Pages": "371-379",
+      "Publication date": "2023",
+      "Volume": "5"
+    },
+    "title": "BRDF Data for Coniferous Forests Acquired from Multispectral Camera Onboard a Unmanned Aerial Vehicle",
+    "url": "https://scholar.google.com/scholar?cluster=17116110142539433675&hl=en&oi=scholarr"
+  },
+  {
+    "index": 28,
+    "fields": {
+      "Authors": "Wonkook Kim, Seungil Baek, Soon Heun Hong",
+      "Issue": "4",
+      "Journal": "Geo Data",
+      "Pages": "355-363",
+      "Publication date": "2023",
+      "Volume": "5"
+    },
+    "title": "De-Striping and De-Smiling of Aerial Hyperspectral Image for Water Color Analysis",
+    "url": "https://scholar.google.com/scholar?cluster=10294040861733346577&hl=en&oi=scholarr"
+  },
+  {
+    "index": 29,
+    "fields": {
+      "Authors": "Sungeun Cha, Myoungsoo Won, Keunchang Jang, Kyoungmin Kim, Wonkook Kim, Seungil Baek, Joongbin Lim",
+      "Issue": "6",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "1273-1283",
+      "Publication date": "2022/12/31",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "38"
+    },
+    "title": "Deep learning-based forest fire classification evaluation for application of CAS500-4",
+    "url": "https://www.kjrs.org/journal/view.html?pn=search&uid=757&vmd=Full"
+  },
+  {
+    "index": 30,
+    "fields": {
+      "Authors": "Sooyoon Koh, Seungil Baek, Taehong Lim, Gi-Seong Jeon, Yujin Jeong, Phillip Kim, Min-young Lee, Moonho Son, Yejin Kim, Wonkook Kim",
+      "Issue": "6",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "1541-1555",
+      "Publication date": "2022/12/31",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "38"
+    },
+    "title": "Analysis on optical and water quality measurements for red tide waters",
+    "url": "https://www.kjrs.org/journal/view.html?pn=search&uid=776&vmd=Full"
+  },
+  {
+    "index": 31,
+    "fields": {
+      "Authors": "Seungil Baek, Joongbin Lim, Wonkook Kim",
+      "Issue": "12",
+      "Journal": "Forests",
+      "Pages": "2185",
+      "Publication date": "2022/12/19",
+      "Publisher": "MDPI",
+      "Volume": "13"
+    },
+    "title": "Analysis on the fire progression and severity variation of the massive forest fire occurred in Uljin, Korea, 2022",
+    "url": "https://www.mdpi.com/1999-4907/13/12/2185"
+  },
+  {
+    "index": 32,
+    "fields": {
+      "Authors": "Ni Putu Praja Chintya, Gi-Seong Jeon, Seungil Baek, Wonkook Kim",
+      "Issue": "6",
+      "Journal": "한국측량학회지",
+      "Pages": "595-602",
+      "Publication date": "2022/12",
+      "Volume": "40"
+    },
+    "title": "Developing Deep Learning Based Change Detection Model for Breakwaters Observed by UAV (Unmanned Aerial Vehicle)",
+    "url": "https://www.dbpia.co.kr/pdf/pdfView.do?nodeId=NODE11190018"
+  },
+  {
+    "index": 33,
+    "fields": {
+      "Authors": "Seungil Baek, Sooyoon Koh, Taehong Lim, Gi-Seong Jeon, Youngju Do, Yujin Jeong, Sohyeon Park, Yongtak Lee, Wonkook Kim",
+      "Issue": "5",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "609-625",
+      "Publication date": "2022/10/31",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "38"
+    },
+    "title": "Validation of GOCI-II products in an inner bay through synchronous usage of UAV and ship-based measurements",
+    "url": "https://www.kjrs.org/journal/view.html?pn=mostdownload&uid=708&vmd=Full"
+  },
+  {
+    "index": 34,
+    "fields": {
+      "Authors": "Jinghui Wu, Joaquim I Goes, Helga do Rosario Gomes, Zhongping Lee, Jae-Hoon Noh, Jianwei Wei, Zhehai Shang, Joseph Salisbury, Antonio Mannino, Wonkook Kim, Young-Je Park, Michael Ondrusek, Veronica P Lance, Menghua Wang, Robert Frouin",
+      "Journal": "Remote Sensing of Environment",
+      "Pages": "113183",
+      "Publication date": "2022/10/1",
+      "Publisher": "Elsevier",
+      "Volume": "280"
+    },
+    "title": "Estimates of diurnal and daily net primary productivity using the Geostationary Ocean Color Imager (GOCI) data",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0034425722002954"
+  },
+  {
+    "index": 35,
+    "fields": {
+      "Authors": "Tae-Min Oh, Seungil Baek, Tae-Hyun Kong, Sooyoon Koh, Jaehun Ahn, Wonkook Kim",
+      "Issue": "1",
+      "Journal": "Remote Sensing",
+      "Pages": "189",
+      "Publication date": "2022/1/1",
+      "Publisher": "MDPI",
+      "Volume": "14"
+    },
+    "title": "Hyperspectral Remote Sensing of TiO2 Concentration in Cementitious Material Based on Machine Learning Approaches",
+    "url": "https://www.mdpi.com/2072-4292/14/1/189"
+  },
+  {
+    "index": 36,
+    "fields": {
+      "Authors": "Joseph E Salisbury, Bror F Jönsson, Antonio Mannino, Wonkook Kim, Joaquim I Goes, Jin‐Yong Choi, Javier A Concha",
+      "Issue": "23",
+      "Journal": "Geophysical Research Letters",
+      "Pages": "e2021GL095528",
+      "Publication date": "2021/12/16",
+      "Volume": "48"
+    },
+    "title": "Assessing net growth of phytoplankton biomass on hourly to annual time scales using the geostationary ocean color instrument",
+    "url": "https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2021GL095528"
+  },
+  {
+    "index": 37,
+    "fields": {
+      "Authors": "Mengmeng Yang, Yong Hu, Hongzhen Tian, Faisal Ahmed Khan, Qinping Liu, Joaquim I Goes, Helga do R Gomes, Wonkook Kim",
+      "Issue": "24",
+      "Journal": "Remote Sensing",
+      "Pages": "5062",
+      "Publication date": "2021/12/13",
+      "Publisher": "MDPI",
+      "Volume": "13"
+    },
+    "title": "Atmospheric correction of airborne hyperspectral CASI data using polymer, 6S and FLAASH",
+    "url": "https://www.mdpi.com/2072-4292/13/24/5062"
+  },
+  {
+    "index": 38,
+    "fields": {
+      "Authors": "Jun Myoung Choi, Wonkook Kim, Tran Thy My Hong, Young-Gyu Park",
+      "Journal": "Frontiers in Marine Science",
+      "Pages": "695780",
+      "Publication date": "2021/11/15",
+      "Publisher": "Frontiers Media SA",
+      "Volume": "8"
+    },
+    "title": "Derivation and evaluation of satellite-based surface current",
+    "url": "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2021.695780/full"
+  },
+  {
+    "index": 39,
+    "fields": {
+      "Authors": "Sooyoon Koh, Jaehoon Noh, Seungil Baek, Howon Lee, Jongseok Won, Wonkook Kim",
+      "Issue": "5",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "1111-1124",
+      "Publication date": "2021/10/31",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "37"
+    },
+    "title": "Estimation of benthic microalgae chlorophyll-a concentration in mudflat surfaces of Geunso Bay using ground-based hyperspectral data",
+    "url": "https://test-kjrs.inforang.com/journal/view.html?doi=10.7780/kjrs.2021.37.5.1.22"
+  },
+  {
+    "index": 40,
+    "fields": {
+      "Authors": "Sunghun Jung, Wonkook Kim",
+      "Journal": "Ieee Access",
+      "Pages": "132746-132765",
+      "Publication date": "2021/9/24",
+      "Publisher": "IEEE",
+      "Volume": "9"
+    },
+    "title": "Development of an unmanned aerial system for maritime environmental observation",
+    "url": "https://ieeexplore.ieee.org/abstract/document/9548101/"
+  },
+  {
+    "index": 41,
+    "fields": {
+      "Authors": "Hyungtae Lee, Heesung Kwon, Wonkook Kim",
+      "Journal": "IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing",
+      "Pages": "9504-9517",
+      "Publication date": "2021/9/16",
+      "Publisher": "IEEE",
+      "Volume": "14"
+    },
+    "title": "Generating hard examples for pixel-wise classification",
+    "url": "https://ieeexplore.ieee.org/abstract/document/9540376/"
+  },
+  {
+    "index": 42,
+    "fields": {
+      "Authors": "Wonkook Kim, Sung Hak Kim, Seung-Il Baek, Hyunkyum Kim, Jaehong Oh",
+      "Issue": "SI",
+      "Journal": "Journal of Coastal Research",
+      "Pages": "464-468",
+      "Publication date": "2021/9/1",
+      "Publisher": "Coastal Education and Research Foundation",
+      "Volume": "114"
+    },
+    "title": "A Preliminary Study on Benthic Mapping of Uljin Coast Based on Airborne Hyperspectral Imagery Towards the Whitening Detection",
+    "url": "https://jcr.kglmeridian.com/view/journals/coas/114/SI/article-p464.xml"
+  },
+  {
+    "index": 43,
+    "fields": {
+      "Authors": "Wonkook Kim, Sung Hak Kim, Sueng-Il Baek, Hyunkyum Kim, Jaehong Oh",
+      "Conference": "2021 IEEE International Geoscience and Remote Sensing Symposium IGARSS",
+      "Pages": "7631-7633",
+      "Publication date": "2021/7/11",
+      "Publisher": "IEEE"
+    },
+    "title": "Mapping Benthic Substrate Type in a Shallow Coastal Area Using Airborne Hyperspectral Images",
+    "url": "https://ieeexplore.ieee.org/abstract/document/9553651/"
+  },
+  {
+    "index": 44,
+    "fields": {
+      "Authors": "Sunghoon Hong, Seungil Baek, Yeonjoong Kim, Jooyong Lee, Adi Prasetyo, Wonkook Kim, Soonchul Kwon",
+      "Issue": "11",
+      "Journal": "Water",
+      "Pages": "1526",
+      "Publication date": "2021/5/28",
+      "Publisher": "MDPI",
+      "Volume": "13"
+    },
+    "title": "Planar Installation Characteristics of Crown Depth-Variable Artificial Coral Reef on Improving Coastal Resilience: A 3D Large-Scale Experiment",
+    "url": "https://www.mdpi.com/2073-4441/13/11/1526"
+  },
+  {
+    "index": 45,
+    "fields": {
+      "Authors": "Seungil Baek, Minsu Byun, Wonkook Kim",
+      "Issue": "6",
+      "Journal": "Journal of the Korean Society of Surveying, Geodesy, Photogrammetry and Cartography",
+      "Pages": "541-548",
+      "Publication date": "2021",
+      "Publisher": "Korean Society of Surveying, Geodesy, Photogrammetry and Cartography",
+      "Volume": "39"
+    },
+    "title": "Improving precision of the exterior orientation and the pixel position of a multispectral camera onboard a drone through the simultaneous utilization of a high resolution camera",
+    "url": "https://scholar.google.com/scholar?cluster=15744550277596285649&hl=en&oi=scholarr"
+  },
+  {
+    "index": 46,
+    "fields": {
+      "Authors": "Wonkook Kim, Taehong Lim, Jae-hyun Ahn, Jong-kuk Choi",
+      "Issue": "5_2",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "1269-1279",
+      "Publication date": "2021",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "37"
+    },
+    "title": "A preliminary analysis on the radiometric difference across the level 1B slot images of GOCI-II",
+    "url": "https://scholar.google.com/scholar?cluster=17562150229428917210&hl=en&oi=scholarr"
+  },
+  {
+    "index": 47,
+    "fields": {
+      "Authors": "Wonkook Kim, Sunghun Jung, Keungyong Kim, Joo-Hyung Ryu, Yongseon Moon",
+      "Conference": "IGARSS 2020-2020 IEEE International Geoscience and Remote Sensing Symposium",
+      "Pages": "5612-5615",
+      "Publication date": "2020/9/26",
+      "Publisher": "IEEE"
+    },
+    "title": "Mapping red tide intensity using multispectral camera on unmanned aerial vehicle: a case study in Korean south coast",
+    "url": "https://ieeexplore.ieee.org/abstract/document/9323103/"
+  },
+  {
+    "index": 48,
+    "fields": {
+      "Authors": "Sangchoul Yi, Wonkook Kim",
+      "Journal": "Marine Policy",
+      "Pages": "104092",
+      "Publication date": "2020/9/1",
+      "Publisher": "Pergamon",
+      "Volume": "119"
+    },
+    "title": "Potential for offshore aquaculture development in North Korea: focusing on Atlantic salmon farming",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0308597X20302323"
+  },
+  {
+    "index": 49,
+    "fields": {
+      "Authors": "Wonkook Kim, Sunghun Jung, Yongseon Moon, Stephen C Mangum",
+      "Issue": "12",
+      "Journal": "Remote Sensing",
+      "Pages": "2024",
+      "Publication date": "2020/6/24",
+      "Publisher": "MDPI",
+      "Volume": "12"
+    },
+    "title": "Morphological band registration of multispectral cameras for water quality analysis with unmanned aerial vehicle",
+    "url": "https://www.mdpi.com/2072-4292/12/12/2024"
+  },
+  {
+    "index": 50,
+    "fields": {
+      "Authors": "Keunyong Kim, Euihyun Kim, Jun Myoung Choi, Jisun Shin, Wonkook Kim, Kwang-Jae Lee, Young Baek Son, Joo-Hyung Ryu",
+      "Issue": "2",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "249-261",
+      "Publication date": "2020/4/30",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "36"
+    },
+    "title": "Simulation approach for the tracing the marine pollution using multi-remote sensing data",
+    "url": "https://www.kjrs.org/journal/view.html?doi=10.7780/kjrs.2020.36.2.2.3"
+  },
+  {
+    "index": 51,
+    "fields": {
+      "Authors": "Youngjun Kim, Wonkook Kim, Jungho Im, SeongMun SIM, Eunna Jang",
+      "Issue": "3252",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "IS14F-3252",
+      "Publication date": "2020/2"
+    },
+    "title": "Development of Red Tide Detection Algorithm using GOCI Image based on Random Forest",
+    "url": "https://ui.adsabs.harvard.edu/abs/2020AGUOSIS14F3252K/abstract"
+  },
+  {
+    "index": 52,
+    "fields": {
+      "Authors": "Bror Jönsson, Joseph Salisbury, Wonkook Kim, Antonio Mannino",
+      "Issue": "468",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "OB24C-0468",
+      "Publication date": "2020/2"
+    },
+    "title": "Assessing net growth of phytoplankton biomass on hourly and daily timescales using the GOCI geostationary ocean color sensor.",
+    "url": "https://ui.adsabs.harvard.edu/abs/2020AGUOSOB24C0468J/abstract"
+  },
+  {
+    "index": 53,
+    "fields": {
+      "Authors": "Donghee Kim, Myung-Sook Park, Young-Je Park, Wonkook Kim",
+      "Issue": "1",
+      "Journal": "remote sensing",
+      "Pages": "149",
+      "Publication date": "2020/1/2",
+      "Publisher": "MDPI",
+      "Volume": "12"
+    },
+    "title": "Geostationary Ocean Color Imager (GOCI) marine fog detection in combination with Himawari-8 based on the decision tree",
+    "url": "https://www.mdpi.com/2072-4292/12/1/149"
+  },
+  {
+    "index": 54,
+    "fields": {
+      "Authors": "Seungil Baek, Sooyoon Koh, Wonkook Kim",
+      "Issue": "6",
+      "Journal": "Journal of the Korean Society of Surveying, Geodesy, Photogrammetry and Cartography",
+      "Pages": "707-716",
+      "Publication date": "2020",
+      "Publisher": "Korean Society of Surveying, Geodesy, Photogrammetry and Cartography",
+      "Volume": "38"
+    },
+    "title": "Calculation of correction coefficients for the RedEdge-MX multispectral camera through intercalibration with a hyperspectral sensor",
+    "url": "https://scholar.google.com/scholar?cluster=5292163968777731473&hl=en&oi=scholarr"
+  },
+  {
+    "index": 55,
+    "fields": {
+      "Authors": "Sun-Ju Lee, Wonkook Kim, Jae-Hyun Ahn, Tae-Hyun Han, Don-Hyug Kang",
+      "Journal": "AGU Fall Meeting Abstracts",
+      "Pages": "OS51D-1514",
+      "Publication date": "2019/12",
+      "Volume": "2019"
+    },
+    "title": "Red Tide Monitoring in the Southern Coast of Korea using Geostationary Ocean Color Imager",
+    "url": "https://ui.adsabs.harvard.edu/abs/2019AGUFMOS51D1514L/abstract"
+  },
+  {
+    "index": 56,
+    "fields": {
+      "Authors": "Sunghun Jung, Yonghyeon Jo, Wonkook Kim",
+      "Journal": "한국항공우주학회 학술발표회 초록집",
+      "Pages": "683-684",
+      "Publication date": "2019/11"
+    },
+    "title": "Development of UAS for the Ocean Environment Observation",
+    "url": "https://www.dbpia.co.kr/Journal/articleDetail?nodeId=NODE09318063"
+  },
+  {
+    "index": 57,
+    "fields": {
+      "Authors": "Ji-Yeon Baek, Young-Heon Jo, Wonkook Kim, Jong-Seok Lee, Dawoon Jung, Dae-Won Kim, Jungho Nam",
+      "Issue": "19",
+      "Journal": "Remote Sensing",
+      "Pages": "2257",
+      "Publication date": "2019/9/27",
+      "Publisher": "MDPI",
+      "Volume": "11"
+    },
+    "title": "A New Algorithm to Estimate Chlorophyll-A Concentrations in Turbid Yellow Sea Water Using a Multispectral Sensor in a Low-Altitude Remote Sensing System",
+    "url": "https://www.mdpi.com/2072-4292/11/19/2257"
+  },
+  {
+    "index": 58,
+    "fields": {
+      "Authors": "J Choi, Y‐G Park, W Kim, YH Kim",
+      "Issue": "14",
+      "Journal": "Geophysical Research Letters",
+      "Pages": "8214-8223",
+      "Publication date": "2019/7/28",
+      "Volume": "46"
+    },
+    "title": "Characterization of submesoscale turbulence in the east/japan sea using geostationary ocean color satellite images",
+    "url": "https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2019GL083892"
+  },
+  {
+    "index": 59,
+    "fields": {
+      "Authors": "Wonkook Kim, Jeong-Eon Moon, Scott Freeman, Jianwei Wei, Zhehai Shang, Antonio Mannino",
+      "Conference": "Optics and Photonics for Sensing the Environment",
+      "Pages": "ETh1A. 7",
+      "Publication date": "2019/6/25",
+      "Publisher": "Optica Publishing Group"
+    },
+    "title": "Assessing uncertainty in remote sensing reflectance derived from multiple above-water hyperspectral radiometers for ocean color analysis",
+    "url": "https://opg.optica.org/abstract.cfm?uri=ES-2019-ETh1A.7"
+  },
+  {
+    "index": 60,
+    "fields": {
+      "Authors": "Javier Concha, Antonio Mannino, Bryan Franz, Sean Bailey, Wonkook Kim",
+      "Issue": "10",
+      "Journal": "International Journal of Remote Sensing",
+      "Pages": "3984-4001",
+      "Publication date": "2019/5/19",
+      "Publisher": "Taylor & Francis",
+      "Volume": "40"
+    },
+    "title": "Vicarious calibration of GOCI for the SeaDAS ocean color retrieval",
+    "url": "https://www.tandfonline.com/doi/abs/10.1080/01431161.2018.1557793"
+  },
+  {
+    "index": 61,
+    "fields": {
+      "Authors": "Min-Sun Lee, Kyung-Ae Park, Jeong-Eon Moon, Wonkook Kim, Young-Je Park",
+      "Issue": "10",
+      "Journal": "International Journal of Remote Sensing",
+      "Pages": "3808-3834",
+      "Publication date": "2019/5/19",
+      "Publisher": "Taylor & Francis",
+      "Volume": "40"
+    },
+    "title": "Spatial and temporal characteristics and removal methodology of suspended particulate matter speckles from Geostationary Ocean Color Imager data",
+    "url": "https://www.tandfonline.com/doi/abs/10.1080/01431161.2018.1552818"
+  },
+  {
+    "index": 62,
+    "fields": {
+      "Authors": "Javier Concha, Antonio Mannino, Bryan Franz, Wonkook Kim",
+      "Issue": "3",
+      "Journal": "Remote Sensing",
+      "Pages": "295",
+      "Publication date": "2019/2/1",
+      "Publisher": "MDPI",
+      "Volume": "11"
+    },
+    "title": "Uncertainties in the Geostationary Ocean Color Imager (GOCI) remote sensing reflectance for assessing diurnal variability of biogeochemical processes",
+    "url": "https://www.mdpi.com/2072-4292/11/3/295"
+  },
+  {
+    "index": 63,
+    "fields": {
+      "Authors": "김원국， 한태현， 정승원， 강돈혁",
+      "Issue": "6",
+      "Journal": "Journal of the Korean Society of Surveying, Geodesy, Photogrammetry and Cartography",
+      "Pages": "563-570",
+      "Publication date": "2019",
+      "Volume": "37"
+    },
+    "title": "Analysis on the Optical Absorption Property of Sea Waters Dominated by Alexandrium affinein Coastal Waters off Tongyeong, 2017",
+    "url": "https://scholar.google.com/scholar?cluster=5813460822674393809&hl=en&oi=scholarr"
+  },
+  {
+    "index": 64,
+    "fields": {
+      "Authors": "Wonkook Kim, Sang-Hyun Roh, Yongseon Moon, Sunghun Jung",
+      "Issue": "3",
+      "Journal": "Journal of the Korean Society of Surveying, Geodesy, Photogrammetry and Cartography",
+      "Pages": "167-175",
+      "Publication date": "2019",
+      "Publisher": "Korean Society of Surveying, Geodesy, Photogrammetry and Cartography",
+      "Volume": "37"
+    },
+    "title": "Evaluation of Rededge-M camera for water color observation after Image preprocessing",
+    "url": "https://scholar.google.com/scholar?cluster=5552479492057449691&hl=en&oi=scholarr"
+  },
+  {
+    "index": 65,
+    "fields": {
+      "Authors": "Knut H Stamnes, Nan Chen, Yongzhen Fan, Wei Li, Jae-Hyun Ahn, Wonkook Kim, Young-Je Park",
+      "Journal": "AGU Fall Meeting 2018",
+      "Publication date": "2018/12/10",
+      "Publisher": "AGU"
+    },
+    "title": "Neural network cloud mask algorithm for the Geostationary Ocean Color Imager",
+    "url": "https://scholar.google.com/scholar?cluster=16848554185131522159&hl=en&oi=scholarr"
+  },
+  {
+    "index": 66,
+    "fields": {
+      "Authors": "N Chen, KH Stamnes, Y Fan, W Li, A Jaehyun, W Kim, YJ Park",
+      "Journal": "AGU Fall Meeting Abstracts",
+      "Pages": "A12A-05",
+      "Publication date": "2018/12",
+      "Volume": "2018"
+    },
+    "title": "Neural network cloud mask algorithm for the Geostationary Ocean Color Imager",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUFM.A12A..05C/abstract"
+  },
+  {
+    "index": 67,
+    "fields": {
+      "Authors": "Javier Alonso Concha, Antonio Mannino, Bryan A Franz, Sean W Bailey, Wonkook Kim",
+      "Journal": "AGU Fall Meeting Abstracts",
+      "Pages": "A31L-3093",
+      "Publication date": "2018/12",
+      "Volume": "2018"
+    },
+    "title": "Vicarious Calibration of GOCI for NASA's Ocean Color Algorithms",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUFM.A31L3093C/abstract"
+  },
+  {
+    "index": 68,
+    "fields": {
+      "Authors": "Hyungtae Lee, Heesung Kwon, Wonkook Kim",
+      "Journal": "arXiv preprint arXiv:1812.05447",
+      "Publication date": "2018/12"
+    },
+    "title": "Discovering and generating hard examples for training a red tide detector",
+    "url": "https://www.academia.edu/download/87482757/1812.05447v2.pdf"
+  },
+  {
+    "index": 69,
+    "fields": {
+      "Authors": "Javier Concha, Antonio Mannino, Bryan Franz, Wonkook Kim",
+      "Publication date": "2018/11/2",
+      "Publisher": "Preprints"
+    },
+    "title": "Assessing Diurnal Variability of Biogeochemical Processes using the Geostationary Ocean Color Imager (GOCI)",
+    "url": "https://www.preprints.org/frontend/manuscript/4debba520c9ab35e18edb2afdc07e902/download_pub"
+  },
+  {
+    "index": 70,
+    "fields": {
+      "Authors": "Dabin Lee, SeungHyun Son, Wonkook Kim, Joo Myun Park, Huitae Joo, Sang Heon Lee",
+      "Issue": "6",
+      "Journal": "Remote sensing",
+      "Pages": "938",
+      "Publication date": "2018/6/13",
+      "Publisher": "MDPI",
+      "Volume": "10"
+    },
+    "title": "Spatio-Temporal Variability of the Habitat Suitability Index for Chub Mackerel (Scomber Japonicus) in the East/Japan Sea and the South Sea of South Korea",
+    "url": "https://www.mdpi.com/2072-4292/10/6/938"
+  },
+  {
+    "index": 71,
+    "fields": {
+      "Authors": "Jun Myoung Choi, Wonkook Kim",
+      "Conference": "2018 OCEANS-MTS/IEEE Kobe Techno-Oceans (OTO)",
+      "Pages": "1-4",
+      "Publication date": "2018/5/28",
+      "Publisher": "IEEE"
+    },
+    "title": "Applications of surface velocity current derived from Geostationary Ocean Color Imager (GOCI)",
+    "url": "https://ieeexplore.ieee.org/abstract/document/8559174/"
+  },
+  {
+    "index": 72,
+    "fields": {
+      "Authors": "Wonkook Kim, Tai-Hyun Han, Jun Myoung Choi, Seung Won Jung, Donhyug Kang",
+      "Conference": "2018 OCEANS-MTS/IEEE Kobe Techno-Oceans (OTO)",
+      "Pages": "1-5",
+      "Publication date": "2018/5/28",
+      "Publisher": "IEEE"
+    },
+    "title": "Investigating optical properties of red tide in a turbid coastal area near Tongyeong, South Korea",
+    "url": "https://ieeexplore.ieee.org/abstract/document/8559437/"
+  },
+  {
+    "index": 73,
+    "fields": {
+      "Authors": "Jae Hyun Ahn, Young Je Park, Wonkook Kim, Boram Lee",
+      "Conference": "International Symposium on Remote Sensing 2018",
+      "Publication date": "2018/5/10",
+      "Publisher": "대한원격탐사학회"
+    },
+    "title": "IMPROVEMENT OF OPERATIONAL GOCI ATMOSPHERIC CORRECTION ALGORITHM AND ITS VALIDATION",
+    "url": "https://sciwatch.kiost.ac.kr/handle/2020.kiost/42341"
+  },
+  {
+    "index": 74,
+    "fields": {
+      "Authors": "Seung-Hwan Min, Mi-Ok Park, Sang-Woo Kim, In-Seong Han, Wonkook Kim, Young-Je Park",
+      "Issue": "SI",
+      "Journal": "Journal of Coastal Research",
+      "Pages": "1471-1475",
+      "Publication date": "2018/5/1",
+      "Publisher": "Coastal Education and Research Foundation",
+      "Volume": "85"
+    },
+    "title": "Correlation between SST and CDOM during summer coastal upwelling along the Southeast coast of Korea",
+    "url": "https://jcr.kglmeridian.com/view/journals/coas/85/SI/article-p1471.xml"
+  },
+  {
+    "index": 75,
+    "fields": {
+      "Authors": "Yongzhen Fan, Wei Li, Zhenyi Lin, Charles Gatebe, Jae-Hyun Ahn, Wonkook Kim, Jakob Stamnes",
+      "Journal": "EGU General Assembly Conference Abstracts",
+      "Pages": "3993",
+      "Publication date": "2018/4"
+    },
+    "title": "Reliable retrieval of atmospheric and aquatic parameters in complex environments based on multilayer neural networks and comprehensive radiative transfer simulations",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018EGUGA..20.3993F/abstract"
+  },
+  {
+    "index": 76,
+    "fields": {
+      "Authors": "Jae Hoon Noh, Wonkook Kim, Seung Hyun Son, Jae-Hyun Ahn, Young-Je Park",
+      "Journal": "Harmful algae",
+      "Pages": "129-137",
+      "Publication date": "2018/3/1",
+      "Publisher": "Elsevier",
+      "Volume": "73"
+    },
+    "title": "Remote quantification of Cochlodinium polykrikoides blooms occurring in the East Sea using geostationary ocean color imager (GOCI)",
+    "url": "https://www.sciencedirect.com/science/article/pii/S156898831830026X"
+  },
+  {
+    "index": 77,
+    "fields": {
+      "Authors": "Antonio Mannino, Wonkook Kim, Jianwei Wei, Joseph Salisbury",
+      "Conference": "2018 Ocean Sciences Meeting",
+      "Publication date": "2018/2/14",
+      "Publisher": "AGU"
+    },
+    "title": "Resolving Temporal (Hours-Days) and Spatial (100s m) Scales of Oceanographic Processes II Posters",
+    "url": "https://scholar.google.com/scholar?cluster=6927350963420671946&hl=en&oi=scholarr"
+  },
+  {
+    "index": 78,
+    "fields": {
+      "Authors": "Antonio Mannino, Michael Novak, Joseph Salisbury, Wonkook Kim, Maria Tzortziou, Margaret R Mullholland",
+      "Issue": "146",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "CD34C-0146",
+      "Publication date": "2018/2"
+    },
+    "title": "Diurnal variability in optical properties and carbon stocks as indicators of biogeochemical cyclin",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUOSCD34C0146M/abstract"
+  },
+  {
+    "index": 79,
+    "fields": {
+      "Authors": "Boram Lee, Young-Je Park, Wonkook Kim, Ahn Jaehyun, Jeong-Eon Moon",
+      "Issue": "8",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "CD14A-0008",
+      "Publication date": "2018/2"
+    },
+    "title": "An analysis of Secchi depth algorithm for Geostationary Ocean Color Imager over Korean coastal water",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUOSCD14A0008L/abstract"
+  },
+  {
+    "index": 80,
+    "fields": {
+      "Authors": "Wonkook Kim, Young-Je Park, Jeong-Eon Moon, Boram Lee, Jianwei Wei",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "CD33B-02",
+      "Publication date": "2018/2"
+    },
+    "title": "Resolving Diurnal Variability in Water Constituents from Above-Water Radiometry",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUOSCD33B..02K/abstract"
+  },
+  {
+    "index": 81,
+    "fields": {
+      "Authors": "Donghee Kim, Myung-Sook Park, Young-Je Park, Wonkook Kim",
+      "Issue": "145",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "CD34C-0145",
+      "Publication date": "2018/2"
+    },
+    "title": "Multi-satellite sea fog detection algorithm using COMS/GOCI and Himawari-8/AHI",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUOSCD34C0145K/abstract"
+  },
+  {
+    "index": 82,
+    "fields": {
+      "Authors": "Christopher James Kenemer, Michael Novak, Jian Wei Wei, Wonkook Kim, Antonio Mannino",
+      "Issue": "148",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "CD34C-0148",
+      "Publication date": "2018/2"
+    },
+    "title": "Surface Biogeochemical Parameters In Coastal And Offshore Waters Surrounding The Korean Peninsula: Detecting Fine Scale Changes With In Situ And Satellite Measurements",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUOSCD34C0148K/abstract"
+  },
+  {
+    "index": 83,
+    "fields": {
+      "Authors": "Jun Choi, Wonkook Kim, Young-Je Park",
+      "Issue": "142",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "CD34C-0142",
+      "Publication date": "2018/2"
+    },
+    "title": "Detection of diurnal variability of ocean surface kinematics near the Korean Peninsula using Geostationary Ocean Color Imager (GOCI)",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUOSCD34C0142C/abstract"
+  },
+  {
+    "index": 84,
+    "fields": {
+      "Authors": "Myung-Sook Park, Jae-Hyun Ahn, Young-Je Park, Wonkook Kim",
+      "Issue": "153",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "CD34C-0153",
+      "Publication date": "2018/2"
+    },
+    "title": "Inter-comparison between GOCI, MODIS, VIIRS, and AHI ocean color products",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUOSCD34C0153P/abstract"
+  },
+  {
+    "index": 85,
+    "fields": {
+      "Authors": "Javier Alonso Concha, Antonio Mannino, Bryan A Franz, Wonkook Kim",
+      "Issue": "143",
+      "Journal": "American Geophysical Union, Ocean Sciences Meeting",
+      "Pages": "CD34C-0143",
+      "Publication date": "2018/2"
+    },
+    "title": "Uncertainties in the Diurnal Variability using the Geostationary Ocean Color Imager",
+    "url": "https://ui.adsabs.harvard.edu/abs/2018AGUOSCD34C0143C/abstract"
+  },
+  {
+    "index": 86,
+    "fields": {
+      "Authors": "Wonkook Kim, Jun Myoung Choi",
+      "Issue": "4",
+      "Journal": "Journal of the Korean Society of Surveying, Geodesy, Photogrammetry and Cartography",
+      "Pages": "205-211",
+      "Publication date": "2018",
+      "Publisher": "Korean Society of Surveying, Geodesy, Photogrammetry and Cartography",
+      "Volume": "36"
+    },
+    "title": "Analysis of hyperspectral radiometer and water constituents data for remote estimation of water quality",
+    "url": "https://scholar.google.com/scholar?cluster=9373749721247511564&hl=en&oi=scholarr"
+  },
+  {
+    "index": 87,
+    "fields": {
+      "Authors": "Kwon-Ho Lee, Wonkook Kim",
+      "Journal": "EGU General Assembly Conference Abstracts",
+      "Pages": "17739",
+      "Publication date": "2017/4"
+    },
+    "title": "Development of the atmospheric correction algorithm for the next generation geostationary ocean color sensor data",
+    "url": "https://ui.adsabs.harvard.edu/abs/2017EGUGA..1917739L/abstract"
+  },
+  {
+    "index": 88,
+    "fields": {
+      "Authors": "Seung-Hwan Min, Hyun-Ju Oh, Jae-Dong Hwang, Young-Sang Suh, Mi-Ok Park, Ji-Sun Shin, Wonkook Kim",
+      "Issue": "1",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "97-109",
+      "Publication date": "2017/2/28",
+      "Publisher": "Korean Society of Remote Sensing",
+      "Volume": "33"
+    },
+    "title": "Tracking the movement and distribution of green tides on the Yellow Sea in 2015 based on GOCI and Landsat images",
+    "url": "https://scholar.archive.org/work/nmvwq4rxjjghrfoznb2h7lz5oe/access/wayback/http://www.ndsl.kr/soc_img/society/ksrs/OGCSBN/2017/v33n1/OGCSBN_2017_v33n1_97.pdf"
+  },
+  {
+    "index": 89,
+    "fields": {
+      "Authors": "Elsy Ibrahim, Wonkook Kim, Melba Crawford, Jaak Monbaliu",
+      "Issue": "2",
+      "Journal": "Ocean Dynamics",
+      "Pages": "299-316",
+      "Publication date": "2017/2",
+      "Publisher": "Springer Berlin Heidelberg",
+      "Volume": "67"
+    },
+    "title": "A regression approach to the mapping of bio-physical characteristics of surface sediment using in situ and airborne hyperspectral acquisitions",
+    "url": "https://link.springer.com/article/10.1007/s10236-016-1024-1"
+  },
+  {
+    "index": 90,
+    "fields": {
+      "Authors": "Jakob Stamnes",
+      "Publication date": "2017/1/1"
+    },
+    "title": "Reliable retrieval of atmospheric and aquatic parameters in coastal and inland environments from polar-orbiting and geostationary platforms: challenges and opportunities",
+    "url": "https://www.academia.edu/download/113719139/EGU2018-3993.pdf"
+  },
+  {
+    "index": 91,
+    "fields": {
+      "Authors": "Jae-Hyun Ahn, Young-Je Park, Wonkook Kim, Boram Lee",
+      "Issue": "26",
+      "Journal": "Optics express",
+      "Pages": "29659-29669",
+      "Publication date": "2016/12/14",
+      "Publisher": "Optical Society of America",
+      "Volume": "24"
+    },
+    "title": "Simple aerosol correction technique based on the spectral relationships of the aerosol multiple-scattering reflectances for atmospheric correction over the oceans",
+    "url": "https://opg.optica.org/abstract.cfm?uri=oe-24-26-29659"
+  },
+  {
+    "index": 92,
+    "fields": {
+      "Authors": "Wonkook Kim, Shunlin Liang",
+      "Journal": "International Encyclopedia of Geography: People, the Earth, Environment and Technology: People, the Earth, Environment and Technology",
+      "Pages": "1-5",
+      "Publication date": "2016/12/12",
+      "Publisher": "John Wiley & Sons, Ltd"
+    },
+    "title": "Unsupervised classification",
+    "url": "https://onlinelibrary.wiley.com/doi/abs/10.1002/9781118786352.wbieg0271"
+  },
+  {
+    "index": 93,
+    "fields": {
+      "Authors": "Wonkook Kim, Jeong-Eon Moon, Young-Je Park, Joji Ishizaka",
+      "Journal": "Remote Sensing of Environment",
+      "Pages": "482-495",
+      "Publication date": "2016/10/1",
+      "Publisher": "Elsevier",
+      "Volume": "184"
+    },
+    "title": "Evaluation of chlorophyll retrievals from Geostationary Ocean color imager (GOCI) for the north-east Asian region",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0034425716302887"
+  },
+  {
+    "index": 94,
+    "fields": {
+      "Authors": "Wonkook Kim, Jeong-Eon Moon, Jae-Hyun Ahn, Young-Je Park",
+      "Issue": "5",
+      "Journal": "Remote Sensing",
+      "Pages": "378",
+      "Publication date": "2016/5/4",
+      "Publisher": "MDPI",
+      "Volume": "8"
+    },
+    "title": "Evaluation of Stray Light Correction for GOCI Remote Sensing Reflectance Using in Situ Measurements",
+    "url": "https://www.mdpi.com/2072-4292/8/5/378"
+  },
+  {
+    "index": 95,
+    "fields": {
+      "Authors": "Hyun Yang, Wonkook Kim, Kwangseok Kim, Young-Je Park, Hee-Jeong Han, Joo-Hyung Ryu",
+      "Issue": "6",
+      "Journal": "Journal of Marine Science and Technology–Taiwan",
+      "Pages": "14",
+      "Publication date": "2016",
+      "Volume": "24"
+    },
+    "title": "An increased remote sensing observation by goci daily composite image",
+    "url": "https://jmstt.ntou.edu.tw/journal/vol24/iss6/14/"
+  },
+  {
+    "index": 96,
+    "fields": {
+      "Authors": "M Choi, J Kim, J Lee, M Kim, Y Je Park, U Jeong, W Kim, B Holben, TF Eck, JH Lim, CK Song",
+      "Issue": "9",
+      "Journal": "Atmospheric Measurement Techniques Discussions",
+      "Pages": "9565",
+      "Publication date": "2015/9/1",
+      "Volume": "8"
+    },
+    "title": "GOCI Yonsei Aerosol Retrieval (YAER) algorithm and validation during DRAGON-NE Asia 2012 campaign.",
+    "url": "https://amt.copernicus.org/preprints/8/9565/2015/amtd-8-9565-2015.pdf"
+  },
+  {
+    "index": 97,
+    "fields": {
+      "Authors": "Jae-Hyun Ahn, Young-Je Park, Wonkook Kim, Boram Lee, Im Sang Oh",
+      "Issue": "18",
+      "Journal": "Optics express",
+      "Pages": "23236-23258",
+      "Publication date": "2015/8/26",
+      "Publisher": "Optical Society of America",
+      "Volume": "23"
+    },
+    "title": "Vicarious calibration of the geostationary ocean color imager",
+    "url": "https://opg.optica.org/abstract.cfm?uri=oe-23-18-23236"
+  },
+  {
+    "index": 98,
+    "fields": {
+      "Authors": "Wonkook Kim, Jae-Hyun Ahn, Young-Je Park",
+      "Issue": "10",
+      "Journal": "IEEE Transactions on Geoscience and Remote Sensing",
+      "Pages": "5458-5472",
+      "Publication date": "2015/5/4",
+      "Publisher": "IEEE",
+      "Volume": "53"
+    },
+    "title": "Correction of stray-light-driven interslot radiometric discrepancy (ISRD) present in radiometric products of geostationary ocean color imager (GOCI)",
+    "url": "https://ieeexplore.ieee.org/abstract/document/7101246/"
+  },
+  {
+    "index": 99,
+    "fields": {
+      "Authors": "Astrid Bracher, Nick Hardman-Mountford, Takafumi Hirata, Stewart Bernard, Emmanuel Boss, Robert Brewin, Annick Bricaud, Vanda Brotas, Alison Chase, AM Ciotti, J-K Choi, Lesley A Clementson, Emmanuel Devred, R DiGiacomo, Cecile Dupouy, W Kim, TS Kostadinov, E Kwiatkowska, S Lavender, T Moisan, CB Mouw, S Son, Julia Uitz, J Werdell, G Zheng",
+      "Publication date": "2015",
+      "Publisher": "National Aeronautics and Spacs Administration"
+    },
+    "title": "Report on ioccg workshop: phytoplankton composition from space: towards a validation strategy for satellite algorithms",
+    "url": "https://epic.awi.de/id/eprint/37303/"
+  },
+  {
+    "index": 100,
+    "fields": {
+      "Authors": "Astrid Bracher, Nick Hardman-Mountford, Takafumi Hirata, Stewart Bernard, Emmanuel Boss, Robert Brewin, Annick Bricaud, Vanda Brotas, Alison Chase, Aurea Ciotti, Jong-Kuk Choi, Lesley Clementson, Emmanuel Devred, Paul DiGiacomo, Cécile Dupouy, Toru Hirawake, Wonkook Kim, Tihomir Kostadinov, Ewa Kwiatkowska, Samantha Lavender, Tiffany Moisan, Colleen Mouw, Seunghyun Son, Heidi Sosik, Julia Uitz, Jeremy Werdell, Guangming Zheng",
+      "Publication date": "2015"
+    },
+    "title": "Phytoplankton composition from space: towards a validation strategy for satellite algorithms",
+    "url": "https://www.documentation.ird.fr/hor/fdi:010064567"
+  },
+  {
+    "index": 101,
+    "fields": {
+      "Authors": "Wonkook Kim, Changyong Cao, Shunlin Liang",
+      "Issue": "4",
+      "Journal": "IEEE Geoscience and Remote Sensing Letters",
+      "Pages": "793-797",
+      "Publication date": "2013/9/9",
+      "Publisher": "IEEE",
+      "Volume": "11"
+    },
+    "title": "Assessment of radiometric degradation of Fy-3A MERSI reflective solar bands using TOA reflectance of pseudoinvariant calibration sites",
+    "url": "https://ieeexplore.ieee.org/abstract/document/6594813/"
+  },
+  {
+    "index": 102,
+    "fields": {
+      "Authors": "Wonkook Kim, Tao He, Dongdong Wang, Changyong Cao, Shunlin Liang",
+      "Issue": "5",
+      "Journal": "IEEE transactions on geoscience and remote sensing",
+      "Pages": "2960-2976",
+      "Publication date": "2013/7/18",
+      "Publisher": "IEEE",
+      "Volume": "52"
+    },
+    "title": "Assessment of long-term sensor radiometric degradation using time series analysis",
+    "url": "https://ieeexplore.ieee.org/abstract/document/6563150/"
+  },
+  {
+    "index": 103,
+    "fields": {
+      "Authors": "Wonkook Kim, Sanghoon Lee",
+      "Issue": "2",
+      "Journal": "Korean Journal of Remote Sensing",
+      "Pages": "209-218",
+      "Publication date": "2013/4",
+      "Volume": "29"
+    },
+    "title": "Study on Radiometric Variability of the Sonoran Desert for Vicarious Calibration of Satellite Sensors< TITLE lang=\"\"> 위성센서 대리 검보정을 위한 소노란 사막의 복사 가변성 연구",
+    "url": "https://ui.adsabs.harvard.edu/abs/2013KJRS...29..209K/abstract"
+  },
+  {
+    "index": 104,
+    "fields": {
+      "Authors": "Wonkook Kim, Shunlin Liang, Changyong Cao",
+      "Conference": "2012 IEEE International Geoscience and Remote Sensing Symposium",
+      "Pages": "4730-4733",
+      "Publication date": "2012/7/22",
+      "Publisher": "IEEE"
+    },
+    "title": "On using BRDF models for assessment of radiometric stability of Sonoran Desert",
+    "url": "https://ieeexplore.ieee.org/abstract/document/6352336/"
+  },
+  {
+    "index": 105,
+    "fields": {
+      "Authors": "Wonkook Kim",
+      "Institution": "Purdue University West Lafayette",
+      "Publication date": "2011/5"
+    },
+    "title": "MANIFOLD LEARNING FOR ROBUST CLASSIFICATION OF",
+    "url": "https://scholar.google.com/scholar?cluster=14469878226032268702&hl=en&oi=scholarr"
+  },
+  {
+    "index": 106,
+    "fields": {
+      "Authors": "Melba M Crawford, Li Ma, Wonkook Kim",
+      "Book": "Optical Remote Sensing: Advances in signal processing and exploitation techniques",
+      "Pages": "207-234",
+      "Publication date": "2011/3/16",
+      "Publisher": "Springer Berlin Heidelberg"
+    },
+    "title": "Exploring nonlinear manifold learning for classification of hyperspectral data",
+    "url": "https://link.springer.com/chapter/10.1007/978-3-642-14212-3_11"
+  },
+  {
+    "index": 107,
+    "fields": {
+      "Authors": "Wonkook Kim",
+      "Institution": "Purdue University",
+      "Publication date": "2011"
+    },
+    "title": "Manifold learning for robust classification of hyperspectral data",
+    "url": "https://search.proquest.com/openview/33e6cfa596e1f8bed68d7b617d1800f3/1?pq-origsite=gscholar&cbl=18750"
+  },
+  {
+    "index": 108,
+    "fields": {
+      "Authors": "Wonkook Kim, Melba M Crawford",
+      "Issue": "11",
+      "Journal": "IEEE Transactions on Geoscience and Remote Sensing",
+      "Pages": "4110-4121",
+      "Publication date": "2010/10/14",
+      "Publisher": "IEEE",
+      "Volume": "48"
+    },
+    "title": "Adaptive classification for hyperspectral image data using manifold regularization kernel machines",
+    "url": "https://ieeexplore.ieee.org/abstract/document/5599864/"
+  },
+  {
+    "index": 109,
+    "fields": {
+      "Authors": "Gilbert L Rochon, Joseph E Quansah, Souleymane Fall, Bereket Araya, Larry L Biehl, Thierno Thiam, Sohaib Ghani, Lova Rakotomalala, Hildred S Rochon, Angel Torres Valcarcel, Bertin Hilaire Mbongo, Jinha Jung, Darion Grant, Wonkook Kim, Abdur Rahman M Maud, Chetan Maringanti",
+      "Book": "Geospatial Technologies in Environmental Management",
+      "Pages": "187-209",
+      "Publication date": "2010/9/5",
+      "Publisher": "Springer Netherlands"
+    },
+    "title": "Remote sensing, public health & disaster mitigation",
+    "url": "https://link.springer.com/chapter/10.1007/978-90-481-9525-1_11"
+  },
+  {
+    "index": 110,
+    "fields": {
+      "Authors": "Charles M Bachmann, C Reid Nichols, Marcos J Montes, Rong-Rong Li, Patrick Woodward, Robert A Fusina, Wei Chen, Vimal Mishra, Wonkook Kim, James Monty, Kevin Mcilhany, Ken Kessler, Daniel Korwan, W David Miller, Ellen Bennert, Geoff Smith, David Gillis, Jon Sellars, Christopher Parrish, Arthur Schwarzschild, Barry Truitt",
+      "Issue": "2-3",
+      "Journal": "Marine Geodesy",
+      "Pages": "101-116",
+      "Publication date": "2010/7/8",
+      "Publisher": "Taylor & Francis Group",
+      "Volume": "33"
+    },
+    "title": "Retrieval of substrate bearing strength from hyperspectral imagery during the Virginia Coast Reserve (VCR’07) multi-sensor campaign",
+    "url": "https://www.tandfonline.com/doi/abs/10.1080/01490419.2010.492278"
+  },
+  {
+    "index": 111,
+    "fields": {
+      "Authors": "Won-Kook Kim, Melba M Crawford, Sang-Hoon Lee",
+      "Issue": "6",
+      "Journal": "대한원격탐사학회지= Korean journal of remote sensing",
+      "Pages": "693-703",
+      "Publication date": "2010",
+      "Publisher": "The Korean Society of Remote Sensing",
+      "Volume": "26"
+    },
+    "title": "Integrating spatial proximity with manifold learning for hyperspectral data",
+    "url": "https://scienceon.kisti.re.kr/srch/selectPORSrchArticle.do?cn=JAKO201015537948109"
+  },
+  {
+    "index": 112,
+    "fields": {
+      "Authors": "Larry Biehl, Gilbert Rochon, Bereket Araya, Souleymane Fall, Darion Grant, Jinha Jung, Wonkook Kim, Abdur Rahman Maud, Bertin Mbongo, Joseph Quansah, Thierno Thiam",
+      "Journal": "GIS Day",
+      "Pages": "16",
+      "Publication date": "2009/11/23"
+    },
+    "title": "Purdue Terrestrial Observatory Activities",
+    "url": "https://www.academia.edu/download/77587980/viewcontent.pdf"
+  },
+  {
+    "index": 113,
+    "fields": {
+      "Authors": "Wonkook Kim, Melba Crawford",
+      "Conference": "2009 First Workshop on Hyperspectral Image and Signal Processing: Evolution in Remote Sensing",
+      "Pages": "1-4",
+      "Publication date": "2009/8/26",
+      "Publisher": "IEEE"
+    },
+    "title": "A novel adaptive classification method for hyperspectral data using manifold regularization kernel machines",
+    "url": "https://ieeexplore.ieee.org/abstract/document/5289052/"
+  },
+  {
+    "index": 114,
+    "fields": {
+      "Authors": "Melba Crawford, Wonkook Kim",
+      "Book": "International Workshop on Multiple Classifier Systems",
+      "Pages": "519-528",
+      "Publication date": "2009/6/10",
+      "Publisher": "Springer Berlin Heidelberg"
+    },
+    "title": "Manifold learning for multi-classifier systems via ensembles",
+    "url": "https://link.springer.com/chapter/10.1007/978-3-642-02326-2_52"
+  },
+  {
+    "index": 115,
+    "fields": {
+      "Authors": "Wonkook Kim, Melba M Crawford, Joydeep Ghosh",
+      "Conference": "IGARSS 2008-2008 IEEE International Geoscience and Remote Sensing Symposium",
+      "Pages": "I-213-I-216",
+      "Publication date": "2008/7/7",
+      "Publisher": "IEEE",
+      "Volume": "1"
+    },
+    "title": "Spatially adapted manifold learning for classification of hyperspectral imagery with insufficient labeled data",
+    "url": "https://ieeexplore.ieee.org/abstract/document/4778831/"
+  },
+  {
+    "index": 116,
+    "fields": {
+      "Authors": "Charles M Bachmann, C Reid Nichols, Marcos J Montes, Rong-Rong Li, Patrick Woodward, Robert A Fusina, Wei Chen, Vimal Mishra, Wonkook Kim, James Monty, Kevin McIlhany, Ken Kessler, Daniel Korwan, David Miller, Ellen Bennert, Geoff Smith, David Gillis, Jon Sellars, Christopher Parrish, Arthur Schwarzschild, Barry Truitt",
+      "Conference": "IGARSS 2008-2008 IEEE International Geoscience and Remote Sensing Symposium",
+      "Pages": "III-55-III-58",
+      "Publication date": "2008/7/7",
+      "Publisher": "IEEE",
+      "Volume": "3"
+    },
+    "title": "Remote sensing retrieval of substrate bearing strength from hyperspectral imagery at the virginia coast reserve (VCR'07) multi-sensor campaign",
+    "url": "https://ieeexplore.ieee.org/abstract/document/4779281/"
+  },
+  {
+    "index": 117,
+    "fields": {
+      "Authors": "Wonkook Kim, Yangchi Chen, Melba M Crawford, James C Tilton, Joydeep Ghosh",
+      "Conference": "2007 IEEE International Geoscience and Remote Sensing Symposium",
+      "Pages": "3785-3788",
+      "Publication date": "2007/7/23",
+      "Publisher": "IEEE"
+    },
+    "title": "Multiresolution manifold learning for classification of hyperspectral data",
+    "url": "https://ieeexplore.ieee.org/abstract/document/4423667/"
+  },
+  {
+    "index": 118,
+    "fields": {
+      "Authors": "Wonkook Kim, Gi-Seong Jeon, Sanghyun Kim, Seong Jin Noh",
+      "Journal": "Available at SSRN 4670071"
+    },
+    "title": "Exploring Sub-District Level Diurnal Variation in the Surface Urban Heat Island Effect for Southern Metropolitan Cities in Korea",
+    "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4670071"
+  },
+  {
+    "index": 119,
+    "fields": {
+      "Authors": "Astrid Bracher, Nick Hardman-Mountford, Takafumi Hirata, Stewart Bernard, Robert Brewin, Annick Bricaud, Vanda Brotas, Alison Chase, Aurea Ciotti, Jong-Kuk Choi, Lesley Clementson, Emmanuel Devred, Paul DiGiacomo, Cécile Dupouy, Wonkook Kim, Tihomir Kostadinov, Ewa Kwiatkowska, Samantha Lavender, Tiffany Moisan, Colleen Mouw, Seunghyun Son, Heidi Sosik, Julia Uitz, Jeremy Werdell, Guangming Zheng"
+    },
+    "title": "Report on IOCCG workshop",
+    "url": "https://www.ioccg.org/groups/report-PFTworkshopOct2014.pdf"
+  },
+  {
+    "index": 120,
+    "fields": {
+      "Authors": "Dabin Lee, Seung Hyun Son, Wonkook Kim, Joo Myun Park, Huitae Joo, Sang Heon Lee"
+    },
+    "title": "Remote Sensing for Fisheries Science",
+    "url": "https://pdfs.semanticscholar.org/54de/1c2a6d3f87c7c3b2fd7068976072e3141450.pdf"
+  },
+  {
+    "index": 121,
+    "fields": {
+      "Authors": "Wonkook Kim, Melba M Crawford"
+    },
+    "title": "Region Based Landmark Selection for Manifold Learning Using Spatially Induced Sparse Kernel",
+    "url": "https://scholar.google.com/scholar?cluster=15276742374424052992&hl=en&oi=scholarr"
+  },
+  {
+    "index": 122,
+    "fields": {
+      "Authors": "Gilbert L Rochon, Bertin Hilaire Mbongo, Larry Biehl, Jinha Jung, Souleymane Fall, Joseph E Quansah, Bereket Araya, Abdur Rahman Maud, Wonkook Kim, Darion Grant, Thierno Thiam"
+    },
+    "title": "Combining Heterogeneous Data for Improved Identification & Sustainable Mitigation of Infectious Disease Vector Habitat and for Assessment of Vulnerability to Vector-Borne …",
+    "url": "https://www.geomentors.net/galleries/gisum_files/Rochon_et_al.pdf"
+  }
+]

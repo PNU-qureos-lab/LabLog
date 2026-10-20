@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Papers | QUREOS · LabLog</title>
+<meta name="description" content="부산대학교 Wonkook Kim의 연구실적. 학술지 논문, 학회 발표, 저서와 보고서를 연도별로 확인하세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="papers.css"><script src="papers.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#publications">연구실적 목록으로 이동</a>
+<main class="app">
+<nav class="nav" aria-label="페이지 이동"><a href="index.html">← LabLog</a><span>QUREOS · Pusan National University</span></nav>
+<header class="hero">
+ <div><p class="eyebrow">RESEARCH PUBLICATIONS</p><h1>Papers</h1><p class="lead">Wonkook Kim <span>김원국</span></p><p class="affiliation">부산대학교 · 정량적 원격탐사 연구실</p>
+ <div class="hero-links"><a href="__PROFILE__" target="_blank" rel="noopener noreferrer">Google Scholar ↗</a><a href="papers.csv" download>목록 내려받기 ↓</a></div></div>
+ <div class="stats"><div><strong>__COUNT__</strong><span>정리된 연구실적</span></div><div><strong>__JOURNAL__</strong><span>학술지 논문</span></div></div>
+</header>
+<section class="collection-note" aria-label="수집 기준"><p><strong>Google Scholar 프로필 기준</strong> · __DATE__ 확인</p><p>프로필의 __SOURCE_COUNT__개 원본 항목을 수집하고 명확한 중복 3건을 묶었습니다. 현재 소속 이전의 연구실적도 포함하며, 학회 발표·프리프린트는 유형을 구분했습니다. 저자 확인이 필요한 1건은 아래에 별도로 표시했습니다.</p><details><summary>서지정보와 집계 기준</summary><p>연도·저자·게재처는 Scholar 상세 화면을 기준으로 하며 온라인 발행연도와 권호 연도가 다를 수 있습니다. DOI는 동일 제목의 ORCID·서지 기록으로 보완했습니다. 추가 중복 가능성이나 누락된 정보는 각 항목의 ‘서지 확인 사항’에 표시했습니다. 프로필 밖의 모든 저작물까지 포괄한다고 보장하지 않습니다.</p></details></section>
+<form class="filters" role="search" onsubmit="return false">
+ <label class="search-field">논문 검색<input id="search" type="search" placeholder="제목, 저자, 학술지로 검색" autocomplete="off"></label>
+ <label>발행연도<select id="year"><option value="all">전체 연도</option>__YEARS__</select></label>
+ <label>연구실적 유형<select id="type"><option value="all">전체 유형</option>__TYPES__</select></label>
+ <button type="reset">초기화</button>
+</form>
+<div class="result-heading"><h2 id="publications">연구실적 목록</h2><p id="result-count" role="status" aria-live="polite">__COUNT__개 항목</p></div>
+<div id="groups">__GROUPS__</div>
+<p id="no-results" class="empty" hidden>검색 조건에 맞는 연구실적이 없습니다. 검색어나 필터를 바꿔보세요.</p>
+<section class="review-section"><details><summary>저자 확인이 필요한 Scholar 항목 · 1건</summary><p>이 항목은 프로필에 등록되어 있지만 상세 저자 목록에서 Wonkook Kim을 확인하지 못하여 위 실적 수에서 제외했습니다.</p>__REVIEW__</details></section>
+<footer>QUREOS · LabLog <a href="index.html">연구계획 보드로 돌아가기 ↑</a></footer>
+</main></body></html>

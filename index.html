@@ -183,25 +183,10 @@
       background: #fff5f4;
     }
 
-    .staff-grid {
-      display: grid;
-      gap: 8px;
-    }
-
-    .staff-line {
-      min-height: 1.6em;
-      padding: 8px 10px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      white-space: pre-wrap;
-      line-height: 1.45;
-      font-size: 0.9rem;
-    }
-    .staff-line:focus {
-      outline: 2px solid rgba(31, 122, 108, 0.35);
-      border-color: var(--accent);
-    }
+    .papers-intro { color: var(--muted); font-size: .9rem; margin: 0 0 14px; }
+    .papers-link { display: inline-flex; gap: 20px; align-items: center; padding: 10px 15px; border-radius: 8px; background: var(--accent); color: white; text-decoration: none; font-weight: 600; font-size: .88rem; }
+    .papers-link:hover { background: #176456; }
+    .papers-link:focus-visible { outline: 3px solid #d69d25; outline-offset: 3px; }
 
     .year-title {
       display: inline-block;
@@ -431,15 +416,13 @@
       </div>
     </header>
 
-    <section class="panel" id="sec-staff">
+    <section class="panel" id="sec-papers" aria-labelledby="papers-heading">
       <div class="panel-head">
-        <h2>Staff</h2>
-        <span class="meta">PhD / MS line</span>
+        <h2 id="papers-heading">Papers</h2>
+        <span class="meta">Publications · Wonkook Kim · Pusan National University</span>
       </div>
-      <div class="staff-grid">
-        <div class="staff-line" id="staff-phd" contenteditable="true" spellcheck="false"></div>
-        <div class="staff-line" id="staff-ms" contenteditable="true" spellcheck="false"></div>
-      </div>
+      <p class="papers-intro">연구실의 논문과 연구실적을 연도별로 살펴보세요.</p>
+      <a class="papers-link" href="papers.html">연구실적 전체 보기 <span aria-hidden="true">→</span></a>
     </section>
 
     <section class="panel" id="sec-projects">
@@ -1624,14 +1607,12 @@
         });
       }
 
-      function renderStaff() {
-        setRichHtml(document.getElementById("staff-phd"), state.staffPhd || "");
-        setRichHtml(document.getElementById("staff-ms"), state.staffMs || "");
+      function renderYearTitle() {
         setRichHtml(document.getElementById("year-title"), state.yearTitle || "");
       }
 
       function renderAll() {
-        renderStaff();
+        renderYearTitle();
         renderProjects();
         bindSimpleTable("tbl-conferences", "conferences", ["name", "period", "place", "role"], emptyConf);
         bindSimpleTable("tbl-papers-done", "papersDone", ["author", "journal", "topic", "status", "note"], emptyPaper);
@@ -1642,8 +1623,6 @@
       }
 
       function readDomIntoState() {
-        state.staffPhd = getRichHtml(document.getElementById("staff-phd"));
-        state.staffMs = getRichHtml(document.getElementById("staff-ms"));
         state.yearTitle = getRichHtml(document.getElementById("year-title"));
 
         var projCells = document.querySelectorAll("#tbl-projects tbody td[data-field]");
